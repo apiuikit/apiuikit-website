@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
+/*
+ * Token names below deliberately avoid apiuikit's own `:root` custom
+ * properties (--color-background, --color-surface, --color-border,
+ * --color-text-*, --color-primary-*, --color-secondary-*, --color-neutral-*
+ * — see apiuikit/packages/lib/src/index.css). Tailwind v4's `@theme` emits
+ * every key here as a literal `--color-<key>` variable, so reusing those
+ * names would collide the moment apiuikit/style.css is imported on the page,
+ * and whichever stylesheet loads last would silently win.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --chrome-bg: #f8fafc;
+  --chrome-surface: #ffffff;
+  --chrome-border: #e2e8f0;
+  --ink: #1e293b;
+  --ink-muted: #475569;
+  --ink-faint: #64748b;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-chrome-bg: var(--chrome-bg);
+  --color-chrome-surface: var(--chrome-surface);
+  --color-chrome-border: var(--chrome-border);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  /* GitHub-blue accent, lifted from apiuikit's own component theme default
+     (packages/lib/src/config/default.ts theme.colors.primary), keyed
+     "brand" rather than "primary" to stay clear of apiuikit's --color-primary-*. */
+  --color-brand-50: #ddf4ff;
+  --color-brand-100: #b6e3ff;
+  --color-brand-200: #80ccff;
+  --color-brand-300: #54aeff;
+  --color-brand-500: #58a6ff;
+  --color-brand-600: #1f6feb;
+  --color-brand-700: #0d419d;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/*
+ * Manual toggle, not prefers-color-scheme: light is the default regardless
+ * of OS preference. ThemeProvider (src/components/site/ThemeProvider.tsx)
+ * sets data-theme on <html>; a blocking script in layout.tsx's <head> sets
+ * it before first paint so there's no flash of the wrong theme.
+ */
+:root[data-theme="dark"] {
+  --chrome-bg: #0d1117;
+  --chrome-surface: #161b22;
+  --chrome-border: #30363d;
+  --ink: #c9d1d9;
+  --ink-muted: #8b949e;
+  --ink-faint: #6e7681;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-chrome-bg);
+  color: var(--color-ink);
 }
