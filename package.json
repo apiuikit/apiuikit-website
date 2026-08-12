@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",
-    "apiuikit": "^1.4.0",
+    "apiuikit": "file:../aui/packages/lib",
     "marked": "^18.0.9",
     "next": "16.3.0",
     "react": "19.2.8",

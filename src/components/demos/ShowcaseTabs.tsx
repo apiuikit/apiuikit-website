@@ -7,6 +7,8 @@ const TABS = [
   {
     id: "widget",
     label: "Petstore API",
+    caption:
+      "One OpenAPI file, rendered as a page you can browse: every endpoint grouped under its path, with parameters, responses, and ready-made request samples. Click an endpoint to open its details.",
   },
   {
     id: "markdown",

@@ -3,6 +3,7 @@
 import { Operations } from "apiuikit";
 import { streetlight } from "@/data/examples";
 import { useDemoTheme } from "./DemoThemeSync";
+import { HEADER_HEIGHT } from "@/lib/layout";
 
 export default function OperationsPreviewImpl() {
   const theme = useDemoTheme();
@@ -15,7 +16,11 @@ export default function OperationsPreviewImpl() {
     <div className="flex min-h-[34rem] flex-col [&>*]:flex-1">
       <Operations
         document={streetlight}
-        config={{ theme, sidePanel: { containment: "component" } }}
+        config={{
+          theme,
+          // Clears the site's sticky navbar.
+          sidePanel: { containment: "component", topOffset: HEADER_HEIGHT },
+        }}
         layout="stacked"
       />
     </div>

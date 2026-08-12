@@ -3,6 +3,7 @@
 import { OpenAPI } from "apiuikit";
 import { petstore } from "@/data/examples";
 import { useDemoTheme } from "./DemoThemeSync";
+import { HEADER_HEIGHT } from "@/lib/layout";
 
 // Fully interactive: not scaled, not pointer-events-disabled. Contained to a
 // fixed-height scroll box so the full widget (sidebar, endpoints, schemas)
@@ -22,11 +23,14 @@ export default function DeepDiveWidgetImpl() {
         openapi={petstore}
         config={{
           theme,
-          // Search and the Copy-as-Markdown button are off here: the adjacent
-          // tab already shows what that button produces, and search inside an
-          // embedded panel competes with the page's own scrolling.
-          show: { search: false, copyMarkdown: false },
-          sidePanel: { containment: "component" },
+          // Every floating control is off here. The sidebar's spine, the
+          // search toggle, and the Copy-as-Markdown menu are all fixed to the
+          // viewport and drift over the page as it scrolls, and the adjacent
+          // tab already shows what that last one produces.
+          show: { sidebar: false, search: false, copyMarkdown: false },
+          // topOffset keeps the panel clear of the site's sticky navbar,
+          // which a component-contained panel would otherwise open under.
+          sidePanel: { containment: "component", topOffset: HEADER_HEIGHT },
         }}
       />
     </div>

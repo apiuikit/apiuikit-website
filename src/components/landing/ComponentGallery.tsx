@@ -141,7 +141,7 @@ export default function ComponentGallery() {
               small screens, where a sticky sidebar would eat the viewport. */}
           <nav
             aria-label="Components"
-            className="pt-10 lg:sticky lg:top-24 lg:self-start lg:pr-8 lg:pb-10"
+            className="pt-10 lg:sticky lg:top-24 lg:self-start lg:pb-10"
           >
             {/* pl matches the buttons' so the label lines up with their text. */}
             <p className="text-xs font-medium tracking-wide text-ink-faint uppercase lg:pl-4">
@@ -165,7 +165,7 @@ export default function ComponentGallery() {
                       // underline. -ml-px lays the 2px accent over the grid's
                       // 1px left border from lg up so they share an edge
                       // instead of stacking into a step.
-                      className={`w-full cursor-pointer rounded-r-md border-l-2 py-2.5 pr-4 pl-4 text-left text-sm whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:-ml-px ${
+                      className={`w-full cursor-pointer border-l-2 py-2.5 pr-4 pl-4 text-left text-sm whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:-ml-px ${
                         isActive
                           ? "border-brand-600 bg-chrome-surface font-medium text-ink"
                           : "border-transparent text-ink-faint hover:border-chrome-border hover:bg-chrome-surface hover:text-ink"

@@ -66,6 +66,18 @@ body {
 }
 
 /*
+ * Smooth scrolling for every in-page jump: the header's Components link, the
+ * footer's anchors, and the browser's own hash navigation. The gallery nav and
+ * the docs TOC pass an explicit behaviour to scrollIntoView, so they are
+ * unaffected. Opted in only when motion is welcome.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
  * apiuikit.css ends with an *unlayered* `html, body { font-family: -apple-system,
  * ... }` rule. Unlayered CSS beats everything in @layer, so Tailwind's preflight
  * (which is what normally applies --font-sans) loses and the page falls back to
@@ -198,6 +210,45 @@ html[data-theme="dark"] .shiki span {
   background: none;
   padding: 0;
   font-size: inherit;
+}
+
+/*
+ * The landing preview starts slightly oversized and settles to its natural
+ * size over the first stretch of page scroll.
+ *
+ * Driven by a scroll timeline rather than a scroll listener, so it runs on the
+ * compositor and costs nothing per frame. Guarded by @supports: browsers
+ * without scroll-driven animations simply render the card at its normal size,
+ * which is the correct fallback rather than a broken one.
+ *
+ * Note this leaves a transform on the card, which makes it the containing
+ * block for any fixed-position descendant. Safe here only because the preview
+ * hides every floating control and can't open a side panel; do not reuse this
+ * class on a widget that can.
+ */
+@keyframes spotlight-settle {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .spotlight-settle {
+    transform-origin: center top;
+    animation: spotlight-settle linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-settle {
+    animation: none;
+    transform: none;
+  }
 }
 
 /*

@@ -19,6 +19,16 @@ export default function StreetlightSpotlightImpl() {
   // cover the close button.
   const config = { theme, sidePanel: { containment: "component" as const } };
 
+  // The preview strips every floating control: the sidebar's scroll-spy spine,
+  // the search toggle, and the Copy-as-Markdown menu. All three are fixed to
+  // the viewport and follow the page scroll, so on a decorative crop that
+  // can't be clicked they just drift around the card. The dialog keeps the
+  // full config, where all of them are the point.
+  const previewConfig = {
+    ...config,
+    show: { sidebar: false, search: false, copyMarkdown: false },
+  };
+
   const play = useCallback(() => {
     setHasPlayed(true);
     setPlaying(true);
@@ -45,7 +55,9 @@ export default function StreetlightSpotlightImpl() {
 
   return (
     <>
-      <div className="relative h-[520px] overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface shadow-sm">
+      {/* spotlight-settle: shrinks from 105% to natural size across the first
+          360px of page scroll (globals.css). */}
+      <div className="spotlight-settle relative h-[520px] overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface shadow-sm">
         {/* aria-hidden + pointer-events-none: this copy is scenery. It's
             cropped and non-interactive, and the real one lives in the dialog,
             so exposing it twice to assistive tech would just be noise.
@@ -62,7 +74,14 @@ export default function StreetlightSpotlightImpl() {
             aria-hidden
             className="pointer-events-none h-full overflow-hidden"
           >
-            <AsyncAPI asyncapi={streetlight} config={config} />
+            {/* apiuikit's provider root pads 8px, and every Section adds mt-6
+                including the first, so content starts ~32px down. A full-page
+                host never notices; in a cropped preview it reads as an empty
+                band above the content. Pull back the section margin and keep
+                the root's 8px as breathing room. */}
+            <div className="-mt-6">
+              <AsyncAPI asyncapi={streetlight} config={previewConfig} />
+            </div>
           </div>
         )}
 
@@ -159,7 +178,13 @@ export default function StreetlightSpotlightImpl() {
                 ✕
               </button>
             </div>
-            <div className="min-h-0 flex-1 overflow-auto">
+            {/* [&>*] puts the height and the scrolling on the widget's own
+                root rather than on this wrapper. The side panel is a fixed
+                overlay sized from that root's bounding rect, so if the root
+                keeps its natural content height the overlay is measured from
+                a box that runs up behind the chrome bar and down past the
+                card, leaving undimmed strips where they meet. */}
+            <div className="min-h-0 flex-1 [&>*]:h-full [&>*]:overflow-auto">
               {/* Not mounted until the first play, so the page isn't carrying
                   two full parsed documents before anyone clicks anything. */}
               {hasPlayed && <AsyncAPI asyncapi={streetlight} config={config} />}
