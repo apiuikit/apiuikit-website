@@ -1,4 +1,4 @@
-# Avro schemas
+# Avro Schemas
 
 apiuikit renders AsyncAPI messages and components whose payload (or headers) use an Avro `schemaFormat`. Support works in both [with-parser](./with-parser.md) and [no-parser](./no-parser.md) entry points, and no extra install is required.
 
@@ -50,7 +50,7 @@ The same shape works as JSON:
 - **With parser:** apiuikit registers its own browser-safe Avro schema parser on `@asyncapi/parser`. You do **not** need `@asyncapi/avro-schema-parser` (or its Node-only `avsc` dependency).
 - **Without parser:** conversion happens at render time in the component, with no parser and no extra dependency.
 
-## Implementation notes (For Contributers)
+## Implementation notes (for contributors)
 
 This section is for contributors and anyone debugging Avro rendering. Application users can skip it.
 

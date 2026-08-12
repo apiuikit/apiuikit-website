@@ -1,12 +1,12 @@
 # With Parser
 
-## Overview
+The parser entry accepts a raw YAML or JSON string, validates it, and renders the UI. The parser package is loaded on demand via a dynamic import, so it never lands in your bundle unless this path is used.
 
-The parser entry accepts a raw AsyncAPI YAML or JSON string, validates it, and renders the UI. The `@asyncapi/parser` package is loaded on demand via a dynamic import so it never lands in your bundle unless this path is used.
+`AsyncAPIRenderer` handles AsyncAPI documents and `OpenAPIRenderer` handles OpenAPI ones, each backed by its own parser.
 
 ## Prerequisites
 
-Install the peer dependency:
+Install the peer dependency for the spec you are rendering:
 
 ```bash
 npm install @asyncapi/parser
@@ -77,7 +77,7 @@ import type { ConfigInterface } from "apiuikit";
 
 const config: ConfigInterface = {
   show: { schemas: false },
-  theme: { mode: "dark" },
+  theme: { dark: { background: "#0d1117", surface: "#161b22" } },
 };
 
 const { diagnostics, view } = await parseAndRender(rawYaml, config);
@@ -104,9 +104,50 @@ export default function App() {
 }
 ```
 
+## `OpenAPIRenderer` component
+
+The OpenAPI counterpart, backed by `@scalar/openapi-parser`.
+
+It takes the same props as `AsyncAPIRenderer`: `config`, `onDiagnostics`, `errorFallback`, and `onError`. Diagnostics use the same shape for both specs (`{ message, path, severity }`, with `severity: 0` for errors), so one diagnostics panel can serve either.
+
+### TypeScript
+
+```tsx
+import { OpenAPIRenderer } from "apiuikit";
+import "apiuikit/style.css";
+import type { ConfigInterface } from "apiuikit";
+
+const config: ConfigInterface = {
+  show: { endpoints: true, webhooks: false },
+};
+
+export default function App({ raw }: { raw: string }) {
+  return (
+    <OpenAPIRenderer
+      raw={raw}
+      config={config}
+      onDiagnostics={(diagnostics) => console.log(diagnostics)}
+    />
+  );
+}
+```
+
+### JavaScript
+
+```jsx
+import { OpenAPIRenderer } from "apiuikit";
+import "apiuikit/style.css";
+
+export default function App({ raw }) {
+  return <OpenAPIRenderer raw={raw} />;
+}
+```
+
+`parseAndRenderOpenAPI(raw, config)` is available for imperative use, mirroring `parseAndRender`.
+
 ## Multi-format schemas
 
-Avro payloads (`schemaFormat: application/vnd.apache.avro…`) and Protobuf payloads (`schemaFormat: application/vnd.google.protobuf…`) are supported out of the box, with no extra install. See [Avro schemas](./avro.md) and [Protobuf schemas](./protobuf.md) for more details.
+Avro payloads (`schemaFormat: application/vnd.apache.avro…`) and Protobuf payloads (`schemaFormat: application/vnd.google.protobuf…`) are supported out of the box, with no extra install. See [Avro Schemas](./avro.md) and [Protobuf Schemas](./protobuf.md) for more details.
 
 ## Error handling
 

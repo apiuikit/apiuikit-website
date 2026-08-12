@@ -15,21 +15,21 @@ import InfoPreview from "@/components/demos/InfoPreview";
 const SECTIONS = [
   {
     id: "operations",
-    title: "Operations",
+    title: "AsyncAPI Operations",
     statement: "Every operation, rendered straight from the spec.",
     body: "Payloads, examples, and reply pairs land in place, with nothing to wire up and nothing to keep in sync by hand.",
     Preview: OperationsPreview,
   },
   {
     id: "endpoints",
-    title: "OpenAPI endpoints",
+    title: "OpenAPI Endpoints",
     statement: "Every path and method, given the same treatment.",
     body: "Parameters, responses, and generated cURL, JavaScript, and Python samples for each endpoint you publish.",
     Preview: OpenAPIEndpointsPreview,
   },
   {
     id: "servers",
-    title: "Servers & auth",
+    title: "Auth",
     statement: "Auth that matches what the API actually enforces.",
     body: "Servers, protocols, and API key, HTTP, OAuth2, and OpenID Connect security, read out of the document rather than mapped by hand.",
     Preview: ServersAuthPreview,
@@ -98,7 +98,7 @@ export default function ComponentGallery() {
         if (bestScore > 0) setActive(best);
       },
       {
-        // Discards the strip behind the sticky header — pixels hidden under it
+        // Discards the strip behind the sticky header: pixels obscured by it
         // shouldn't count towards a card being "in view".
         rootMargin: "-64px 0px 0px 0px",
         // Fine-grained, so coverage updates continuously as you scroll rather

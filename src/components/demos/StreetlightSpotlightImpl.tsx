@@ -62,13 +62,13 @@ export default function StreetlightSpotlightImpl() {
             cropped and non-interactive, and the real one lives in the dialog,
             so exposing it twice to assistive tech would just be noise.
 
-            Unmounted while the dialog is open, and not merely hidden. Both
+            Unmounted while the dialog is open, not merely concealed. Both
             copies render the same document, so both carry the same element
             ids; the dialog's search resolves a hit with getElementById, which
             returns the first match in the document — this preview, since it
             precedes the dialog in the DOM. Searching in the popup would
-            scroll and highlight the copy behind it instead. Hiding this one
-            with CSS wouldn't help: the ids would still be there to find. */}
+            scroll and highlight the copy behind it instead. Concealing it with
+            CSS wouldn't help: the ids would still be there to find. */}
         {!playing && (
           <div
             aria-hidden

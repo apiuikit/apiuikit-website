@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight, Geist_Mono } from "next/font/google";
-// apiuikit first, ours second — the order matters and is not cosmetic.
-// apiuikit ships its own Tailwind build, so both stylesheets define utilities
-// in @layer utilities. Whichever loads last wins ties, and Tailwind only sorts
-// responsive variants after base utilities *within a single sheet*. With
-// apiuikit last, its plain `.hidden` outranked our `.xl:block` / `.md:flex`,
-// so every `hidden md:flex` pair on the site stayed hidden at all widths.
+// apiuikit first, ours second. Both ship a Tailwind build sharing @layer
+// utilities, and ties go to whichever loaded later: ours must win so our
+// utilities outrank apiuikit's preflight (which resets heading sizes). The
+// reverse collision, on apiuikit's own `hidden @sm:block` markup, is handled
+// by never emitting a plain `.hidden` — see the note in globals.css.
 import "apiuikit/style.css";
 import "./globals.css";
 import { ThemeProvider } from "@/components/site/ThemeProvider";

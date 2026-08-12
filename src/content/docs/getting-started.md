@@ -76,7 +76,7 @@ export default function CustomLayout() {
 }
 ```
 
-See [Composable Sections](./sections.md) for the full list and their props.
+See [Composables](./sections.md) for the full list and their props.
 
 ## Configure it
 
@@ -143,7 +143,7 @@ Give the loading fallback the same dimensions as the widget so the page does not
 
 ## Where to go next
 
-- [Composable Sections](./sections.md): render and arrange sections yourself.
-- [Without Parser](./no-parser.md) and [With Parser](./with-parser.md): the two entry points in full.
-- [OpenAPI](./openapi.md): endpoints, webhooks, code samples, and coverage.
-- [Markdown export](./markdown-export.md): making your docs readable by agents and crawlers.
+- [Composables](./sections.md): render and arrange sections yourself.
+- [Without Parser](./no-parser.md) and [With Parser](./with-parser.md): both entry points in full, for AsyncAPI and OpenAPI alike.
+- [Extensions](./extensions.md): the `x-*` fields apiuikit renders, and how to switch them off.
+- [AI Export](./ai-export.md): making your docs readable by agents and crawlers.

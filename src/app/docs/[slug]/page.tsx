@@ -99,9 +99,9 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
         // this box spans the row — the full height of the article beside it —
         // so there's actually somewhere to stick.
         //
-        // max-xl:hidden rather than `hidden xl:block`: a single display
+        // max-xl:hidden rather than a base+variant display pair: one utility
         // utility with no base class competing against it, so it can't be
-        // outranked by a `.hidden` from apiuikit's own Tailwind build.
+        // outranked by the same-named utility in apiuikit's own Tailwind build.
         <aside className="max-xl:hidden xl:sticky xl:top-24 xl:max-h-[calc(100vh-8rem)] xl:self-start xl:overflow-y-auto">
           <DocsToc headings={headings} />
         </aside>

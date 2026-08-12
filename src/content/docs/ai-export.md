@@ -1,8 +1,6 @@
-# Markdown Export
+# AI Export
 
 Everything here serves one goal: making a docs site built with apiuikit readable by AI agents and crawlers, not just by people in a browser.
-
-## Overview
 
 Every rendered document carries a floating **Copy as Markdown** button with two actions:
 

@@ -1,8 +1,8 @@
 # Without Parser
 
-## Overview
+Use this entry when you already hold a resolved document as a JavaScript object: fetched from your own API, bundled at build time, or processed server-side. No parser package is required, and none will ever be included in your bundle.
 
-Use this entry when you already have a resolved AsyncAPI document; for example, fetched from your own API, bundled at build time, or processed server-side. The `@asyncapi/parser` package is not required and will never be included in your bundle.
+`AsyncAPI` renders AsyncAPI documents and `OpenAPI` renders OpenAPI 3.0 and 3.1 documents. The two behave identically apart from the prop that carries the document.
 
 ## `AsyncAPI` component
 
@@ -40,7 +40,7 @@ import doc from "./asyncapi.json";
 
 const config: ConfigInterface = {
   show: { sidebar: true },
-  theme: { mode: "dark" },
+  theme: { dark: { background: "#0d1117", surface: "#161b22" } },
 };
 
 export default function App() {
@@ -58,6 +58,34 @@ export default function App() {
   return <AsyncAPI asyncapi={doc} />;
 }
 ```
+
+## `OpenAPI` component
+
+The OpenAPI counterpart. Pass a resolved document as `openapi`; `@scalar/openapi-parser` is not required and never enters your bundle.
+
+```tsx
+import { OpenAPI } from "apiuikit";
+import "apiuikit/style.css";
+import doc from "./openapi.json";
+
+export default function App() {
+  return <OpenAPI openapi={doc} />;
+}
+```
+
+`config`, `kind="resolved"`, `errorFallback`, and `onError` all work exactly as they do on `AsyncAPI` above.
+
+### What gets rendered
+
+- `info` (including `x-logo` and the known `x-*` catalog, see [Extensions](./extensions.md)), `tags`, `externalDocs`
+- `servers`, with `{variable}` segments showing their description, default, and allowed values on hover
+- `paths`: operations by method, with summary and description, deprecation badges, parameters (path and query on the address bar, header and cookie in the request card), `requestBody` with a media-type switcher, and per-status `responses` covering body, response `headers`, and `links`
+- `webhooks` (3.1), in their own tab, using the same detail panel as endpoints
+- `callbacks`, as a collapsible section on the operation that declares them, rendered through the same operation view
+- Security: document-level and operation-level `security` resolved against `components.securitySchemes`, rendered as an Authorization card (API key, HTTP, OAuth2 flows and scopes, OpenID Connect)
+- `components.schemas`, plus `$ref` resolution throughout
+
+Callbacks nested inside a callback are the one deliberate stop: they render one level deep, since deeper nesting is vanishingly rare and a cyclic `$ref` would otherwise not terminate.
 
 ## Passing a parser-resolved document
 
@@ -81,7 +109,7 @@ Either way, the component verifies rather than trusts: documents are checked for
 
 ## Multi-format schemas
 
-Avro and Protobuf payloads and other multi-format wrappers are unwrapped (and converted) at render time. See [Avro schemas](./avro.md) and [Protobuf schemas](./protobuf.md) for more details.
+Avro and Protobuf payloads and other multi-format wrappers are unwrapped (and converted) at render time. See [Avro Schemas](./avro.md) and [Protobuf Schemas](./protobuf.md) for more details.
 
 ## When to use this entry
 
@@ -89,5 +117,6 @@ Avro and Protobuf payloads and other multi-format wrappers are unwrapped (and co
 |-------------------------------------------------------|--------------------------|
 | Document is a static JSON file bundled at build time  | `AsyncAPI` (no-parser)   |
 | Document is fetched from your own backend (pre-parsed)| `AsyncAPI` (no-parser)   |
-| Document is raw YAML/JSON entered by a user           | `AsyncAPIRenderer` or `parseAndRender` (see [with-parser](./with-parser.md)) |
-| You run the parser yourself before rendering          | `AsyncAPI kind="resolved"` |
+| Document is raw YAML/JSON entered by a user           | `AsyncAPIRenderer` / `OpenAPIRenderer` (see [With Parser](./with-parser.md)) |
+| You run the parser yourself before rendering          | `AsyncAPI` / `OpenAPI` with `kind="resolved"` |
+| The document is OpenAPI rather than AsyncAPI          | `OpenAPI` (no-parser)    |

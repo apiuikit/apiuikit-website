@@ -1,6 +1,4 @@
-# Composable Sections Usage
-
-## Overview
+# Composables
 
 The `AsyncAPI` component renders a complete documentation page: sidebar, search, servers, operations, messages, schemas. If you want to build your own layout instead, render individual sections on their own, or compose several of them together.
 
@@ -64,6 +62,24 @@ Because composition doesn't rely on a slot API, dropping in a custom implementat
 ```
 
 Any component rendered inside `AsyncAPIProvider` can call `useAsyncAPIDocument()` to read the resolved document, the same way the built-in sections do.
+
+## OpenAPI sections
+
+OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPISchemas`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them.
+
+```tsx
+import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPISchemas } from "apiuikit";
+
+export default function CustomLayout() {
+  return (
+    <OpenAPIProvider document={doc}>
+      <OpenAPIServers />
+      <OpenAPIEndpoints layout="stacked" />
+      <OpenAPISchemas layout="stacked" />
+    </OpenAPIProvider>
+  );
+}
+```
 
 ## Error handling
 

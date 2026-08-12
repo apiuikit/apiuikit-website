@@ -147,24 +147,13 @@ config={{
 }}
 ```
 
-Operation targets are discriminated by spec: OpenAPI operations carry `method` and `path`, AsyncAPI operations carry `id`. See [Markdown export](./markdown-export.md) for the build-time helpers that generate those files.
+Operation targets are discriminated by spec: OpenAPI operations carry `method` and `path`, AsyncAPI operations carry `id`. See [AI Export](./ai-export.md) for the build-time helpers that generate those files.
 
 ## sidebar
 
 | Option | Default | What it controls |
 | --- | --- | --- |
 | `useChannelAddressAsIdentifier` | `true` | Whether sidebar entries are labelled with the channel address rather than the channel key. |
-
-## Labels
-
-| Option | Default | What it controls |
-| --- | --- | --- |
-| `requestLabel` | none | The wording used for the request half of a request/reply operation pair. |
-| `replyLabel` | none | The wording used for the reply half. |
-
-```tsx
-config={{ requestLabel: "Publishes", replyLabel: "Responds with" }}
-```
 
 ## parserOptions
 

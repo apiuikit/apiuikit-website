@@ -2,6 +2,36 @@
 @plugin "@tailwindcss/typography";
 
 /*
+ * apiuikit ships its own Tailwind build, so both stylesheets define the same
+ * generic utility names in @layer utilities and ties go to whichever loaded
+ * later. Ours must load last, otherwise apiuikit's preflight (which resets
+ * heading font-size and weight) outranks our type utilities and every heading
+ * on the site collapses to body text.
+ *
+ * The cost of that order is the reverse collision: apiuikit marks up two
+ * elements as a base+container-variant pair, and our same-named base utility
+ * now loads after its variant and pins them shut.
+ *
+ *   `hidden @sm:block`     the Operations/Messages/Schemas tab bar
+ *   `hidden @lg:block`     the mobile lead slot in Section
+ *
+ * These restore them. Unlayered and one specificity point higher, so they beat
+ * our layered `.hidden` regardless of source order, and scoped to the exact
+ * container widths apiuikit intends (@sm = 24rem, @lg = 32rem).
+ */
+@container (width >= 24rem) {
+  html .\@sm\:block {
+    display: block;
+  }
+}
+
+@container (width >= 32rem) {
+  html .\@lg\:block {
+    display: block;
+  }
+}
+
+/*
  * Token names below deliberately avoid apiuikit's own `:root` custom
  * properties (--color-background, --color-surface, --color-border,
  * --color-text-*, --color-primary-*, --color-secondary-*, --color-neutral-*
@@ -56,8 +86,11 @@
   --chrome-surface: #161b22;
   --chrome-border: #30363d;
   --ink: #c9d1d9;
-  --ink-muted: #8b949e;
-  --ink-faint: #6e7681;
+  /* Each step lightened once: the old faint (#6e7681) sat at 3.8:1 on the dark
+     surface, under the 4.5:1 needed for body text, and apiuikit renders
+     markdown body copy in the faint token. Now 5.6:1 and 8.8:1. */
+  --ink-muted: #adbac7;
+  --ink-faint: #8b949e;
 }
 
 body {

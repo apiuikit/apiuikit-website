@@ -18,9 +18,9 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
         <div className="flex items-center gap-6">
           <Wordmark />
-          {/* In-page jumps, hidden on small screens where the CTA and icons
+          {/* In-page jumps, dropped on small screens where the CTA and icons
               already fill the bar. */}
-          <nav className="hidden items-center gap-1 text-sm md:flex">
+          <nav className="flex items-center gap-1 text-sm max-md:hidden">
             {sectionLinks.map(({ label, href }) => (
               <Link
                 key={href}
@@ -40,7 +40,7 @@ export default function Header() {
             href={PLAYGROUND_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="link-quiet hidden rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface sm:inline-flex"
+            className="link-quiet inline-flex rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface max-sm:hidden"
           >
             Playground
           </Link>
@@ -48,7 +48,7 @@ export default function Header() {
             href={NPM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="link-quiet hidden rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface sm:inline-flex"
+            className="link-quiet inline-flex rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface max-sm:hidden"
           >
             npm
           </Link>
@@ -71,7 +71,7 @@ export default function Header() {
             <GitHubIcon className="h-4 w-4" />
             {/* The label shortens rather than disappearing on small screens,
                 so the button never becomes a bare unlabelled icon. */}
-            <span className="hidden sm:inline">Star on GitHub</span>
+            <span className="max-sm:hidden">Star on GitHub</span>
             <span className="sm:hidden">Star</span>
           </Link>
         </nav>

@@ -83,7 +83,7 @@ export default function DeveloperExperience() {
               }`}
             >
               <p className="text-sm font-medium">{tier.label}</p>
-              <p className="mt-0.5 hidden text-xs text-ink-faint lg:block">
+              <p className="mt-0.5 text-xs text-ink-faint max-lg:hidden">
                 {tier.description}
               </p>
             </button>

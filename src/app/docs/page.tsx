@@ -25,12 +25,16 @@ export default async function DocsIndexPage() {
         </p>
       </div>
 
-      <ul className="mt-12 divide-y divide-chrome-border border-y border-chrome-border">
+      {/* -ml-12 cancels the content column's own left padding so every rule in
+          this list reaches the column's vertical border instead of stopping
+          short of it; the padding moves onto each row below, which is what
+          lets the dividers span it. */}
+      <ul className="mt-12 divide-y divide-chrome-border border-y border-chrome-border lg:-ml-12">
         {docs.map(({ slug, title, summary }) => (
           <li key={slug}>
             <Link
               href={`/docs/${slug}`}
-              className="group block py-5 transition-colors hover:bg-chrome-surface"
+              className="group block py-5 transition-colors hover:bg-chrome-surface lg:pl-12"
             >
               <p className="font-medium text-ink">{title}</p>
               <p className="mt-1 line-clamp-2 text-sm text-ink-faint">

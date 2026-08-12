@@ -80,7 +80,7 @@ export default function ShowcaseTabs({
           })}
         </div>
 
-        {/* Inline display, not a `hidden` class: this has to beat whatever
+        {/* Inline display, not a utility class: this has to beat whatever
             display utility the panel's own wrapper carries. */}
         {mounted.includes("widget") && (
           <div style={{ display: active === "widget" ? undefined : "none" }}>

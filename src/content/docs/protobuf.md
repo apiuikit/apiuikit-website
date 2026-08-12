@@ -1,6 +1,6 @@
-# Protobuf schemas
+# Protobuf Schemas
 
-aui renders AsyncAPI messages and components whose payload (or headers) use a Protobuf `schemaFormat`. Support works in both [with-parser](./with-parser.md) and [no-parser](./no-parser.md) entry points, and no extra install is required (the `.proto` text parser, [protobufjs](https://www.npmjs.com/package/protobufjs), ships as a regular dependency of aui).
+apiuikit renders AsyncAPI messages and components whose payload (or headers) use a Protobuf `schemaFormat`. Support works in both [with-parser](./with-parser.md) and [no-parser](./no-parser.md) entry points, and no extra install is required (the `.proto` text parser, [protobufjs](https://www.npmjs.com/package/protobufjs), ships as a regular dependency of apiuikit).
 
 ## What you need in the document
 
@@ -70,10 +70,10 @@ Comments on messages and fields become descriptions. `@`-annotations inside comm
 
 ## Dependencies
 
-- **With parser:** aui registers its own Protobuf schema parser on `@asyncapi/parser`. You do **not** need `@asyncapi/protobuf-schema-parser`.
+- **With parser:** apiuikit registers its own Protobuf schema parser on `@asyncapi/parser`. You do **not** need `@asyncapi/protobuf-schema-parser`.
 - **Without parser:** conversion happens at render time in the component, with no parser needed.
 
-## Implementation notes (For Contributers)
+## Implementation notes (for contributors)
 
 This section is for contributors and anyone debugging Protobuf rendering. Application users can skip it.
 
@@ -98,7 +98,7 @@ The with-parser fail-soft path may set `x-aui-conversion-error` when conversion 
 
 ### Why not `@asyncapi/protobuf-schema-parser`?
 
-That package declares `@asyncapi/parser` as a hard runtime dependency (aui keeps it an optional peer) and does not export its bare converter, which the without-parser render path needs. aui's `ProtobufSchemaParser` mirrors the upstream plugin factory (`parser.registerSchemaParser(ProtobufSchemaParser())`) with the same MIME types, but uses the in-tree converter and returns a fail-soft error marker instead of throwing.
+That package declares `@asyncapi/parser` as a hard runtime dependency (apiuikit keeps it an optional peer) and does not export its bare converter, which the without-parser render path needs. apiuikit's `ProtobufSchemaParser` mirrors the upstream plugin factory (`parser.registerSchemaParser(ProtobufSchemaParser())`) with the same MIME types, but uses the in-tree converter and returns a fail-soft error marker instead of throwing.
 
 ### Key source files
 

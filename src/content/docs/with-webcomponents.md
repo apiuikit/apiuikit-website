@@ -1,7 +1,5 @@
 # Web Components
 
-## Overview
-
 Use apiuikit from Vue, Angular, Svelte, plain HTML, or any other environment that supports custom elements. Four tags are available:
 
 | Element | When to use |
