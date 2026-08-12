@@ -20,7 +20,12 @@ export default function SchemaTreePreviewImpl() {
 
   return (
     <AsyncAPIProvider document={torture} config={{ theme }}>
-      <SchemaTree schema={schema} rootName="CardPayment" />
+      {/* SchemaTree is a bare component, not a Section, so it carries none of
+          the padding the other previews get from their section wrapper — left
+          alone it renders flush against the card's frame. */}
+      <div className="p-6">
+        <SchemaTree schema={schema} rootName="CardPayment" />
+      </div>
     </AsyncAPIProvider>
   );
 }

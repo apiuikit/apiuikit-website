@@ -1,35 +1,78 @@
 import Link from "next/link";
 import Wordmark from "./Wordmark";
 import ThemeToggle from "./ThemeToggle";
+import GitHubIcon from "./GitHubIcon";
 
 const GITHUB_URL = "https://github.com/AceTheCreator/apiuikit";
 const NPM_URL = "https://www.npmjs.com/package/apiuikit";
 const PLAYGROUND_URL = "https://playground.apiuikit.com";
 
+const sectionLinks = [
+  { label: "Docs", href: "/docs" },
+  { label: "Components", href: "/#operations" },
+];
+
 export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-chrome-border bg-chrome-bg/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Wordmark />
-        <nav className="flex items-center gap-2 text-sm text-ink-muted">
-          <Link href={NPM_URL} className="hidden px-2 hover:text-ink sm:inline">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+        <div className="flex items-center gap-6">
+          <Wordmark />
+          {/* In-page jumps, hidden on small screens where the CTA and icons
+              already fill the bar. */}
+          <nav className="hidden items-center gap-1 text-sm md:flex">
+            {sectionLinks.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="link-quiet rounded-lg px-3 py-2 transition-colors hover:bg-chrome-surface"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <nav className="flex items-center gap-1">
+          {/* Playground moved here as a text link now that the CTA slot
+              belongs to GitHub. */}
+          <Link
+            href={PLAYGROUND_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-quiet hidden rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface sm:inline-flex"
+          >
+            Playground
+          </Link>
+          <Link
+            href={NPM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-quiet hidden rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface sm:inline-flex"
+          >
             npm
           </Link>
-          <Link href={GITHUB_URL} className="hidden px-2 hover:text-ink sm:inline">
-            GitHub
-          </Link>
           <ThemeToggle />
+
+          <span aria-hidden className="mx-2 h-5 w-px bg-chrome-border" />
+
           {/* Inline color, not text-white: apiuikit/style.css sets a plain,
               unlayered `a { color: inherit }` rule, which beats any
               Tailwind utility class (Tailwind utilities live in @layer,
               and unlayered CSS always wins regardless of specificity).
               Inline style is the one thing that reliably wins here. */}
           <Link
-            href={PLAYGROUND_URL}
-            className="ml-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-brand-700"
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-brand-700"
             style={{ color: "#ffffff" }}
           >
-            Try it out
+            <GitHubIcon className="h-4 w-4" />
+            {/* The label shortens rather than disappearing on small screens,
+                so the button never becomes a bare unlabelled icon. */}
+            <span className="hidden sm:inline">Star on GitHub</span>
+            <span className="sm:hidden">Star</span>
           </Link>
         </nav>
       </div>

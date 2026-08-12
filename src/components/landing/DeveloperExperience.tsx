@@ -55,29 +55,31 @@ export default function DeveloperExperience() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
-      <div className="max-w-2xl">
-        <p className="text-sm font-medium text-brand-600">Developer experience</p>
-        <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-          Three ways to use it
-        </h2>
-        <p className="mt-3 text-ink-muted">
-          Start with the whole widget, drop down to one section, or compose
-          several — the same API, at whatever granularity your layout needs.
+      <p className="text-xs font-medium tracking-wide text-brand-600 uppercase">
+        How you use it
+      </p>
+      <div className="mt-4 max-w-4xl font-display text-2xl leading-[1.3] tracking-tight text-pretty sm:text-3xl">
+        <h2 className="font-bold text-ink">Three ways to use it.</h2>
+        <p className="text-ink-faint">
+          Start with the whole widget, drop down to a single section, or
+          compose several. Same API, whatever granularity your layout needs.
         </p>
       </div>
 
       <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.4fr]">
-        <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-1">
+        {/* Same rail treatment as the component gallery's nav: a hairline the
+            list hangs off, with a brand accent marking the active row. */}
+        <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-0 lg:border-l lg:border-chrome-border">
           {tiers.map((tier) => (
             <button
               key={tier.id}
               type="button"
               onClick={() => setActiveId(tier.id)}
               aria-pressed={tier.id === activeId}
-              className={`shrink-0 rounded-lg px-4 py-3 text-left transition-colors ${
+              className={`shrink-0 cursor-pointer rounded-r-md border-l-2 px-4 py-3 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:-ml-px ${
                 tier.id === activeId
-                  ? "bg-brand-50 text-brand-700"
-                  : "text-ink-muted hover:bg-chrome-surface"
+                  ? "border-brand-600 bg-chrome-surface text-ink"
+                  : "border-transparent text-ink-muted hover:border-chrome-border hover:bg-chrome-surface"
               }`}
             >
               <p className="text-sm font-medium">{tier.label}</p>
@@ -88,9 +90,21 @@ export default function DeveloperExperience() {
           ))}
         </div>
 
-        <pre className="overflow-x-auto rounded-xl bg-[#0d1117] p-6 text-sm leading-relaxed text-[#c9d1d9]">
-          <code className="font-mono">{active.code}</code>
-        </pre>
+        {/* Deliberately dark in both themes, the way a code block usually is,
+            with a mock chrome bar so it reads as an editor rather than a slab. */}
+        <div className="overflow-hidden rounded-xl border border-chrome-border">
+          <div className="flex items-center gap-1.5 border-b border-[#30363d] bg-[#161b22] px-4 py-2.5">
+            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+            <span className="ml-2 font-mono text-xs text-[#6e7681]">
+              {active.id}.tsx
+            </span>
+          </div>
+          <pre className="overflow-x-auto bg-[#0d1117] p-6 text-sm leading-relaxed text-[#c9d1d9]">
+            <code className="font-mono">{active.code}</code>
+          </pre>
+        </div>
       </div>
     </section>
   );

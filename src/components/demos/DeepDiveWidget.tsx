@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 const DeepDiveWidgetImpl = dynamic(() => import("./DeepDiveWidgetImpl"), {
   ssr: false,
   loading: () => (
-    <div className="h-[640px] animate-pulse rounded-xl border border-chrome-border bg-chrome-surface" />
+    <div className="h-[560px] animate-pulse bg-chrome-surface" />
   ),
 });
 

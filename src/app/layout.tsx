@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Inter, Inter_Tight, Geist_Mono } from "next/font/google";
+// apiuikit first, ours second — the order matters and is not cosmetic.
+// apiuikit ships its own Tailwind build, so both stylesheets define utilities
+// in @layer utilities. Whichever loads last wins ties, and Tailwind only sorts
+// responsive variants after base utilities *within a single sheet*. With
+// apiuikit last, its plain `.hidden` outranked our `.xl:block` / `.md:flex`,
+// so every `hidden md:flex` pair on the site stayed hidden at all widths.
 import "apiuikit/style.css";
+import "./globals.css";
 import { ThemeProvider } from "@/components/site/ThemeProvider";
 
 // Runs before first paint so the page never flashes the wrong theme. Light
@@ -14,8 +20,19 @@ const THEME_INIT_SCRIPT = `
   } catch (e) {}
 `;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// UI/body face. Inter is the safe, highly legible interface choice — tall
+// x-height, unambiguous 1/l/I, and it holds up at the 12-14px sizes most of
+// this page's labels and descriptions run at.
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+// Headings. Inter Tight is Inter's own display cut — narrower and denser at
+// large sizes — so headings read as heavier without introducing a second
+// typeface that has to be reconciled with the UI face.
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
   subsets: ["latin"],
 });
 
@@ -25,16 +42,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "apiuikit — Interactive API docs from your spec",
+  title: "apiuikit: interactive API docs from your AsyncAPI or OpenAPI spec",
   description:
-    "Point apiuikit at an AsyncAPI or OpenAPI document and get a full interactive documentation UI, with no manual mapping required.",
+    "A React component library that renders AsyncAPI and OpenAPI documents as interactive documentation. Use the whole widget, one section, or the exact pieces your layout needs.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${interTight.variable} ${geistMono.variable} h-full antialiased`}
       // data-theme is set by THEME_INIT_SCRIPT below, before React hydrates,
       // so hydration always sees an attribute it didn't render itself.
       suppressHydrationWarning
