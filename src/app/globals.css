@@ -2,36 +2,6 @@
 @plugin "@tailwindcss/typography";
 
 /*
- * apiuikit ships its own Tailwind build, so both stylesheets define the same
- * generic utility names in @layer utilities and ties go to whichever loaded
- * later. Ours must load last, otherwise apiuikit's preflight (which resets
- * heading font-size and weight) outranks our type utilities and every heading
- * on the site collapses to body text.
- *
- * The cost of that order is the reverse collision: apiuikit marks up two
- * elements as a base+container-variant pair, and our same-named base utility
- * now loads after its variant and pins them shut.
- *
- *   `hidden @sm:block`     the Operations/Messages/Schemas tab bar
- *   `hidden @lg:block`     the mobile lead slot in Section
- *
- * These restore them. Unlayered and one specificity point higher, so they beat
- * our layered `.hidden` regardless of source order, and scoped to the exact
- * container widths apiuikit intends (@sm = 24rem, @lg = 32rem).
- */
-@container (width >= 24rem) {
-  html .\@sm\:block {
-    display: block;
-  }
-}
-
-@container (width >= 32rem) {
-  html .\@lg\:block {
-    display: block;
-  }
-}
-
-/*
  * Token names below deliberately avoid apiuikit's own `:root` custom
  * properties (--color-background, --color-surface, --color-border,
  * --color-text-*, --color-primary-*, --color-secondary-*, --color-neutral-*
@@ -111,68 +81,29 @@ body {
 }
 
 /*
- * apiuikit.css ends with an *unlayered* `html, body { font-family: -apple-system,
- * ... }` rule. Unlayered CSS beats everything in @layer, so Tailwind's preflight
- * (which is what normally applies --font-sans) loses and the page falls back to
- * the system stack. `html body` is unlayered too and one specificity point
- * higher, so it wins no matter which stylesheet is imported first.
- */
-html body {
-  /* --font-inter, not --font-sans: apiuikit ships its own Tailwind @theme
-     block that defines :root --font-sans as the generic stack, and ours is
-     `@theme inline`, which bakes values into the utilities rather than
-     emitting the variable. So .font-sans / .font-display are correct, but a
-     literal var(--font-sans) lookup here would resolve to apiuikit's value. */
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-}
-
-/*
- * Site chrome links. apiuikit.css ends with an unlayered
- * `a { color: inherit; text-decoration: none }` rule, which outranks every
- * Tailwind text-colour utility — those live in @layer, and unlayered CSS wins
- * regardless of specificity. So `hover:text-ink` on an <a> silently does
- * nothing. These rules are unlayered too and one specificity point higher, so
- * link colours and their hover states actually apply.
- */
-html .link-quiet {
-  color: var(--ink-muted);
-  transition: color 150ms;
-}
-
-html .link-quiet:hover {
-  color: var(--ink);
-}
-
-/*
  * Tailwind's `dark:` variant keys off prefers-color-scheme by default, but this
  * site's theme is a manual data-theme attribute (see ThemeProvider). Rebinding
  * it here makes `dark:prose-invert` follow the navbar toggle.
  */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* Docs links and inline brand links, unlayered for the same reason
-   .link-quiet is: apiuikit's unlayered `a { color: inherit }` beats any
-   Tailwind text-colour utility, and the typography plugin's own link colour
-   with it. */
-html .docs-prose a,
-html .link-brand {
+/* Brand colour for links in rendered Markdown, overriding the typography
+   plugin's default link colour. */
+html .docs-prose a {
   color: var(--color-brand-600);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-html .docs-prose a:hover,
-html .link-brand:hover {
+html .docs-prose a:hover {
   color: var(--color-brand-700);
 }
 
-html[data-theme="dark"] .docs-prose a,
-html[data-theme="dark"] .link-brand {
+html[data-theme="dark"] .docs-prose a {
   color: var(--color-brand-500);
 }
 
-html[data-theme="dark"] .docs-prose a:hover,
-html[data-theme="dark"] .link-brand:hover {
+html[data-theme="dark"] .docs-prose a:hover {
   color: var(--color-brand-300);
 }
 

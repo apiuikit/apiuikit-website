@@ -25,7 +25,7 @@ export default function Header() {
               <Link
                 key={href}
                 href={href}
-                className="link-quiet rounded-lg px-3 py-2 transition-colors hover:bg-chrome-surface"
+                className="rounded-lg px-3 py-2 text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface"
               >
                 {label}
               </Link>
@@ -40,7 +40,7 @@ export default function Header() {
             href={PLAYGROUND_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="link-quiet inline-flex rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface max-sm:hidden"
+            className="inline-flex rounded-lg px-3 py-2 text-sm text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface max-sm:hidden"
           >
             Playground
           </Link>
@@ -48,7 +48,7 @@ export default function Header() {
             href={NPM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="link-quiet inline-flex rounded-lg px-3 py-2 text-sm transition-colors hover:bg-chrome-surface max-sm:hidden"
+            className="inline-flex rounded-lg px-3 py-2 text-sm text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface max-sm:hidden"
           >
             npm
           </Link>

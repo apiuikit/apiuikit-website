@@ -47,7 +47,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="apiuikit on GitHub"
-              className="link-quiet mt-5 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-chrome-border transition-colors hover:bg-chrome-surface"
+              className="mt-5 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-chrome-border text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface"
             >
               <GitHubIcon />
             </Link>
@@ -68,7 +68,7 @@ export default function Footer() {
                     <li key={href}>
                       <Link
                         href={href}
-                        className="link-quiet"
+                        className="text-ink-muted transition-colors hover:text-ink"
                         {...(isExternal && {
                           target: "_blank",
                           rel: "noopener noreferrer",

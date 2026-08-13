@@ -15,13 +15,11 @@ const points: { title: string; description: ReactNode }[] = [
     title: "Not just React",
     description: (
       <>
-        {/* link-brand rather than a Tailwind text colour: apiuikit ships an
-            unlayered `a { color: inherit }` rule that would beat it. */}
         <Link
           href={WEB_COMPONENT_NPM_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="link-brand font-mono text-[0.95em]"
+          className="font-mono text-[0.95em] text-brand-600 underline underline-offset-2 transition-colors hover:text-brand-700 dark:text-brand-500 dark:hover:text-brand-300"
         >
           @apiuikit/web-component
         </Link>{" "}
