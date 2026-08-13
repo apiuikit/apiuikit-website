@@ -6,7 +6,9 @@ const GITHUB_URL = "https://github.com/AceTheCreator/apiuikit";
 const NPM_URL = "https://www.npmjs.com/package/apiuikit";
 const LICENSE_URL =
   "https://github.com/AceTheCreator/apiuikit/blob/master/LICENSE";
-const PLAYGROUND_URL = "https://playground.apiuikit.com";
+// TEMPORARY: playground.apiuikit.com is down, so this points at the Netlify
+// preview instead. Restore the subdomain once it is back up.
+const PLAYGROUND_URL = "https://playaui.netlify.app/";
 
 const columns = [
   {
