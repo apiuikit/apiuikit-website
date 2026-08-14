@@ -95,7 +95,7 @@ export default function StreetlightSpotlightImpl() {
           type="button"
           onClick={play}
           aria-label="Play the full Streetlights API documentation"
-          className="group absolute inset-0 grid cursor-pointer place-items-center bg-chrome-bg/20 transition-colors hover:bg-chrome-bg/10"
+          className="group absolute inset-0 grid cursor-pointer place-items-center bg-chrome-bg/40 backdrop-blur-sm transition-colors hover:bg-chrome-bg/50"
         >
           <span className="flex flex-col items-center gap-3">
             <span
