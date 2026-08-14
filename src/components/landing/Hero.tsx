@@ -1,9 +1,7 @@
 import Link from "next/link";
 import InstallCommand from "@/components/landing/InstallCommand";
 
-// TEMPORARY: playground.apiuikit.com is down, so this points at the Netlify
-// preview instead. Restore the subdomain once it is back up.
-const PLAYGROUND_URL = "https://playaui.netlify.app/";
+const PLAYGROUND_URL = "https://playground.apiuikit.com";
 
 export default function Hero() {
   return (
