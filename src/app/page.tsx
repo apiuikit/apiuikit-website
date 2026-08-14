@@ -7,6 +7,7 @@ import FeatureStats from "@/components/landing/FeatureStats";
 import Showcase from "@/components/landing/Showcase";
 import DeveloperExperience from "@/components/landing/DeveloperExperience";
 import Adoption from "@/components/landing/Adoption";
+import GetHelp from "@/components/landing/GetHelp";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Showcase />
         <DeveloperExperience />
         <Adoption />
+        <GetHelp />
       </main>
       <Footer />
     </div>
