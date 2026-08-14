@@ -18,7 +18,7 @@ export default function DeveloperExperienceTabs({ tiers }: { tiers: Tier[] }) {
     <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.4fr]">
       {/* Same rail treatment as the component gallery's nav: a hairline the
           list hangs off, with a brand accent marking the active row. */}
-      <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-0 lg:border-l lg:border-chrome-border">
+      <div className="flex min-w-0 gap-2 overflow-x-auto lg:flex-col lg:gap-0 lg:border-l lg:border-chrome-border">
         {tiers.map((tier) => (
           <button
             key={tier.id}

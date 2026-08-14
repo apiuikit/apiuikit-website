@@ -52,7 +52,7 @@ export default function PreviewCard({
         {/* One inset for all six previews. The widgets render flush to their
             own root otherwise, and apiuikit's own p-2 is not enough to keep
             content off the frame. */}
-        <div className="p-4">{children}</div>
+        <div className="overflow-x-auto p-4">{children}</div>
       </div>
     </div>
   );

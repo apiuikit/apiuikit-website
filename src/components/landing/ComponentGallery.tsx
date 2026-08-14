@@ -141,7 +141,7 @@ export default function ComponentGallery() {
               small screens, where a sticky sidebar would eat the viewport. */}
           <nav
             aria-label="Components"
-            className="pt-10 lg:sticky lg:top-24 lg:self-start lg:pb-10"
+            className="min-w-0 pt-10 lg:sticky lg:top-24 lg:self-start lg:pb-10"
           >
             {/* pl matches the buttons' so the label lines up with their text. */}
             <p className="text-xs font-medium tracking-wide text-ink-faint uppercase lg:pl-4">
