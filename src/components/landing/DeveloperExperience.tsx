@@ -1,6 +1,5 @@
-"use client";
-
-import { useState } from "react";
+import { codeToHtml } from "shiki";
+import DeveloperExperienceTabs from "./DeveloperExperienceTabs";
 
 // Code verbatim from apiuikit/README.md — the same "three ways to use it"
 // story as packages/lib/src/stories/Introduction.mdx.
@@ -49,9 +48,23 @@ export default function CustomLayout() {
   },
 ];
 
-export default function DeveloperExperience() {
-  const [activeId, setActiveId] = useState(tiers[0].id);
-  const active = tiers.find((tier) => tier.id === activeId) ?? tiers[0];
+export default async function DeveloperExperience() {
+  // Highlighted at build time against a single fixed-dark theme — this block
+  // stays GitHub-dark in both site themes, so there's no light variant to emit.
+  const highlightedTiers = await Promise.all(
+    tiers.map(async (tier) => ({
+      ...tier,
+      // Root gets a class other than shiki's own: globals.css force-overrides
+      // any ".shiki" element's colours under [data-theme="dark"] to switch to
+      // the site's dual-theme output, which this single fixed-theme block
+      // doesn't have — that override would wash every token out to plain text.
+      html: await codeToHtml(tier.code, {
+        lang: "tsx",
+        theme: "github-dark",
+        transformers: [{ pre(node) { node.properties.class = "dx-code"; } }],
+      }),
+    })),
+  );
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
@@ -66,46 +79,7 @@ export default function DeveloperExperience() {
         </p>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.4fr]">
-        {/* Same rail treatment as the component gallery's nav: a hairline the
-            list hangs off, with a brand accent marking the active row. */}
-        <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-0 lg:border-l lg:border-chrome-border">
-          {tiers.map((tier) => (
-            <button
-              key={tier.id}
-              type="button"
-              onClick={() => setActiveId(tier.id)}
-              aria-pressed={tier.id === activeId}
-              className={`shrink-0 cursor-pointer rounded-r-md border-l-2 px-4 py-3 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:-ml-px ${
-                tier.id === activeId
-                  ? "border-brand-600 bg-chrome-surface text-ink"
-                  : "border-transparent text-ink-muted hover:border-chrome-border hover:bg-chrome-surface"
-              }`}
-            >
-              <p className="text-sm font-medium">{tier.label}</p>
-              <p className="mt-0.5 text-xs text-ink-faint max-lg:hidden">
-                {tier.description}
-              </p>
-            </button>
-          ))}
-        </div>
-
-        {/* Deliberately dark in both themes, the way a code block usually is,
-            with a mock chrome bar so it reads as an editor rather than a slab. */}
-        <div className="overflow-hidden rounded-xl border border-chrome-border">
-          <div className="flex items-center gap-1.5 border-b border-[#30363d] bg-[#161b22] px-4 py-2.5">
-            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-            <span className="ml-2 font-mono text-xs text-[#6e7681]">
-              {active.id}.tsx
-            </span>
-          </div>
-          <pre className="overflow-x-auto bg-[#0d1117] p-6 text-sm leading-relaxed text-[#c9d1d9]">
-            <code className="font-mono">{active.code}</code>
-          </pre>
-        </div>
-      </div>
+      <DeveloperExperienceTabs tiers={highlightedTiers} />
     </section>
   );
 }
