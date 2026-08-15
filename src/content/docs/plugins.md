@@ -45,15 +45,23 @@ Plugins fill named "slots" — fixed spots in the layout that apiuikit exposes o
 
 **A `*.operation.tab` plugin** gets its own tab. Selecting it hands the plugin the operation panel's entire body — apiuikit's own documentation content is unmounted while the plugin's tab is active. The built-in "Reference" tab is always first; plugin tabs follow in registration order. Switching operations always lands back on Reference, so a plugin's own tab state doesn't carry over between operations.
 
+The screenshot below is the playground's `operationTabDemoPlugin.tsx` fixture with a tinted, thick dotted border added around its own wrapper, purely to make the slot's boundary visible — it's the entire operation panel, not just the space its own content happens to use:
+
+![The `openapi.operation.tab` slot outlined in the playground: the "Demo" tab fills the whole operation panel](/docs/plugins/operation-tab-slot.png)
+
 **A `*.operation.actions` plugin** renders inline instead, alongside apiuikit's own content. This is meant for something small and secondary — a button, say — that belongs next to the documentation rather than replacing it. Multiple plugins filling the same actions slot stack in registration order.
+
+Here's the same treatment on a second playground fixture filling `openapi.operation.actions`, to show the contrast — a small inline element sitting between the code samples and Authorization, not a full panel:
+
+![The `openapi.operation.actions` slot outlined in the playground: a small inline element amid the operation's own documentation](/docs/plugins/operation-actions-slot.png)
 
 More slots may be added over time; a plugin only needs to fill the ones it cares about.
 
-## A worked example: "Try it"
+## Playground fixtures
 
-The clearest way to see what a plugin looks like in practice is [`tryItOutPlugin.tsx`](https://github.com/AceTheCreator/apiuikit/blob/master/packages/playground/src/plugins/tryItOutPlugin.tsx) — a real "Try it" tab for OpenAPI operations, used in apiuikit's own playground. It edits parameters and the request body, sends a real `fetch()`, and shows the response. It isn't a published package (it's a fixture for exercising the plugin system), but it's a complete, working reference if you want to build something similar.
+The two screenshots above come from a pair of small, non-published dev fixtures in apiuikit's own playground: [`operationTabDemoPlugin.tsx`](https://github.com/AceTheCreator/apiuikit/blob/master/packages/playground/src/plugins/operationTabDemoPlugin.tsx) fills `openapi.operation.tab`, and [`operationActionsDemoPlugin.tsx`](https://github.com/AceTheCreator/apiuikit/blob/master/packages/playground/src/plugins/operationActionsDemoPlugin.tsx) fills `openapi.operation.actions`. Neither does anything functional — each just renders a labeled placeholder, outlined so its slot's boundary is visible while clicking around the playground. They exist to exercise the plugin system's slot contract, not as examples of a shippable plugin.
 
-Requests run as a plain browser `fetch()` from wherever your docs are rendered, so normal CORS rules apply — the target API has to allow your origin. AsyncAPI documents are unaffected by this particular example; an equivalent for WebSocket/Kafka/MQTT plugins doesn't exist yet, though `asyncapi.operation.tab` is already defined and ready for one.
+Building an actual "Try it" plugin — one that edits parameters/body and sends a real `fetch()` — is covered below, under "Sending a request". AsyncAPI documents aren't covered by that particular recipe; an equivalent for WebSocket/Kafka/MQTT plugins doesn't exist yet, though `asyncapi.operation.tab` is already defined and ready for one.
 
 ## Writing your own plugin
 
@@ -137,8 +145,6 @@ const sendButtonStyle = {
 };
 ```
 
-This is how the playground's `tryItOutPlugin.tsx` picks its colors.
-
 ### Error isolation
 
 Each plugin filling a slot is wrapped in its own error boundary and `Suspense` — a broken or slow-loading plugin can't take down the document, or a sibling plugin filling the same slot. A plugin that throws during render is silently skipped (logged to the console) rather than shown; there's currently no user-facing fallback UI for a plugin crash.
@@ -176,7 +182,7 @@ Also mark `react`, `react-dom`, `react/jsx-runtime`, and `apiuikit` / `apiuikit/
 
 | Scenario | Use |
 |---|---|
-| Add a "Try it" style request-sending tab to an operation | A `*.operation.tab` plugin, e.g. modeled on `tryItOutPlugin.tsx` |
+| Add a "Try it" style request-sending tab to an operation | A `*.operation.tab` plugin — see [Sending a request](#sending-a-request) |
 | Add a small secondary action (a button, a link) next to an operation's docs | A `*.operation.actions` plugin |
 | Replace or rearrange whole sections (Servers, Operations, Schemas, ...) | Compose your own layout instead — see [Composables](./sections.md) |
 | Render your own UI from Vue, Angular, Svelte, or plain HTML | Not supported yet — plugins are React-only; see [Web Components](./with-webcomponents.md) |
