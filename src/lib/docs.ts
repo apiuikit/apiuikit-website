@@ -85,6 +85,7 @@ const ORDER = [
   "no-parser",
   "with-parser",
   "sections",
+  "plugins",
   "extensions",
   "avro",
   "protobuf",
@@ -110,6 +111,8 @@ const SUMMARIES: Record<string, string> = {
     "For raw YAML or JSON strings. The renderer components and imperative helpers, with parse diagnostics separate from render errors.",
   sections:
     "Render one section on its own, or arrange several under a shared provider, for both AsyncAPI and OpenAPI.",
+  plugins:
+    "Add your own UI to a rendered document from a separately-installed package — a \"Try it\" tab, an inline action, and how to write and publish one.",
   extensions:
     "The x-* fields apiuikit recognises, where each one appears, and how to switch them all off.",
   avro: "Rendering Avro payloads: the schemaFormat values recognised, and what a document needs to carry.",
