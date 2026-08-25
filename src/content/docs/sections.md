@@ -2,9 +2,26 @@
 
 The `AsyncAPI` component renders a complete documentation page: sidebar, search, servers, operations, messages, schemas. If you want to build your own layout instead, render individual sections on their own, or compose several of them together.
 
+Every exported section:
+
+| Component | Spec | Renders |
+|---|---|---|
+| `Servers` | AsyncAPI | Servers |
+| `Operations` | AsyncAPI | Operations |
+| `Messages` | AsyncAPI | Messages |
+| `Info` | AsyncAPI | Info block (title, description, license) |
+| `Schemas` | AsyncAPI | Component schemas |
+| `OpenAPIServers` | OpenAPI | Servers |
+| `OpenAPIEndpoints` | OpenAPI | Paths / endpoints |
+| `OpenAPIWebhooks` | OpenAPI | OpenAPI 3.1 webhooks (renders nothing if the document declares none) |
+| `OpenAPIInfo` | OpenAPI | Info block (title, description, tags, external docs) |
+| `OpenAPISchemas` | OpenAPI | Component schemas |
+
+Providers: `AsyncAPIProvider` and `OpenAPIProvider`. The matching custom elements for Vue, Angular, Svelte, or plain HTML are on [Web Components](./with-webcomponents.md).
+
 ## Rendering one section standalone
 
-`Servers`, `Operations`, `Messages`, `Schemas`, and `Info` each render on their own. Pass a `document` and the section resolves it and sets up its own context internally, no provider needed.
+`Servers`, `Operations`, `Messages`, `Schemas`, and `Info` each render on their own. Pass a `document` and the section resolves it and sets up its own context internally, no provider needed. The OpenAPI set (`OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, `OpenAPIInfo`) works the same way.
 
 ```tsx
 import { Operations } from "apiuikit";
@@ -65,16 +82,17 @@ Any component rendered inside `AsyncAPIProvider` can call `useAsyncAPIDocument()
 
 ## OpenAPI sections
 
-OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPISchemas`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them.
+OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them.
 
 ```tsx
-import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPISchemas } from "apiuikit";
+import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPIWebhooks, OpenAPISchemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <OpenAPIProvider document={doc}>
       <OpenAPIServers />
       <OpenAPIEndpoints layout="stacked" />
+      <OpenAPIWebhooks layout="stacked" />
       <OpenAPISchemas layout="stacked" />
     </OpenAPIProvider>
   );

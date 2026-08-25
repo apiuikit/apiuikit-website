@@ -58,7 +58,7 @@ export default function OperationsPage() {
 }
 ```
 
-`Servers`, `Operations`, `Messages`, `Schemas`, and `Info` all work this way, with `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPISchemas`, and `OpenAPIInfo` as the OpenAPI equivalents. Use `layout="stacked"` when a section is embedded on its own: it drops the reserved right-hand gutter that keeps sections aligned inside the full widget.
+`Servers`, `Operations`, `Messages`, `Schemas`, and `Info` all work this way, with `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, and `OpenAPIInfo` as the OpenAPI equivalents. Use `layout="stacked"` when a section is embedded on its own: it drops the reserved right-hand gutter that keeps sections aligned inside the full widget.
 
 To place several sections in your own arrangement, wrap them in a provider so the document is resolved once and shared:
 
@@ -116,7 +116,7 @@ import "@apiuikit/web-component/style.css";
 document.querySelector("#api-doc").spec = rawYamlOrJsonString;
 ```
 
-[Web Components](./with-webcomponents.md) covers CDN usage, configuration, and framework integration.
+[Web Components](./with-webcomponents.md) covers CDN usage, modular per-element imports, section elements, configuration, and framework integration.
 
 ## Server-side rendering
 
