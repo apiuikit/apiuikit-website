@@ -118,7 +118,7 @@ const SUMMARIES: Record<string, string> = {
   "ai-export":
     "Make your docs readable by agents and crawlers: the copy button, hosted Markdown URLs, and build-time file generation.",
   "with-webcomponents":
-    "Use apiuikit from Vue, Angular, Svelte, or plain HTML through four custom elements.",
+    "Use apiuikit from Vue, Angular, Svelte, or plain HTML through full-document and section custom elements.",
 };
 
 export interface DocMeta {
