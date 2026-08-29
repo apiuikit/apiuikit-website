@@ -1,12 +1,12 @@
 "use client";
 
-import { Info } from "apiuikit";
+import { AsyncAPIInfo } from "apiuikit";
 import { streetlight } from "@/data/examples";
 import { useDemoTheme } from "./DemoThemeSync";
 
 export default function InfoPreviewImpl() {
   const theme = useDemoTheme();
   return (
-    <Info document={streetlight} config={{ theme }} />
+    <AsyncAPIInfo document={streetlight} config={{ theme }} />
   );
 }

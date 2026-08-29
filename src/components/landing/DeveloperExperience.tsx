@@ -22,11 +22,11 @@ export default function App() {
     label: "One section, standalone",
     description:
       "Prefer your own layout? Render a single section on its own.",
-    code: `import { Operations } from "apiuikit";
+    code: `import { AsyncAPIOperations } from "apiuikit";
 import doc from "./asyncapi.json";
 
 export default function OperationsPage() {
-  return <Operations document={doc} layout="stacked" />;
+  return <AsyncAPIOperations document={doc} layout="stacked" />;
 }`,
   },
   {
@@ -34,14 +34,14 @@ export default function OperationsPage() {
     label: "Several sections, composed",
     description:
       "Arrange multiple sections in a custom layout, sharing one resolved document.",
-    code: `import { AsyncAPIProvider, Servers, Operations, Schemas } from "apiuikit";
+    code: `import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <AsyncAPIProvider document={doc}>
-      <Servers />
-      <Operations layout="stacked" />
-      <Schemas layout="stacked" />
+      <AsyncAPIServers />
+      <AsyncAPIOperations layout="stacked" />
+      <AsyncAPISchemas layout="stacked" />
     </AsyncAPIProvider>
   );
 }`,
