@@ -165,7 +165,8 @@ function withHeadingIds(html: string) {
       const id = count === 0 ? base : `${base}-${count + 1}`;
 
       headings.push({ id, text, depth: Number(level) as 2 | 3 });
-      return `<h${level} id="${id}">${inner}</h${level}>`;
+      const anchor = `<a class="heading-anchor" href="#${id}" aria-label="Link to ${escapeHtml(text)}">#</a>`;
+      return `<h${level} id="${id}">${inner}${anchor}</h${level}>`;
     },
   );
 

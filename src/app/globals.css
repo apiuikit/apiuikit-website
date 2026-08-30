@@ -108,6 +108,35 @@ html[data-theme="dark"] .docs-prose a:hover {
 }
 
 /*
+ * Per-section permalink. Kept out of the flow's measure with a negative
+ * margin so the heading text stays aligned with the prose beside it, and
+ * only revealed on hover or keyboard focus so the page reads clean.
+ */
+html .docs-prose .heading-anchor {
+  margin-left: 0.4ch;
+  color: var(--ink-faint);
+  text-decoration: none;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+html .docs-prose :is(h2, h3):hover .heading-anchor,
+html .docs-prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+html .docs-prose .heading-anchor:hover {
+  color: var(--color-brand-600);
+}
+
+@media (hover: none) {
+  html .docs-prose .heading-anchor {
+    opacity: 1;
+  }
+}
+
+/*
  * @tailwindcss/typography renders a literal backtick before and after every
  * inline <code> via ::before/::after content. Strip them and style the chip
  * ourselves.
