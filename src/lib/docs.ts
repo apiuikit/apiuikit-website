@@ -81,6 +81,7 @@ async function renderMarkdown(source: string): Promise<string> {
  */
 const ORDER = [
   "getting-started",
+  "cli",
   "configuration",
   "no-parser",
   "with-parser",
@@ -102,6 +103,7 @@ const ORDER = [
 const SUMMARIES: Record<string, string> = {
   "getting-started":
     "Install it, render your first document, and drop a single section into a page you already have.",
+  cli: "Generate a static documentation site from a spec file in one command, with no frontend toolchain: every command, flag, and CI recipe.",
   configuration:
     "Every option on the config object: which sections to show, what starts expanded, theming, side panels, and Markdown output.",
   "no-parser":
