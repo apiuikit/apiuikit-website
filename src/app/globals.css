@@ -167,6 +167,35 @@ html[data-theme="dark"] .shiki span {
   line-height: 1.7;
 }
 
+/*
+ * The block chrome above is for prose, where a highlighted block is the whole
+ * frame. Inside the landing page's mock editor the wrapper already draws the
+ * border, radius, and title bar, so the block itself has to sit flush. These
+ * live here rather than as utilities on the element because the rules above are
+ * unlayered and would outrank anything in @layer utilities regardless of
+ * specificity.
+ */
+.dx-block .shiki {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 1.5rem;
+  line-height: 1.625;
+}
+
+/* github-dark's own background is lighter than the site's dark surfaces, which
+   leaves the editor looking washed out next to the title bar above it. The
+   switch above also paints --shiki-dark-bg onto every token span; harmless when
+   it matches the block, but a grid of lighter chips once the block is
+   recoloured, so the spans go transparent and inherit. */
+html[data-theme="dark"] .dx-block .shiki {
+  background-color: var(--chrome-bg) !important;
+}
+
+html[data-theme="dark"] .dx-block .shiki span {
+  background-color: transparent !important;
+}
+
 /* The chip styling above is for prose; inside a highlighted block the tokens
    carry their own colours and must not be boxed individually. */
 .shiki code {

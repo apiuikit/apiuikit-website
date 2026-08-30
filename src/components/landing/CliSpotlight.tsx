@@ -1,21 +1,25 @@
 import Link from "next/link";
 
 /**
- * Trimmed from a real `apiuikit generate` run: the box is drawn by the CLI
- * itself, so the glyphs are copied rather than approximated.
+ * The rows the CLI prints inside its summary box after a successful generate.
+ * The box itself is drawn with a real border rather than the CLI's box-drawing
+ * glyphs: the ✔ is wider than one monospace cell in most fonts, so copying the
+ * art verbatim leaves the right-hand edge a character out of line.
  */
-const lines: { prompt?: boolean; text: string; tone?: "ok" | "dim" }[] = [
-  { prompt: true, text: "npx @apiuikit/cli generate ./openapi.yaml" },
-  { text: "╭───────────────────────────────────────────╮", tone: "dim" },
-  { text: "│ ✔ Generated API documentation site        │", tone: "ok" },
-  { text: "│                                           │", tone: "dim" },
-  { text: "│ Spec type  OpenAPI                        │", tone: "dim" },
-  { text: "│ Title      Swagger Petstore - OpenAPI 3.0 │", tone: "dim" },
-  { text: "│ Output     apiuikit-docs                  │", tone: "dim" },
-  { text: "╰───────────────────────────────────────────╯", tone: "dim" },
-  { prompt: true, text: "npx @apiuikit/cli serve" },
-  { text: "Serving on http://127.0.0.1:4300", tone: "dim" },
+const summaryRows: [string, string][] = [
+  ["Spec type", "OpenAPI"],
+  ["Title", "Swagger Petstore - OpenAPI 3.0"],
+  ["Output", "apiuikit-docs"],
 ];
+
+function Prompt({ children }: { children: string }) {
+  return (
+    <div className="whitespace-pre">
+      <span className="text-brand-600">$ </span>
+      <span className="text-ink">{children}</span>
+    </div>
+  );
+}
 
 export default function CliSpotlight() {
   return (
@@ -65,32 +69,33 @@ export default function CliSpotlight() {
 
           <div className="overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface shadow-sm">
             <div className="flex items-center gap-1.5 border-b border-chrome-border px-4 py-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-ink-faint/30" />
-              <span className="h-2.5 w-2.5 rounded-full bg-ink-faint/30" />
-              <span className="h-2.5 w-2.5 rounded-full bg-ink-faint/30" />
+              <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+              <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+              <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
-            {/* The CLI's box art only lines up at a fixed advance width, so the
-                block scrolls on narrow screens rather than wrapping. */}
-            <pre className="overflow-x-auto px-4 py-4 font-mono text-[0.8125rem] leading-relaxed">
-              <code>
-                {lines.map(({ prompt, text, tone }, index) => (
-                  <span key={index} className="block whitespace-pre">
-                    {prompt && <span className="text-brand-600">$ </span>}
-                    <span
-                      className={
-                        tone === "ok"
-                          ? "text-emerald-600 dark:text-emerald-400"
-                          : tone === "dim"
-                            ? "text-ink-faint"
-                            : "text-ink"
-                      }
-                    >
-                      {text}
-                    </span>
-                  </span>
-                ))}
-              </code>
-            </pre>
+            <div className="overflow-x-auto px-4 py-4 font-mono text-[0.8125rem] leading-relaxed">
+              <Prompt>npx @apiuikit/cli generate ./openapi.yaml</Prompt>
+
+              <div className="my-3 inline-block min-w-full rounded-md border border-chrome-border px-4 py-3">
+                <div className="flex items-baseline gap-2 whitespace-pre text-emerald-600 dark:text-emerald-400">
+                  <span aria-hidden>✔</span>
+                  <span>Generated API documentation site</span>
+                </div>
+                <dl className="mt-2.5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-ink-faint">
+                  {summaryRows.map(([label, value]) => (
+                    <div key={label} className="col-span-2 grid grid-cols-subgrid">
+                      <dt className="whitespace-pre">{label}</dt>
+                      <dd className="whitespace-pre">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <Prompt>npx @apiuikit/cli serve</Prompt>
+              <div className="whitespace-pre text-ink-faint">
+                Serving on http://127.0.0.1:4300
+              </div>
+            </div>
           </div>
         </div>
       </div>
