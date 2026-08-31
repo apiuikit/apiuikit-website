@@ -33,6 +33,11 @@ export default function DocsToc({ headings }: { headings: DocHeading[] }) {
 
   function goTo(id: string) {
     setActive(id);
+    // replaceState, not pushState: a pushed hash would need a popstate handler
+    // to scroll back on Back, and it would bury the previous page under one
+    // entry per heading read. This keeps the address bar shareable without
+    // touching the history stack.
+    window.history.replaceState(null, "", `#${id}`);
     document.getElementById(id)?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "auto"

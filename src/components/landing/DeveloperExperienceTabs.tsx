@@ -39,23 +39,21 @@ export default function DeveloperExperienceTabs({ tiers }: { tiers: Tier[] }) {
         ))}
       </div>
 
-      {/* Deliberately dark in both themes, the way a code block usually is,
-          with a mock chrome bar so it reads as an editor rather than a slab. */}
+      {/* A mock chrome bar so it reads as an editor rather than a slab. */}
       <div className="overflow-hidden rounded-xl border border-chrome-border">
-        <div className="flex items-center gap-1.5 border-b border-[#30363d] bg-[#161b22] px-4 py-2.5">
+        <div className="flex items-center gap-1.5 border-b border-chrome-border bg-chrome-surface px-4 py-2.5">
           <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
           <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
           <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-          <span className="ml-2 font-mono text-xs text-[#6e7681]">
+          <span className="ml-2 font-mono text-xs text-ink-faint">
             {active.id}.tsx
           </span>
         </div>
-        {/* Shiki's own theme (github-dark, fixed regardless of the site's
-            light/dark toggle) supplies the token colours; only its default
-            block chrome — margin, radius, border, background, padding — is
-            overridden here since the wrapper above already provides it. */}
+        {/* Token colours come from shiki's dual-theme output, so they follow
+            the site toggle. `dx-block` is the hook for the rules in globals.css
+            that strip the prose block chrome this wrapper already provides. */}
         <div
-          className="overflow-x-auto text-sm leading-relaxed font-mono [&_.dx-code]:m-0 [&_.dx-code]:rounded-none [&_.dx-code]:border-0 [&_.dx-code]:bg-[#0d1117] [&_.dx-code]:p-6"
+          className="dx-block overflow-x-auto font-mono text-sm"
           dangerouslySetInnerHTML={{ __html: active.html }}
         />
       </div>

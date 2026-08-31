@@ -50,27 +50,27 @@ If what you have is a raw string rather than a parsed object (something a user p
 You do not have to take the whole widget. Every section works standalone: pass it a `document` and drop it into a layout you already have.
 
 ```tsx
-import { Operations } from "apiuikit";
+import { AsyncAPIOperations } from "apiuikit";
 import doc from "./asyncapi.json";
 
 export default function OperationsPage() {
-  return <Operations document={doc} layout="stacked" />;
+  return <AsyncAPIOperations document={doc} layout="stacked" />;
 }
 ```
 
-`Servers`, `Operations`, `Messages`, `Schemas`, and `Info` all work this way, with `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPISchemas`, and `OpenAPIInfo` as the OpenAPI equivalents. Use `layout="stacked"` when a section is embedded on its own: it drops the reserved right-hand gutter that keeps sections aligned inside the full widget.
+`AsyncAPIServers`, `AsyncAPIOperations`, `AsyncAPIMessages`, `AsyncAPISchemas`, and `AsyncAPIInfo` all work this way, with `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, and `OpenAPIInfo` as the OpenAPI equivalents. Use `layout="stacked"` when a section is embedded on its own: it drops the reserved right-hand gutter that keeps sections aligned inside the full widget.
 
 To place several sections in your own arrangement, wrap them in a provider so the document is resolved once and shared:
 
 ```tsx
-import { AsyncAPIProvider, Servers, Operations, Schemas } from "apiuikit";
+import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <AsyncAPIProvider document={doc}>
-      <Servers />
-      <Operations layout="stacked" />
-      <Schemas layout="stacked" />
+      <AsyncAPIServers />
+      <AsyncAPIOperations layout="stacked" />
+      <AsyncAPISchemas layout="stacked" />
     </AsyncAPIProvider>
   );
 }
@@ -116,7 +116,7 @@ import "@apiuikit/web-component/style.css";
 document.querySelector("#api-doc").spec = rawYamlOrJsonString;
 ```
 
-[Web Components](./with-webcomponents.md) covers CDN usage, configuration, and framework integration.
+[Web Components](./with-webcomponents.md) covers CDN usage, modular per-element imports, section elements, configuration, and framework integration.
 
 ## Server-side rendering
 

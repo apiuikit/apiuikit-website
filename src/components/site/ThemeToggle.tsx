@@ -1,10 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
 
 export default function ThemeToggle() {
   const { theme, toggle } = useTheme();
-  const isDark = theme === "dark";
+  // The server always renders light: it can't know what the pre-paint script
+  // in layout.tsx read out of localStorage. So the first client render has to
+  // claim light too, or hydration mismatches and React discards this subtree.
+  // After mount we're past that check and can show the real theme.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted && theme === "dark";
 
   return (
     <button

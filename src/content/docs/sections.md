@@ -2,19 +2,36 @@
 
 The `AsyncAPI` component renders a complete documentation page: sidebar, search, servers, operations, messages, schemas. If you want to build your own layout instead, render individual sections on their own, or compose several of them together.
 
+Every exported section:
+
+| Component | Spec | Renders |
+|---|---|---|
+| `AsyncAPIServers` | AsyncAPI | Servers |
+| `AsyncAPIOperations` | AsyncAPI | Operations |
+| `AsyncAPIMessages` | AsyncAPI | Messages |
+| `AsyncAPIInfo` | AsyncAPI | Info block (title, description, license) |
+| `AsyncAPISchemas` | AsyncAPI | Component schemas |
+| `OpenAPIServers` | OpenAPI | Servers |
+| `OpenAPIEndpoints` | OpenAPI | Paths / endpoints |
+| `OpenAPIWebhooks` | OpenAPI | OpenAPI 3.1 webhooks (renders nothing if the document declares none) |
+| `OpenAPIInfo` | OpenAPI | Info block (title, description, tags, external docs) |
+| `OpenAPISchemas` | OpenAPI | Component schemas |
+
+Providers: `AsyncAPIProvider` and `OpenAPIProvider`. The matching custom elements for Vue, Angular, Svelte, or plain HTML are on [Web Components](./with-webcomponents.md).
+
 ## Rendering one section standalone
 
-`Servers`, `Operations`, `Messages`, `Schemas`, and `Info` each render on their own. Pass a `document` and the section resolves it and sets up its own context internally, no provider needed.
+`AsyncAPIServers`, `AsyncAPIOperations`, `AsyncAPIMessages`, `AsyncAPISchemas`, and `AsyncAPIInfo` each render on their own. Pass a `document` and the section resolves it and sets up its own context internally, no provider needed. The OpenAPI set (`OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, `OpenAPIInfo`) works the same way.
 
 ```tsx
-import { Operations } from "apiuikit";
+import { AsyncAPIOperations } from "apiuikit";
 import doc from "./asyncapi.json";
 
 export default function OperationsPage() {
   // Prefer layout="stacked" when embedding a section alone so it fills the
   // container width instead of reserving the empty right gutter used for
   // alignment in the full widget.
-  return <Operations document={doc} layout="stacked" />;
+  return <AsyncAPIOperations document={doc} layout="stacked" />;
 }
 ```
 
@@ -32,17 +49,17 @@ export default function OperationsPage() {
 To arrange multiple sections together, reordering them or interleaving your own components between them, wrap them in `AsyncAPIProvider` instead of passing `document` to each one individually. It resolves the document once and shares it with every section underneath, rather than each one resolving independently.
 
 ```tsx
-import { AsyncAPIProvider, Servers, Operations, Schemas } from "apiuikit";
+import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
 import doc from "./asyncapi.json";
 
 export default function CustomLayout() {
   return (
     <AsyncAPIProvider document={doc}>
       <MyPageHeader />
-      <Servers />
-      <Operations />
+      <AsyncAPIServers />
+      <AsyncAPIOperations />
       <MyCustomSidebar />
-      <Schemas />
+      <AsyncAPISchemas />
     </AsyncAPIProvider>
   );
 }
@@ -56,9 +73,9 @@ Because composition doesn't rely on a slot API, dropping in a custom implementat
 
 ```tsx
 <AsyncAPIProvider document={doc}>
-  <Servers />
+  <AsyncAPIServers />
   <MyCustomOperationsList />  {/* reads useAsyncAPIDocument() itself */}
-  <Schemas />
+  <AsyncAPISchemas />
 </AsyncAPIProvider>
 ```
 
@@ -66,16 +83,17 @@ Any component rendered inside `AsyncAPIProvider` can call `useAsyncAPIDocument()
 
 ## OpenAPI sections
 
-OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPISchemas`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them.
+OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them.
 
 ```tsx
-import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPISchemas } from "apiuikit";
+import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPIWebhooks, OpenAPISchemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <OpenAPIProvider document={doc}>
       <OpenAPIServers />
       <OpenAPIEndpoints layout="stacked" />
+      <OpenAPIWebhooks layout="stacked" />
       <OpenAPISchemas layout="stacked" />
     </OpenAPIProvider>
   );
@@ -89,13 +107,13 @@ Unlike `AsyncAPI` and `OpenAPI`, which wrap themselves in an error boundary, sec
 The `ErrorBoundary` used by the full-page components is exported, so opt in wherever it suits your layout. Around everything, so one bad section doesn't take the page down:
 
 ```tsx
-import { ErrorBoundary, AsyncAPIProvider, Servers, Operations, Schemas } from "apiuikit";
+import { ErrorBoundary, AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
 
 <ErrorBoundary onError={(error, errorInfo) => reportToSentry(error, errorInfo)}>
   <AsyncAPIProvider document={doc}>
-    <Servers />
-    <Operations />
-    <Schemas />
+    <AsyncAPIServers />
+    <AsyncAPIOperations />
+    <AsyncAPISchemas />
   </AsyncAPIProvider>
 </ErrorBoundary>
 ```
@@ -104,11 +122,11 @@ Or around a single section, so the rest of the page survives it:
 
 ```tsx
 <AsyncAPIProvider document={doc}>
-  <Servers />
+  <AsyncAPIServers />
   <ErrorBoundary fallback={<p>Couldn't render operations.</p>}>
-    <Operations />
+    <AsyncAPIOperations />
   </ErrorBoundary>
-  <Schemas />
+  <AsyncAPISchemas />
 </AsyncAPIProvider>
 ```
 
@@ -129,6 +147,6 @@ This covers synchronous render errors, which is all a React error boundary can s
 | Scenario                                                        | Use                                  |
 |-------------------------------------------------------------------|---------------------------------------|
 | Want the full documentation page, sidebar and search included   | `AsyncAPI` (see [no-parser](./no-parser.md) / [with-parser](./with-parser.md)) |
-| Want one section in a page you're already building              | A standalone section, e.g. `<Operations document={doc} />` |
+| Want one section in a page you're already building              | A standalone section, e.g. `<AsyncAPIOperations document={doc} />` |
 | Want several sections in a custom layout                        | `AsyncAPIProvider` wrapping multiple sections |
 | Want to replace one section with your own implementation         | `AsyncAPIProvider` + your component in place of the built-in one |

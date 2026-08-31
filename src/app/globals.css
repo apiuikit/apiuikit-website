@@ -108,6 +108,35 @@ html[data-theme="dark"] .docs-prose a:hover {
 }
 
 /*
+ * Per-section permalink. Kept out of the flow's measure with a negative
+ * margin so the heading text stays aligned with the prose beside it, and
+ * only revealed on hover or keyboard focus so the page reads clean.
+ */
+html .docs-prose .heading-anchor {
+  margin-left: 0.4ch;
+  color: var(--ink-faint);
+  text-decoration: none;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+html .docs-prose :is(h2, h3):hover .heading-anchor,
+html .docs-prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+html .docs-prose .heading-anchor:hover {
+  color: var(--color-brand-600);
+}
+
+@media (hover: none) {
+  html .docs-prose .heading-anchor {
+    opacity: 1;
+  }
+}
+
+/*
  * @tailwindcss/typography renders a literal backtick before and after every
  * inline <code> via ::before/::after content. Strip them and style the chip
  * ourselves.
@@ -165,6 +194,35 @@ html[data-theme="dark"] .shiki span {
   overflow-x: auto;
   font-size: 0.875rem;
   line-height: 1.7;
+}
+
+/*
+ * The block chrome above is for prose, where a highlighted block is the whole
+ * frame. Inside the landing page's mock editor the wrapper already draws the
+ * border, radius, and title bar, so the block itself has to sit flush. These
+ * live here rather than as utilities on the element because the rules above are
+ * unlayered and would outrank anything in @layer utilities regardless of
+ * specificity.
+ */
+.dx-block .shiki {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 1.5rem;
+  line-height: 1.625;
+}
+
+/* github-dark's own background is lighter than the site's dark surfaces, which
+   leaves the editor looking washed out next to the title bar above it. The
+   switch above also paints --shiki-dark-bg onto every token span; harmless when
+   it matches the block, but a grid of lighter chips once the block is
+   recoloured, so the spans go transparent and inherit. */
+html[data-theme="dark"] .dx-block .shiki {
+  background-color: var(--chrome-bg) !important;
+}
+
+html[data-theme="dark"] .dx-block .shiki span {
+  background-color: transparent !important;
 }
 
 /* The chip styling above is for prose; inside a highlighted block the tokens

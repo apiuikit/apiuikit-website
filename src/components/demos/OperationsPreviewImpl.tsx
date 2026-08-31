@@ -1,6 +1,6 @@
 "use client";
 
-import { Operations } from "apiuikit";
+import { AsyncAPIOperations } from "apiuikit";
 import { streetlight } from "@/data/examples";
 import { useDemoTheme } from "./DemoThemeSync";
 import { HEADER_HEIGHT } from "@/lib/layout";
@@ -14,7 +14,7 @@ export default function OperationsPreviewImpl() {
     // the min-height sits on this wrapper and [&>*]:flex-1 stretches the
     // widget's own outermost element to fill it.
     <div className="flex min-h-[34rem] flex-col [&>*]:flex-1">
-      <Operations
+      <AsyncAPIOperations
         document={streetlight}
         config={{
           theme,

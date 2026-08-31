@@ -81,6 +81,7 @@ async function renderMarkdown(source: string): Promise<string> {
  */
 const ORDER = [
   "getting-started",
+  "cli",
   "configuration",
   "no-parser",
   "with-parser",
@@ -103,6 +104,7 @@ const ORDER = [
 const SUMMARIES: Record<string, string> = {
   "getting-started":
     "Install it, render your first document, and drop a single section into a page you already have.",
+  cli: "Generate a static documentation site from a spec file in one command, with no frontend toolchain: every command, flag, and CI recipe.",
   configuration:
     "Every option on the config object: which sections to show, what starts expanded, theming, side panels, and Markdown output.",
   "no-parser":
@@ -121,7 +123,7 @@ const SUMMARIES: Record<string, string> = {
   "ai-export":
     "Make your docs readable by agents and crawlers: the copy button, hosted Markdown URLs, and build-time file generation.",
   "with-webcomponents":
-    "Use apiuikit from Vue, Angular, Svelte, or plain HTML through four custom elements.",
+    "Use apiuikit from Vue, Angular, Svelte, or plain HTML through full-document and section custom elements.",
 };
 
 export interface DocMeta {
@@ -166,7 +168,8 @@ function withHeadingIds(html: string) {
       const id = count === 0 ? base : `${base}-${count + 1}`;
 
       headings.push({ id, text, depth: Number(level) as 2 | 3 });
-      return `<h${level} id="${id}">${inner}</h${level}>`;
+      const anchor = `<a class="heading-anchor" href="#${id}" aria-label="Link to ${escapeHtml(text)}">#</a>`;
+      return `<h${level} id="${id}">${inner}${anchor}</h${level}>`;
     },
   );
 

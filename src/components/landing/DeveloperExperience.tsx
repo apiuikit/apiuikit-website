@@ -1,4 +1,4 @@
-import { codeToHtml } from "shiki";
+import { highlight } from "@/lib/highlight";
 import DeveloperExperienceTabs from "./DeveloperExperienceTabs";
 
 // Code verbatim from apiuikit/README.md — the same "three ways to use it"
@@ -22,11 +22,11 @@ export default function App() {
     label: "One section, standalone",
     description:
       "Prefer your own layout? Render a single section on its own.",
-    code: `import { Operations } from "apiuikit";
+    code: `import { AsyncAPIOperations } from "apiuikit";
 import doc from "./asyncapi.json";
 
 export default function OperationsPage() {
-  return <Operations document={doc} layout="stacked" />;
+  return <AsyncAPIOperations document={doc} layout="stacked" />;
 }`,
   },
   {
@@ -34,14 +34,14 @@ export default function OperationsPage() {
     label: "Several sections, composed",
     description:
       "Arrange multiple sections in a custom layout, sharing one resolved document.",
-    code: `import { AsyncAPIProvider, Servers, Operations, Schemas } from "apiuikit";
+    code: `import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <AsyncAPIProvider document={doc}>
-      <Servers />
-      <Operations layout="stacked" />
-      <Schemas layout="stacked" />
+      <AsyncAPIServers />
+      <AsyncAPIOperations layout="stacked" />
+      <AsyncAPISchemas layout="stacked" />
     </AsyncAPIProvider>
   );
 }`,
@@ -49,20 +49,13 @@ export default function CustomLayout() {
 ];
 
 export default async function DeveloperExperience() {
-  // Highlighted at build time against a single fixed-dark theme — this block
-  // stays GitHub-dark in both site themes, so there's no light variant to emit.
+  // Same dual-theme highlighter the docs pages use, so these blocks follow the
+  // site's light/dark toggle: the light palette lands inline and the dark one
+  // as CSS variables that globals.css promotes under [data-theme="dark"].
   const highlightedTiers = await Promise.all(
     tiers.map(async (tier) => ({
       ...tier,
-      // Root gets a class other than shiki's own: globals.css force-overrides
-      // any ".shiki" element's colours under [data-theme="dark"] to switch to
-      // the site's dual-theme output, which this single fixed-theme block
-      // doesn't have — that override would wash every token out to plain text.
-      html: await codeToHtml(tier.code, {
-        lang: "tsx",
-        theme: "github-dark",
-        transformers: [{ pre(node) { node.properties.class = "dx-code"; } }],
-      }),
+      html: await highlight(tier.code, "tsx"),
     })),
   );
 
