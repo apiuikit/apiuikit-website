@@ -1,6 +1,6 @@
 # CLI
 
-Turn a local OpenAPI or AsyncAPI file into a static documentation site from your terminal. No React, no bundler, no frontend toolchain: one command produces a folder of HTML, JS, and CSS that you can open from disk or publish anywhere. It is built for the projects where apiuikit's React components are not an option — Spring or Maven services, Go and Python APIs, docs-only repos, and CI pipelines.
+Turn a local OpenAPI or AsyncAPI file into a static documentation site from your terminal. No React, no bundler, no frontend toolchain: one command produces a folder of HTML, JS, and CSS that you can open from disk or publish anywhere. It is built for projects where apiuikit's React components are not an option, such as Spring or Maven services, Go and Python APIs, docs-only repos, and CI pipelines.
 
 ## Install
 
@@ -23,7 +23,7 @@ apiuikit generate ./openapi.yaml
 apiuikit serve
 ```
 
-The first command writes the site to `apiuikit-docs/`; the second serves that folder at `http://127.0.0.1:4300` — `serve` defaults to the same directory `generate` writes to, so neither command needs an argument beyond the spec.
+The first command writes the site to `apiuikit-docs/`; the second serves that folder at `http://127.0.0.1:4300`. `serve` defaults to the same directory `generate` writes to, so neither command needs an argument beyond the spec.
 
 A successful generate looks like this:
 
@@ -54,7 +54,7 @@ Three commands, no subcommands. `apiuikit --help` prints the same summary, and `
 
 ### The spec argument
 
-`generate` and `validate` both take a path to a local file with a `.yaml`, `.yml`, or `.json` extension, resolved relative to your current directory. Remote URLs are not supported, yet — download the file first.
+`generate` and `validate` both take a path to a local file with a `.yaml`, `.yml`, or `.json` extension, resolved relative to your current directory. Remote URLs are not yet supported, so download the file first.
 
 The CLI decides how to render the document by looking for a top-level `asyncapi`, `openapi`, or `swagger` field, in that order. Swagger 2.0 documents are treated as OpenAPI. If none of those fields are present you will get:
 
@@ -150,7 +150,7 @@ npm install --save-dev @asyncapi/parser@^3.6.0           # AsyncAPI
 
 If the package is missing, an interactive terminal will offer to install it for you as a dev dependency of the current project, using whichever package manager your lockfile implies (npm, pnpm, yarn, or bun). Pass `--yes` to accept without being asked.
 
-In a non-interactive shell, or whenever the `CI` environment variable is set, the CLI never prompts — it fails with install instructions instead. Install the parser as part of your pipeline setup, or pass `--yes`.
+In a non-interactive shell, or whenever the `CI` environment variable is set, the CLI never prompts. It fails with install instructions instead. Install the parser as part of your pipeline setup, or pass `--yes`.
 
 ## Configuration
 
@@ -173,19 +173,19 @@ In a non-interactive shell, or whenever the `CI` environment variable is set, th
 apiuikit generate ./spec.yaml --output ./docs --config ./apiuikit.config.json --force
 ```
 
-The object is passed through verbatim to the renderer, so anything valid in apiuikit's React or web component `config` prop is valid here — theming, `show` and `expand` toggles, `topOffset`, custom labels. See [Configuration](./configuration.md) for the full list of options.
+The object is passed through verbatim to the renderer, so anything valid in apiuikit's React or web component `config` prop is valid here, including theming, `show` and `expand` toggles, `topOffset`, and custom labels. See [Configuration](./configuration.md) for the full list of options.
 
 ## Header and footer
 
-`--header` and `--footer` point at local `.html` files whose contents are injected verbatim around the documentation — the header just after `<body>`, the footer just before `</body>`. Use them for banners, nav links, custom branding, or a page footer.
+`--header` and `--footer` point at local `.html` files whose contents are injected verbatim around the documentation: the header just after `<body>` and the footer just before `</body>`. Use them for banners, nav links, custom branding, or a page footer.
 
-Each file is an HTML fragment, not a full document — no `<html>`, `<head>`, or `<body>` wrapper, just the markup you want on the page. A header file might look like this:
+Each file is an HTML fragment, not a full document. It needs no `<html>`, `<head>`, or `<body>` wrapper, just the markup you want on the page. A header file might look like this:
 
 ```html
 <!-- header.html -->
 <div class="my-header">
   <style>.my-header { padding: 8px 16px; background: #1a1b26; color: #fff; }</style>
-  Beta docs — <a href="https://example.com">back to site</a>
+  Beta docs: <a href="https://example.com">back to site</a>
 </div>
 ```
 
@@ -203,7 +203,7 @@ Both flags fail before anything is written if the file is missing:
 ✖ Error: No such header file: /path/to/header.html
 ```
 
-More example fragments live in the [`CLI repository.`](https://github.com/apiuikit/apiuikit-cli/tree/main/examples/branding)
+More example fragments live in the [CLI repository](https://github.com/apiuikit/apiuikit-cli/tree/main/examples/branding).
 
 ## In a CI pipeline
 

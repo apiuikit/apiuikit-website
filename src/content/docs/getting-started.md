@@ -145,5 +145,6 @@ Give the loading fallback the same dimensions as the widget so the page does not
 
 - [Composables](./sections.md): render and arrange sections yourself.
 - [Without Parser](./no-parser.md) and [With Parser](./with-parser.md): both entry points in full, for AsyncAPI and OpenAPI alike.
+- [Plugins](./plugins.md): add your own UI to a rendered document, like a "Try it" tab.
 - [Extensions](./extensions.md): the `x-*` fields apiuikit renders, and how to switch them off.
 - [AI Export](./ai-export.md): making your docs readable by agents and crawlers.
