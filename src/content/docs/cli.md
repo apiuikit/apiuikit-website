@@ -29,7 +29,7 @@ A successful generate looks like this:
 
 ```text
 ╭───────────────────────────────────────────╮
-│ ✔ Generated API documentation site        │
+│ ✔ Generated API documentation site       │
 │                                           │
 │ Spec type  OpenAPI                        │
 │ Title      Swagger Petstore - OpenAPI 3.0 │
@@ -57,8 +57,8 @@ Three commands, no subcommands. `apiuikit --help` prints the same summary, and `
 `generate` and `validate` both take either a path to a local file or a `http://`/`https://` URL, with a `.yaml`, `.yml`, or `.json` extension either way. A local path is resolved relative to your current directory; a URL is fetched directly — nothing is downloaded to disk first.
 
 ```bash
-apiuikit generate https://example.com/openapi.yaml
-apiuikit validate https://example.com/openapi.yaml
+apiuikit generate https://example.com/asyncapi.yaml
+apiuikit validate https://example.com/asyncapi.yaml
 ```
 
 This is handy for specs published from another repo, an API gateway, or a docs CDN — point the CLI at the URL and skip the manual download-and-copy step. If the URL can't be reached, or the server responds with an error status, the command fails with a message describing what went wrong instead of writing anything out.
@@ -140,12 +140,6 @@ apiuikit validate <input> [options]
 
 Errors and warnings are both printed, but only errors make the command fail. Exit code is 0 when the document is valid and 1 when it is not, which is what you want in a pipeline.
 
-```text
-✔ OpenAPI spec is valid: examples/openapi/petstore.json
-```
-
-If the command is missing from `apiuikit --help`, upgrade the CLI.
-
 #### Validator packages
 
 The parsers are large, so they are not bundled. The first time you validate a document, the CLI needs one of them:
@@ -198,8 +192,8 @@ Each file is an HTML fragment, not a full document. It needs no `<html>`, `<head
 ```
 
 ```bash
-apiuikit generate ./openapi.yaml --header ./header.html --footer ./footer.html
-apiuikit generate https://example.com/openapi.yaml --header https://example.com/header.html --footer https://example.com/footer.html
+apiuikit generate ./asyncapi.yaml --header ./header.html --footer ./footer.html
+apiuikit generate https://example.com/asyncapi.yaml --header https://example.com/header.html --footer https://example.com/footer.html
 ```
 
 Remote fragments are fetched at generate time and embedded into `index.html`, so the generated site stays fully static at runtime — no network calls when someone opens the page. If a URL can't be reached, or the server responds with an error status, the command fails before writing anything out.
