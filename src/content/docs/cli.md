@@ -1,6 +1,6 @@
 # CLI
 
-Turn a local OpenAPI or AsyncAPI file into a static documentation site from your terminal. No React, no bundler, no frontend toolchain: one command produces a folder of HTML, JS, and CSS that you can open from disk or publish anywhere. It is built for projects where apiuikit's React components are not an option, such as Spring or Maven services, Go and Python APIs, docs-only repos, and CI pipelines.
+Turn an OpenAPI or AsyncAPI file — local or hosted at a URL — into a static documentation site from your terminal. No React, no bundler, no frontend toolchain: one command produces a folder of HTML, JS, and CSS that you can open from disk or publish anywhere. It is built for projects where apiuikit's React components are not an option, such as Spring or Maven services, Go and Python APIs, docs-only repos, and CI pipelines.
 
 ## Install
 
@@ -54,7 +54,14 @@ Three commands, no subcommands. `apiuikit --help` prints the same summary, and `
 
 ### The spec argument
 
-`generate` and `validate` both take a path to a local file with a `.yaml`, `.yml`, or `.json` extension, resolved relative to your current directory. Remote URLs are not yet supported, so download the file first.
+`generate` and `validate` both take either a path to a local file or a `http://`/`https://` URL, with a `.yaml`, `.yml`, or `.json` extension either way. A local path is resolved relative to your current directory; a URL is fetched directly — nothing is downloaded to disk first.
+
+```bash
+apiuikit generate https://example.com/openapi.yaml
+apiuikit validate https://example.com/openapi.yaml
+```
+
+This is handy for specs published from another repo, an API gateway, or a docs CDN — point the CLI at the URL and skip the manual download-and-copy step. If the URL can't be reached, or the server responds with an error status, the command fails with a message describing what went wrong instead of writing anything out.
 
 The CLI decides how to render the document by looking for a top-level `asyncapi`, `openapi`, or `swagger` field, in that order. Swagger 2.0 documents are treated as OpenAPI. If none of those fields are present you will get:
 
@@ -73,9 +80,9 @@ apiuikit generate <input> [options]
 | Flag | Description | Default |
 | --- | --- | --- |
 | `-o, --output <dir>` | Directory to write the site into | `apiuikit-docs` |
-| `-c, --config <file>` | JSON or YAML config passed through to apiuikit | none |
-| `--header <file>` | HTML file injected at the top of the page, before the documentation | none |
-| `--footer <file>` | HTML file injected at the bottom of the page, after the documentation | none |
+| `-c, --config <file>` | JSON or YAML config passed through to apiuikit — path or URL | none |
+| `--header <file>` | HTML file injected at the top of the page, before the documentation — path or URL | none |
+| `--footer <file>` | HTML file injected at the bottom of the page, after the documentation — path or URL | none |
 | `-f, --force` | Overwrite an output directory that already has files in it | off |
 
 The output directory is created if it does not exist. If it exists and is not empty, the command refuses to touch it unless you pass `--force`:
@@ -154,7 +161,7 @@ In a non-interactive shell, or whenever the `CI` environment variable is set, th
 
 ## Configuration
 
-`--config` takes a `.json`, `.yaml`, or `.yml` file containing a single object. There is no auto-discovery: the CLI never looks for a config file on its own, so the flag is the only way to supply one.
+`--config` takes a `.json`, `.yaml`, or `.yml` file containing a single object — either a local path or a URL, on the same terms as the spec argument. There is no auto-discovery: the CLI never looks for a config file on its own, so the flag is the only way to supply one.
 
 ```json
 {
@@ -171,13 +178,14 @@ In a non-interactive shell, or whenever the `CI` environment variable is set, th
 
 ```bash
 apiuikit generate ./spec.yaml --output ./docs --config ./apiuikit.config.json --force
+apiuikit generate ./spec.yaml --config https://example.com/apiuikit.config.json
 ```
 
 The object is passed through verbatim to the renderer, so anything valid in apiuikit's React or web component `config` prop is valid here, including theming, `show` and `expand` toggles, `topOffset`, and custom labels. See [Configuration](./configuration.md) for the full list of options.
 
 ## Header and footer
 
-`--header` and `--footer` point at local `.html` files whose contents are injected verbatim around the documentation: the header just after `<body>` and the footer just before `</body>`. Use them for banners, nav links, custom branding, or a page footer.
+`--header` and `--footer` point at `.html` files — either a local path or a `http://`/`https://` URL, on the same terms as the spec and config arguments — whose contents are injected verbatim around the documentation: the header just after `<body>` and the footer just before `</body>`. Use them for banners, nav links, custom branding, or a page footer.
 
 Each file is an HTML fragment, not a full document. It needs no `<html>`, `<head>`, or `<body>` wrapper, just the markup you want on the page. A header file might look like this:
 
@@ -191,9 +199,12 @@ Each file is an HTML fragment, not a full document. It needs no `<html>`, `<head
 
 ```bash
 apiuikit generate ./openapi.yaml --header ./header.html --footer ./footer.html
+apiuikit generate https://example.com/openapi.yaml --header https://example.com/header.html --footer https://example.com/footer.html
 ```
 
-The fragment becomes real page markup, so any CSS it carries applies normally: `<style>` blocks, inline `style="..."`, or a `<link rel="stylesheet">` pointing at an asset you manage yourself.
+Remote fragments are fetched at generate time and embedded into `index.html`, so the generated site stays fully static at runtime — no network calls when someone opens the page. If a URL can't be reached, or the server responds with an error status, the command fails before writing anything out.
+
+The fragment becomes real page markup, so any CSS it carries applies normally: `<style>` blocks, inline `style="..."`, or a `<link rel="stylesheet">` pointing at an asset you manage yourself. Relative asset paths in a remotely fetched fragment resolve against the generated page's location, not the remote URL — use absolute URLs for stylesheets and images when the fragment is hosted elsewhere.
 
 Styling is isolated in one direction only. The renderer element draws inside a Shadow DOM, so header and footer CSS cannot leak into the documentation UI or be overridden by it. There is no isolation between the header and the footer, or from the page shell's own minimal CSS, so scope your selectors with a unique class or ID as in the example above.
 
@@ -216,6 +227,13 @@ npx @apiuikit/cli generate ./openapi.yaml --output ./public --force
 ```
 
 `./public` now holds a self-contained site ready for any static host.
+
+If the spec is published by another service rather than checked into this repo, point straight at its URL instead of checking it out first:
+
+```bash
+npx @apiuikit/cli validate https://api.example.com/openapi.json
+npx @apiuikit/cli generate https://api.example.com/openapi.json --output ./public --force
+```
 
 ## Where to go next
 
