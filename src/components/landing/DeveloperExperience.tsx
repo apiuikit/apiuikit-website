@@ -34,14 +34,14 @@ export default function OperationsPage() {
     label: "Several sections, composed",
     description:
       "Arrange multiple sections in a custom layout, sharing one resolved document.",
-    code: `import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
+    code: `import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, Schemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <AsyncAPIProvider document={doc}>
       <AsyncAPIServers />
       <AsyncAPIOperations layout="stacked" />
-      <AsyncAPISchemas layout="stacked" />
+      <Schemas layout="stacked" />
     </AsyncAPIProvider>
   );
 }`,
