@@ -7,7 +7,7 @@ Plugins add React UI to specific places in an apiuikit document. Use them for fe
 | If you want to... | Use... |
 | --- | --- |
 | Add a full tab to every operation | An `*.operation.tab` slot |
-| Add a small inline control to every operation | An `*.operation.actions` slot |
+| Add a small inline control to every operation | An `*.operation.reference.supplementary` slot |
 | Hide, reorder, or replace entire documentation sections | [Composable sections](./sections.md), not a plugin |
 | Add UI to Vue, Angular, Svelte, or plain HTML | [Web Components](./with-webcomponents.md); plugins are React-only |
 
@@ -17,8 +17,8 @@ The available slots are:
 | --- | --- |
 | `openapi.operation.tab` | A tab beside the OpenAPI operation's built-in **Reference** tab |
 | `asyncapi.operation.tab` | A tab beside the AsyncAPI operation's built-in **Reference** tab |
-| `openapi.operation.actions` | Inline after code samples and before authorization |
-| `asyncapi.operation.actions` | Inline after the code sample |
+| `openapi.operation.reference.supplementary` | Inline after code samples and before authorization |
+| `asyncapi.operation.reference.supplementary` | Inline after the code sample |
 
 Plugins can fill more than one slot. If a plugin does not fill a slot, nothing is rendered there.
 
@@ -95,39 +95,39 @@ export default definePlugin({
 });
 ```
 
-When the user selects the tab, your component replaces the operation panel's entire body. The built-in **Reference** tab remains first, and plugin tabs follow in registration order. Moving to another operation resets the selection to **Reference**.
+When the user selects the tab, your component replaces the operation panel's entire body. The built-in **Reference** tab remains first, and plugin tabs follow in registration order. Reference stays mounted while hidden, and each plugin panel mounts on its first visit and then stays mounted, so switching tabs preserves your component's local state. Moving to another operation still resets the selection to **Reference**.
 
 ![The `openapi.operation.tab` slot outlined in the playground: the "Demo" tab fills the whole operation panel](/docs/plugins/operation-tab-slot.png)
 
-### Add an inline action
+### Add supplementary inline content
 
-An actions slot takes a component directly, without a label:
+A supplementary slot takes a component directly, without a label:
 
 ```tsx
 export default definePlugin({
   name: "copy-operation-link",
   slots: {
-    "openapi.operation.actions": CopyOperationLink,
+    "openapi.operation.reference.supplementary": CopyOperationLink,
   },
 });
 ```
 
-Use this slot for small, secondary controls that should appear alongside the existing documentation. Multiple action plugins stack in registration order.
+Use this slot for small, secondary content that complements the operation's built-in Reference documentation rather than replacing it. Multiple plugins filling the same supplementary slot stack in registration order.
 
-![The `openapi.operation.actions` slot outlined in the playground: a small inline element amid the operation's own documentation](/docs/plugins/operation-actions-slot.png)
+![The `openapi.operation.reference.supplementary` slot outlined in the playground: a small inline element amid the operation's own documentation](/docs/plugins/operation-supplementary-slot.png)
 
 ## Read the current operation
 
 apiuikit calls your component with the complete document and the identity of the current operation.
 
 ```ts
-interface OpenAPIOperationActionsContext {
+interface OpenAPIOperationPluginContext {
   document: OpenAPIDocumentData;
   method: HttpMethod;
   path: string;
 }
 
-interface AsyncAPIOperationActionsContext {
+interface AsyncAPIOperationPluginContext {
   document: AsyncAPIDocumentData;
   operationId: string;
 }
@@ -144,13 +144,13 @@ Here is a complete OpenAPI tab component:
 
 ```tsx
 import { definePlugin } from "apiuikit/plugin";
-import type { OpenAPIOperationActionsContext } from "apiuikit/plugin";
+import type { OpenAPIOperationPluginContext } from "apiuikit/plugin";
 
 function OperationSummary({
   document,
   method,
   path,
-}: OpenAPIOperationActionsContext) {
+}: OpenAPIOperationPluginContext) {
   const operation = document.paths?.[path]?.[method];
   if (!operation) return null;
 
@@ -226,21 +226,20 @@ Import the plugin API from `apiuikit/plugin`:
 
 ```ts
 import { definePlugin } from "apiuikit/plugin";
-import type { OpenAPIOperationActionsContext } from "apiuikit/plugin";
+import type { OpenAPIOperationPluginContext } from "apiuikit/plugin";
 ```
 
 | Export | Purpose |
 | --- | --- |
 | `definePlugin(plugin)` | Returns the plugin unchanged and types it as `ApiuikitPlugin` |
-| `ApiuikitPlugin`, `PluginSlotName`, `PluginSlotContextMap`, `PluginSlotComponent<N>` | Plugin and slot types |
-| `OpenAPIOperationActionsContext`, `AsyncAPIOperationActionsContext` | Props passed to a slot component |
-| `TabSlotName`, `PluginTabSlotFill<N>` | Tab slot names and the `{ label, component }` fill type |
+| `ApiuikitPlugin` | The complete plugin object type |
+| `OpenAPIOperationPluginContext`, `AsyncAPIOperationPluginContext` | Props passed to a slot component |
 | `HttpMethod`, `OpenAPIDocumentData`, and related OpenAPI types | Types for reading an OpenAPI operation and its data |
 | `AsyncAPIDocumentData` | Type for reading an AsyncAPI operation |
-| `useDocumentContext()` / `useAsyncAPIDocument()` | Access to `deref`, configuration, and other ambient document state |
+| `useDocumentContext()` | Access to `deref`, configuration, and other ambient document state |
 | `ConfigInterface`, `ThemeConfig`, and related theme types | Types for the host configuration |
 
-`PluginSlot`, `usePluginSlot`, and `useOperationTabPlugins` are also exported for components that host plugin slots. Most plugin components do not need them.
+For custom UI that hosts APIUIKit plugin slots itself (most plugin components do not need this): `PluginSlot`, `PluginSlotEntry`, `PluginSlotProps`, `usePluginSlot`, `useOperationTabPlugins`, `PluginTabEntry`, `PluginSlotName`, `SupplementarySlotName`, `TabSlotName`, `PluginSlotContextMap`, `PluginSlotComponent<N>`, `PluginTabSlotFill<N>`, and the spec-narrowing `useOpenAPIDocumentContext()` / `useAsyncAPIDocumentContext()`.
 
 ## Publish a plugin
 
@@ -268,8 +267,3 @@ Mark these imports as external in your bundler configuration:
 - `react/jsx-runtime`
 
 This is required for correct React context behavior, not just a smaller bundle. Bundling another copy of apiuikit creates a separate `DocumentContext`. In that case, `useDocumentContext()` can report that it must be used within a document provider even when the plugin is correctly nested inside one.
-
-The playground includes two unpublished examples that outline the available space but do not implement real features:
-
-- [`operationTabDemoPlugin.tsx`](https://github.com/AceTheCreator/apiuikit/blob/master/packages/playground/src/plugins/operationTabDemoPlugin.tsx)
-- [`operationActionsDemoPlugin.tsx`](https://github.com/AceTheCreator/apiuikit/blob/master/packages/playground/src/plugins/operationActionsDemoPlugin.tsx)
