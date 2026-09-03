@@ -164,7 +164,7 @@ const el = document.querySelector("apiuikit-schemas");
 el.spec = parsedAsyncApiDocument; // or a parsed OpenAPI document — both work
 ```
 
-Each element is standalone — it resolves its own copy of `spec` independently, so there's no shared-context "provider" mode across separate custom elements the way there is in the [React API](./with-parser.md). If you need several sections sharing one resolved document without each re-resolving it, or you're building a React app, use apiuikit's React `AsyncAPIProvider`/`OpenAPIProvider` and section components directly instead of the web components.
+Each element is standalone — it resolves its own copy of `spec` independently, so there's no shared-context "provider" mode across separate custom elements the way there is in the [React API](./with-parser.md). If you need several sections sharing one resolved document without each re-resolving it, or you're building a React app, use apiuikit's React `AsyncAPIProvider`/`OpenAPIProvider` and section components directly instead of the web components. For schemas, the React `Schemas` section mirrors `<apiuikit-schemas>`: one component for either spec type.
 
 ## Setting props from HTML vs JavaScript
 

@@ -58,19 +58,19 @@ export default function OperationsPage() {
 }
 ```
 
-`AsyncAPIServers`, `AsyncAPIOperations`, `AsyncAPIMessages`, `AsyncAPISchemas`, and `AsyncAPIInfo` all work this way, with `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, and `OpenAPIInfo` as the OpenAPI equivalents. Use `layout="stacked"` when a section is embedded on its own: it drops the reserved right-hand gutter that keeps sections aligned inside the full widget.
+`AsyncAPIServers`, `AsyncAPIOperations`, `AsyncAPIMessages`, and `AsyncAPIInfo` all work this way (OpenAPI equivalents: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, and `OpenAPIInfo`), as does `Schemas`, which is shared by both specs. Use `layout="stacked"` when a section is embedded on its own: it drops the reserved right-hand gutter that keeps sections aligned inside the full widget.
 
 To place several sections in your own arrangement, wrap them in a provider so the document is resolved once and shared:
 
 ```tsx
-import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
+import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, Schemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
     <AsyncAPIProvider document={doc}>
       <AsyncAPIServers />
       <AsyncAPIOperations layout="stacked" />
-      <AsyncAPISchemas layout="stacked" />
+      <Schemas layout="stacked" />
     </AsyncAPIProvider>
   );
 }

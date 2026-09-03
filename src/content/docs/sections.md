@@ -10,18 +10,19 @@ Every exported section:
 | `AsyncAPIOperations` | AsyncAPI | Operations |
 | `AsyncAPIMessages` | AsyncAPI | Messages |
 | `AsyncAPIInfo` | AsyncAPI | Info block (title, description, license) |
-| `AsyncAPISchemas` | AsyncAPI | Component schemas |
+| `Schemas` | Both | Component schemas (`components.schemas` — same shape in AsyncAPI and OpenAPI) |
 | `OpenAPIServers` | OpenAPI | Servers |
 | `OpenAPIEndpoints` | OpenAPI | Paths / endpoints |
 | `OpenAPIWebhooks` | OpenAPI | OpenAPI 3.1 webhooks (renders nothing if the document declares none) |
 | `OpenAPIInfo` | OpenAPI | Info block (title, description, tags, external docs) |
-| `OpenAPISchemas` | OpenAPI | Component schemas |
+
+`AsyncAPISchemas` and `OpenAPISchemas` remain exported as deprecated aliases of `Schemas`.
 
 Providers: `AsyncAPIProvider` and `OpenAPIProvider`. The matching custom elements for Vue, Angular, Svelte, or plain HTML are on [Web Components](./with-webcomponents.md).
 
 ## Rendering one section standalone
 
-`AsyncAPIServers`, `AsyncAPIOperations`, `AsyncAPIMessages`, `AsyncAPISchemas`, and `AsyncAPIInfo` each render on their own. Pass a `document` and the section resolves it and sets up its own context internally, no provider needed. The OpenAPI set (`OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, `OpenAPIInfo`) works the same way.
+`AsyncAPIServers`, `AsyncAPIOperations`, `AsyncAPIMessages`, `Schemas`, and `AsyncAPIInfo` each render on their own. Pass a `document` and the section resolves it and sets up its own context internally, no provider needed. The OpenAPI set (`OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPIInfo`) works the same way — and `Schemas` is shared by both specs, since `components.schemas` has the identical shape in either document type.
 
 ```tsx
 import { AsyncAPIOperations } from "apiuikit";
@@ -39,7 +40,7 @@ export default function OperationsPage() {
 
 | Prop       | Type                         | Required | Description                                                  |
 |------------|------------------------------|----------|----------------------------------------------------------------|
-| `document` | `AsyncAPIDocumentData`       | Yes*     | A pre-resolved AsyncAPI 3.0 document. *Not required when rendered inside `AsyncAPIProvider` (see below). |
+| `document` | `AsyncAPIDocumentData`       | Yes*     | A pre-resolved AsyncAPI 3.0 document. *Not required when rendered inside `AsyncAPIProvider` (see below). For `Schemas`, either `AsyncAPIDocumentData` or `OpenAPIDocumentData`. |
 | `config`   | `ConfigInterface`            | No       | UI configuration. Only applied when the section sets up its own context (standalone); ignored when composed under a provider. |
 | `plugins`  | `ApiuikitPlugin[]`           | No       | Third-party plugins. Only applied standalone; composed under `AsyncAPIProvider`, that provider's own `plugins` apply instead. See [Plugins](./plugins.md). |
 | `layout`   | `"columns"` \| `"stacked"`   | No       | Column geometry. `"columns"` (default) keeps the reserved right gutter so sections align with Info/Servers in the full widget. `"stacked"` uses the full container width (no prose max-width), drops empty side space, and stacks Info/Servers side content below the main content. Prefer `"stacked"` when embedding a section alone. |
@@ -49,7 +50,7 @@ export default function OperationsPage() {
 To arrange multiple sections together, reordering them or interleaving your own components between them, wrap them in `AsyncAPIProvider` instead of passing `document` to each one individually. It resolves the document once and shares it with every section underneath, rather than each one resolving independently.
 
 ```tsx
-import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
+import { AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, Schemas } from "apiuikit";
 import doc from "./asyncapi.json";
 
 export default function CustomLayout() {
@@ -59,7 +60,7 @@ export default function CustomLayout() {
       <AsyncAPIServers />
       <AsyncAPIOperations />
       <MyCustomSidebar />
-      <AsyncAPISchemas />
+      <Schemas />
     </AsyncAPIProvider>
   );
 }
@@ -75,7 +76,7 @@ Because composition doesn't rely on a slot API, dropping in a custom implementat
 <AsyncAPIProvider document={doc}>
   <AsyncAPIServers />
   <MyCustomOperationsList />  {/* reads useAsyncAPIDocument() itself */}
-  <AsyncAPISchemas />
+  <Schemas />
 </AsyncAPIProvider>
 ```
 
@@ -83,10 +84,10 @@ Any component rendered inside `AsyncAPIProvider` can call `useAsyncAPIDocument()
 
 ## OpenAPI sections
 
-OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, `OpenAPISchemas`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them.
+OpenAPI documents have their own set, used the same way: `OpenAPIServers`, `OpenAPIEndpoints`, `OpenAPIWebhooks`, and `OpenAPIInfo`, with `OpenAPIProvider` to share one resolved document between them. Use the shared `Schemas` section for component schemas — it works under either provider.
 
 ```tsx
-import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPIWebhooks, OpenAPISchemas } from "apiuikit";
+import { OpenAPIProvider, OpenAPIServers, OpenAPIEndpoints, OpenAPIWebhooks, Schemas } from "apiuikit";
 
 export default function CustomLayout() {
   return (
@@ -94,7 +95,7 @@ export default function CustomLayout() {
       <OpenAPIServers />
       <OpenAPIEndpoints layout="stacked" />
       <OpenAPIWebhooks layout="stacked" />
-      <OpenAPISchemas layout="stacked" />
+      <Schemas layout="stacked" />
     </OpenAPIProvider>
   );
 }
@@ -107,13 +108,13 @@ Unlike `AsyncAPI` and `OpenAPI`, which wrap themselves in an error boundary, sec
 The `ErrorBoundary` used by the full-page components is exported, so opt in wherever it suits your layout. Around everything, so one bad section doesn't take the page down:
 
 ```tsx
-import { ErrorBoundary, AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, AsyncAPISchemas } from "apiuikit";
+import { ErrorBoundary, AsyncAPIProvider, AsyncAPIServers, AsyncAPIOperations, Schemas } from "apiuikit";
 
 <ErrorBoundary onError={(error, errorInfo) => reportToSentry(error, errorInfo)}>
   <AsyncAPIProvider document={doc}>
     <AsyncAPIServers />
     <AsyncAPIOperations />
-    <AsyncAPISchemas />
+    <Schemas />
   </AsyncAPIProvider>
 </ErrorBoundary>
 ```
@@ -126,7 +127,7 @@ Or around a single section, so the rest of the page survives it:
   <ErrorBoundary fallback={<p>Couldn't render operations.</p>}>
     <AsyncAPIOperations />
   </ErrorBoundary>
-  <AsyncAPISchemas />
+  <Schemas />
 </AsyncAPIProvider>
 ```
 
