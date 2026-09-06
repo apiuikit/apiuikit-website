@@ -2,6 +2,8 @@
 
 Plugins add React UI to specific places in an apiuikit document. Use them for features such as a request-sending tab or a small action beside an operation.
 
+Some published packages, are listed on the [plugin catalog](/plugins). This page is the API for installing any plugin and for writing your own.
+
 ## At a glance
 
 | If you want to... | Use... |
@@ -176,9 +178,9 @@ The context does not contain a pre-built bundle of parameters, request bodies, o
 
 ### Sending a request
 
-apiuikit does not currently ship a complete request-sending plugin.
+For OpenAPI, use the published [Try it plugin](/plugins/openapi-try-it). It is a separately-installed package, not bundled with apiuikit.
 
-To build a request-sending tab, read the operation's `parameters`, `requestBody`, and `security` fields, then construct a `fetch()` request or use your preferred HTTP client.
+To build your own request-sending tab, read the operation's `parameters`, `requestBody`, and `security` fields, then construct a `fetch()` request or use your preferred HTTP client.
 
 apiuikit does not export a request builder. Its code-sample helper produces snippet-oriented HAR data with placeholders and is not designed to execute requests.
 

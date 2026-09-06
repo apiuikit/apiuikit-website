@@ -21,6 +21,7 @@ const columns = [
     heading: "Explore",
     links: [
       { label: "Docs", href: "/docs" },
+      { label: "Plugins", href: "/plugins" },
       { label: "Playground", href: PLAYGROUND_URL },
       { label: "Components", href: "/#operations" },
       { label: "Live demo", href: "/#demo" },

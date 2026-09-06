@@ -9,6 +9,7 @@ const PLAYGROUND_URL = "https://playground.apiuikit.com";
 
 const sectionLinks = [
   { label: "Docs", href: "/docs" },
+  { label: "Plugins", href: "/plugins" },
   { label: "Components", href: "/#operations" },
 ];
 

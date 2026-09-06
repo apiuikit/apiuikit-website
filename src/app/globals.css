@@ -130,6 +130,16 @@ html .docs-prose .heading-anchor:hover {
   color: var(--color-brand-600);
 }
 
+/*
+ * Screenshots in docs and plugin pages. The typography plugin already caps
+ * width; the border and radius match the site's chrome so a light screenshot
+ * doesn't float unframed on a dark page.
+ */
+.docs-prose img {
+  border: 1px solid var(--chrome-border);
+  border-radius: 0.75rem;
+}
+
 @media (hover: none) {
   html .docs-prose .heading-anchor {
     opacity: 1;
