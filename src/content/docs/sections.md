@@ -2,19 +2,19 @@
 
 The `AsyncAPI` component renders a complete documentation page: sidebar, search, servers, operations, messages, schemas. If you want to build your own layout instead, render individual sections on their own, or compose several of them together.
 
-Every exported section:
+Every exported section. Each component name opens its live page in [Storybook](https://storybook.apiuikit.com/?path=/docs/introduction--docs):
 
 | Component | Spec | Renders |
 |---|---|---|
-| `AsyncAPIServers` | AsyncAPI | Servers |
-| `AsyncAPIOperations` | AsyncAPI | Operations |
-| `AsyncAPIMessages` | AsyncAPI | Messages |
-| `AsyncAPIInfo` | AsyncAPI | Info block (title, description, license) |
-| `Schemas` | Both | Component schemas (`components.schemas` — same shape in AsyncAPI and OpenAPI) |
-| `OpenAPIServers` | OpenAPI | Servers |
-| `OpenAPIEndpoints` | OpenAPI | Paths / endpoints |
-| `OpenAPIWebhooks` | OpenAPI | OpenAPI 3.1 webhooks (renders nothing if the document declares none) |
-| `OpenAPIInfo` | OpenAPI | Info block (title, description, tags, external docs) |
+| [`AsyncAPIServers`](https://storybook.apiuikit.com/?path=/docs/asyncapi-servers--docs) | AsyncAPI | Servers |
+| [`AsyncAPIOperations`](https://storybook.apiuikit.com/?path=/docs/asyncapi-operations--docs) | AsyncAPI | Operations |
+| [`AsyncAPIMessages`](https://storybook.apiuikit.com/?path=/docs/asyncapi-messages--docs) | AsyncAPI | Messages |
+| [`AsyncAPIInfo`](https://storybook.apiuikit.com/?path=/docs/asyncapi-info--docs) | AsyncAPI | Info block (title, description, license) |
+| [`Schemas`](https://storybook.apiuikit.com/?path=/docs/asyncapi-schemas--docs) | Both | Component schemas (`components.schemas` — same shape in AsyncAPI and OpenAPI). [OpenAPI preview](https://storybook.apiuikit.com/?path=/docs/openapi-schemas--docs) |
+| [`OpenAPIServers`](https://storybook.apiuikit.com/?path=/docs/openapi-servers--docs) | OpenAPI | Servers |
+| [`OpenAPIEndpoints`](https://storybook.apiuikit.com/?path=/docs/openapi-endpoints--docs) | OpenAPI | Paths / endpoints |
+| [`OpenAPIWebhooks`](https://storybook.apiuikit.com/?path=/docs/openapi-webhooks--docs) | OpenAPI | OpenAPI 3.1 webhooks (renders nothing if the document declares none) |
+| [`OpenAPIInfo`](https://storybook.apiuikit.com/?path=/docs/openapi-info--docs) | OpenAPI | Info block (title, description, tags, external docs) |
 
 `AsyncAPISchemas` and `OpenAPISchemas` remain exported as deprecated aliases of `Schemas`.
 
