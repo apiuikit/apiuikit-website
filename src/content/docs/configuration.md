@@ -86,6 +86,7 @@ Colours, in three parts: a brand scale applied in both modes, per-mode surface a
 ```tsx
 config={{
   theme: {
+    mode: "system",
     colors: {
       primary: { 50: "#ddf4ff", 300: "#54aeff", 600: "#1f6feb", 700: "#0d419d" },
     },
@@ -97,26 +98,32 @@ config={{
       textSecondary: "#475569",
       textMuted: "#64748b",
     },
+    dark: {
+      background: "#0d1117",
+      surface: "#161b22",
+      border: "#30363d",
+      textPrimary: "#c9d1d9",
+      textSecondary: "#8b949e",
+      textMuted: "#6e7681",
+    },
     depthColors: ["#14b8a6", "#22c55e", "#84cc16"],
   },
 }}
 ```
 
 - **`colors`** takes `primary`, `secondary`, and `neutral` scales, each with the steps `50`, `100`, `200`, `300`, `500`, `600`, `700`. They apply regardless of which mode is active.
-- **`light` and `dark`** each take `background`, `surface`, `border`, `textPrimary`, `textSecondary`, and `textMuted`. **Pass only one of them.** If both are set, `light` wins outright, so to render dark, pass `dark` and leave `light` undefined rather than passing both and expecting the active mode to pick.
+- **`mode`** picks which palette renders: `"light"`, `"dark"`, or `"system"` (follows the OS `prefers-color-scheme` setting and updates live if it changes). Left unset, apiuikit falls back to whichever single one of `light`/`dark` you provided — `light` wins if you provided both, or neither.
+- **`light` and `dark`** each take `background`, `surface`, `border`, `textPrimary`, `textSecondary`, and `textMuted`. Pass both to support switching between them at runtime via `mode` — pass only one if you never intend to switch.
 - **`depthColors`** colours the schema tree's depth-indicator lines and their labels, cycling by nesting level. Any length works; deeper nesting repeats the palette from the start. The default is teal, green, lime, blue, cyan, violet.
 
-Because only one mode may be set, syncing with your own light/dark toggle means rebuilding the object when the theme changes:
+Define both palettes once and let `mode` do the switching — no need to rebuild the `theme` object yourself:
 
 ```tsx
-const config = {
-  theme: {
-    colors: { primary: defaultConfig.theme?.colors?.primary },
-    ...(isDark
-      ? { dark: defaultConfig.theme?.dark }
-      : { light: defaultConfig.theme?.light }),
-  },
-};
+// Follow the OS setting automatically:
+config={{ theme: { ...theme, mode: "system" } }}
+
+// Or sync with your own toggle by changing just one field:
+config={{ theme: { ...theme, mode: isDark ? "dark" : "light" } }}
 ```
 
 ## markdown
