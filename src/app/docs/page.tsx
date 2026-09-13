@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Docs | apiuikit",
   description:
     "Usage guides for apiuikit: composable sections, parser and no-parser entry points, OpenAPI, Avro and Protobuf payloads, Markdown export, and web components.",
+  alternates: { canonical: "/docs" },
 };
 
 export default async function DocsIndexPage() {

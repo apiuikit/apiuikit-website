@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import OfficialBadge from "@/components/plugins/OfficialBadge";
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
   title: "Plugins | apiuikit",
   description:
     "Separately-installed plugins for apiuikit: OpenAPI Try it today, with an AsyncAPI plugin on the way.",
+  alternates: { canonical: "/plugins" },
 };
 
 export default function PluginsIndexPage() {
@@ -38,12 +40,14 @@ export default function PluginsIndexPage() {
               href={`/plugins/${plugin.slug}`}
               className="flex h-full flex-col overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface transition-colors hover:border-brand-300"
             >
-              <div className="aspect-16/10 overflow-hidden border-b border-chrome-border bg-chrome-bg">
+              <div className="relative aspect-16/10 overflow-hidden border-b border-chrome-border bg-chrome-bg">
                 {plugin.coverImage && (
-                  <img
+                  <Image
                     src={plugin.coverImage}
                     alt={plugin.coverAlt ?? plugin.name}
-                    className="h-full w-full object-cover object-top"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(min-width: 640px) 50vw, 100vw"
                   />
                 )}
               </div>

@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight, Geist_Mono } from "next/font/google";
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION } from "@/lib/seo";
 // apiuikit first, ours second. Both ship a Tailwind build sharing @layer
 // utilities, and ties go to whichever loaded later: ours must win so our
 // utilities outrank apiuikit's preflight (which resets heading sizes). The
@@ -40,17 +41,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://apiuikit.com";
-const TITLE = "apiuikit: interactive API docs from your AsyncAPI or OpenAPI spec";
-const DESCRIPTION =
-  "A React component library that renders AsyncAPI and OpenAPI documents as interactive documentation. Use the whole widget, one section, or the exact pieces your layout needs.";
-
 export const metadata: Metadata = {
   // Makes every relative URL below absolute, which Open Graph requires. Also
   // what lets app/opengraph-image.tsx be picked up automatically.
   metadataBase: new URL(SITE_URL),
-  title: TITLE,
-  description: DESCRIPTION,
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   applicationName: "apiuikit",
   keywords: [
     "AsyncAPI",
@@ -67,19 +63,23 @@ export const metadata: Metadata = {
     siteName: "apiuikit",
     locale: "en_US",
     url: "/",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0d1117",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

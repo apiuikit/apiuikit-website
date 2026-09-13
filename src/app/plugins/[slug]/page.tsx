@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import DocsToc from "@/components/docs/DocsToc";
 import GitHubIcon from "@/components/site/GitHubIcon";
+import JsonLd from "@/components/site/JsonLd";
 import NpmIcon from "@/components/site/NpmIcon";
 import { getPluginDoc, getPublishedPlugins } from "@/lib/plugins";
+import { SITE_URL } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return getPublishedPlugins().map(({ slug }) => ({ slug }));
@@ -20,6 +22,17 @@ export async function generateMetadata({
   return {
     title: `${plugin.name} | apiuikit plugins`,
     description: plugin.summary,
+    alternates: { canonical: `/plugins/${slug}` },
+    openGraph: {
+      title: `${plugin.name} | apiuikit plugins`,
+      description: plugin.summary,
+      url: `/plugins/${slug}`,
+      type: "article",
+    },
+    twitter: {
+      title: `${plugin.name} | apiuikit plugins`,
+      description: plugin.summary,
+    },
   };
 }
 
@@ -32,8 +45,29 @@ export default async function PluginPage({
 
   const { name, html, headings, packageName, npm, github } = plugin;
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Plugins",
+        item: `${SITE_URL}/plugins`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name,
+        item: `${SITE_URL}/plugins/${slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_13rem] xl:items-start">
+      <JsonLd data={breadcrumbJsonLd} />
       <article className="min-w-0">
         <p className="text-xs font-medium tracking-wide text-brand-600 uppercase">
           Plugin
