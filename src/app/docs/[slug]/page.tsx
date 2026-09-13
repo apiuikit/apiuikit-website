@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import DocsToc from "@/components/docs/DocsToc";
+import JsonLd from "@/components/site/JsonLd";
 import { getDoc, getDocSlugs, getDocList } from "@/lib/docs";
+import { SITE_URL } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const slugs = await getDocSlugs();
@@ -17,7 +19,21 @@ export async function generateMetadata({
   if (!slugs.includes(slug)) return {};
 
   const { title, summary } = await getDoc(slug);
-  return { title: `${title} | apiuikit docs`, description: summary };
+  return {
+    title: `${title} | apiuikit docs`,
+    description: summary,
+    alternates: { canonical: `/docs/${slug}` },
+    openGraph: {
+      title: `${title} | apiuikit docs`,
+      description: summary,
+      url: `/docs/${slug}`,
+      type: "article",
+    },
+    twitter: {
+      title: `${title} | apiuikit docs`,
+      description: summary,
+    },
+  };
 }
 
 export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
@@ -31,10 +47,31 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
   const previous = docs[index - 1];
   const next = docs[index + 1];
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Docs",
+        item: `${SITE_URL}/docs`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title,
+        item: `${SITE_URL}/docs/${slug}`,
+      },
+    ],
+  };
+
   return (
     // The TOC only earns its column from xl up; below that it would squeeze
     // the prose measure, so it renders above the body instead.
     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_13rem] xl:items-start">
+      <JsonLd data={breadcrumbJsonLd} />
       <article className="min-w-0">
         <h1 className="font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl">
           {title}
