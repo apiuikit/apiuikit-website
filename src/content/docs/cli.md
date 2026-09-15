@@ -83,7 +83,8 @@ apiuikit generate <input> [options]
 | `-c, --config <file>` | JSON or YAML config passed through to apiuikit — path or URL | none |
 | `--header <file>` | HTML file injected at the top of the page, before the documentation — path or URL | none |
 | `--footer <file>` | HTML file injected at the bottom of the page, after the documentation — path or URL | none |
-| `-f, --force` | Overwrite an output directory that already has files in it | off |
+| `-f, --force` | Overwrite an output directory that already has files in it | `false` |
+| `--single-file` | Embed the script and stylesheet in `index.html` instead of writing `assets/` — one portable file, but much larger (~3–4 MB) | `false` |
 
 The output directory is created if it does not exist. If it exists and is not empty, the command refuses to touch it unless you pass `--force`:
 
@@ -96,6 +97,8 @@ Pass --force to overwrite its contents, or choose a different --output directory
 
 #### What gets written
 
+By default:
+
 ```text
 apiuikit-docs/
   index.html
@@ -106,6 +109,21 @@ apiuikit-docs/
 
 `index.html` embeds your spec inline and hands it to an `<apiuikit-openapi-renderer>` or `<apiuikit-asyncapi-renderer>` custom element. The site makes no network requests and needs no server, so it works over `file://` as well as from GitHub Pages, S3, nginx, or any static host.
 
+#### Single-file output
+
+`--single-file` inlines the script and stylesheet into `index.html` instead of writing `assets/`, so the whole site is one file — useful for emailing, attaching, or dropping somewhere without keeping a folder together.
+
+```bash
+apiuikit generate ./openapi.yaml --single-file
+```
+
+```text
+apiuikit-docs/
+  index.html
+```
+
+The tradeoff is size: `index.html` grows to several megabytes, and the script is no longer separately cacheable. Rendered output is otherwise identical to the default mode.
+
 ### serve
 
 ```bash
@@ -115,7 +133,7 @@ apiuikit serve [dir] [options]
 | Flag | Description | Default |
 | --- | --- | --- |
 | `-p, --port <port>` | Port to listen on | `4300` |
-| `--open` | Open the site in your default browser | off |
+| `--open` | Open the site in your default browser | `false` |
 
 `[dir]` defaults to `apiuikit-docs`. The server binds to `127.0.0.1` only, so it is a preview tool rather than a way to host the site. If the port you asked for is taken it tries the next one, up to twenty times. `Ctrl+C` stops it.
 
@@ -136,7 +154,7 @@ apiuikit validate <input> [options]
 
 | Flag | Description | Default |
 | --- | --- | --- |
-| `-y, --yes` | Install the required validator package without prompting | off |
+| `-y, --yes` | Install the required validator package without prompting | `false` |
 
 Errors and warnings are both printed, but only errors make the command fail. Exit code is 0 when the document is valid and 1 when it is not, which is what you want in a pipeline.
 
