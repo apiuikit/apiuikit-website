@@ -90,6 +90,7 @@ Every component takes a `config` object. A few of the options you are most likel
     show: { sidebar: false, search: false },
     expand: { schemas: true },
     sidePanel: { containment: "component" },
+    topOffset: 64,
   }}
 />
 ```
@@ -98,6 +99,7 @@ Every component takes a `config` object. A few of the options you are most likel
 - `show`: switch individual sections and controls off, including the sidebar, search, code samples, and the Copy-for-LLM button.
 - `expand`: whether schema trees and message examples start open.
 - `sidePanel.containment`: `"viewport"` (default) lets an operation's side panel cover the browser window; `"component"` clips it to the widget's own root element, which is what you want when the widget is embedded in a page rather than being the page.
+- `topOffset` / `sidePanel.topOffset`: pixels of host-page chrome (a sticky navbar) to keep above the widget's fixed controls and a component-contained side panel.
 
 Every option is listed in [Configuration](./configuration.md).
 

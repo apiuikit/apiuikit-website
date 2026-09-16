@@ -42,7 +42,7 @@ const SUMMARIES: Record<string, string> = {
     "Install it, render your first document, and drop a single section into a page you already have.",
   cli: "Generate a static documentation site from a spec file in one command, with no frontend toolchain: every command, flag, and CI recipe.",
   configuration:
-    "Every option on the config object: which sections to show, what starts expanded, theming, side panels, and Markdown output.",
+    "Every option on the config object: which sections to show, what starts expanded, theming, side-panel containment, host-page offsets, and Markdown output.",
   "no-parser":
     "For documents you already hold as an object. AsyncAPI and OpenAPI components, their props, and what each one renders.",
   "with-parser":

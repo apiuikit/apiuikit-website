@@ -63,6 +63,16 @@ Whether collapsible content starts open.
 
 Leaving `schemas` collapsed is usually right for a page with several large schemas; expand it when a page documents one small payload and the extra clicks are just friction.
 
+## topOffset
+
+A host-page safe area, in pixels, above the widget's fixed and sticky controls. Set it to the height of a fixed or sticky site navbar. The navigation spine, search, Copy-as-Markdown, search overlay, sticky content tabs, and component-contained side panels all respect it. Defaults to `0`.
+
+```tsx
+config={{ topOffset: 64 }}
+```
+
+A component-contained side panel can override this with `sidePanel.topOffset` if the panel needs a different clearance than the rest of the widget.
+
 ## sidePanel
 
 Where an operation's side panel is clipped when it opens.
@@ -70,6 +80,7 @@ Where an operation's side panel is clipped when it opens.
 | Option | Default | Values |
 | --- | --- | --- |
 | `containment` | `"viewport"` | `"viewport"` \| `"component"` |
+| `topOffset` | `config.topOffset` | `number` |
 
 `"viewport"` lets the panel cover the whole browser window, which is what you want when the widget *is* the page. `"component"` clips it to the widget's own root element. Use it whenever the widget is embedded inside a page that has its own chrome, so the panel can't cover your header or escape its frame.
 
@@ -77,7 +88,14 @@ Where an operation's side panel is clipped when it opens.
 config={{ sidePanel: { containment: "component" } }}
 ```
 
-Note that the panel is clipped to the *widget's* root, not to whatever wrapper you put around it. If the widget renders at its natural height and that's shorter than the panel needs, give the widget height to fill.
+The overlay is a fixed layer sized from either the window or the widget root. That means two things when you pick `"component"`:
+
+1. The panel is clipped to the *widget's* root, not to whatever wrapper you put around it. Give the widget itself the height and the overflow — a scrolling wrapper around an unbounded widget will still let the overlay measure the full document.
+2. A host navbar sitting *outside* the widget cannot be inferred from that root. `topOffset` (here, or the widget-wide `topOffset` above) reserves that safe area. It has no effect when `containment` is `"viewport"`.
+
+```tsx
+config={{ sidePanel: { containment: "component", topOffset: 64 } }}
+```
 
 ## theme
 
