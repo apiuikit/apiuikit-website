@@ -84,7 +84,8 @@ apiuikit generate <input> [options]
 | `--header <file>` | HTML file injected at the top of the page, before the documentation — path or URL | none |
 | `--footer <file>` | HTML file injected at the bottom of the page, after the documentation — path or URL | none |
 | `-f, --force` | Overwrite an output directory that already has files in it | `false` |
-| `--single-file` | Embed the script and stylesheet in `index.html` instead of writing `assets/` — one portable file, but much larger (~3–4 MB) | `false` |
+| `--single-file` | Embed the script and stylesheet in the HTML file instead of writing `assets/` — one portable file, but much larger (~3–4 MB) | `false` |
+| `--out-file-name <name>` | Custom filename for the generated HTML file. Only valid together with `--single-file`; must end in `.html` or `.htm` | `index.html` |
 
 The output directory is created if it does not exist. If it exists and is not empty, the command refuses to touch it unless you pass `--force`:
 
@@ -111,7 +112,7 @@ apiuikit-docs/
 
 #### Single-file output
 
-`--single-file` inlines the script and stylesheet into `index.html` instead of writing `assets/`, so the whole site is one file — useful for emailing, attaching, or dropping somewhere without keeping a folder together.
+`--single-file` inlines the script and stylesheet into the HTML file instead of writing `assets/`, so the whole site is one file — useful for emailing, attaching, or dropping somewhere without keeping a folder together. By default that file is still named `index.html`:
 
 ```bash
 apiuikit generate ./openapi.yaml --single-file
@@ -122,7 +123,33 @@ apiuikit-docs/
   index.html
 ```
 
-The tradeoff is size: `index.html` grows to several megabytes, and the script is no longer separately cacheable. Rendered output is otherwise identical to the default mode.
+The tradeoff is size: the file grows to several megabytes, and the script is no longer separately cacheable. Rendered output is otherwise identical to the default mode.
+
+Pass `--out-file-name` to name the file something other than `index.html` — handy when you're generating a portable file meant to be shared, emailed, or dropped into another project directly:
+
+```bash
+apiuikit generate ./openapi.yaml --single-file --out-file-name widgets-api-docs.html
+```
+
+```text
+apiuikit-docs/
+  widgets-api-docs.html
+```
+
+`--out-file-name` only makes sense in single-file mode — without `--single-file` you already control the destination via `--output`, and `index.html` is the convention `serve` and static hosts expect for a directory's entry point. Passing it without `--single-file` fails:
+
+```text
+✖ Error: --out-file-name can only be used together with --single-file.
+```
+
+The name must be a plain filename ending in `.html` or `.htm` — no path separators, and no `.`/`..`:
+
+```text
+✖ Error: Invalid --out-file-name: "docs" must end with .html or .htm.
+✖ Error: Invalid --out-file-name: "../evil.html" must be a plain filename, not a path.
+```
+
+Because `--force` only overwrites the files this run writes, renaming with `--out-file-name` leaves any previous `index.html` in place. Remove the old file yourself (or clear the output directory) if you don't want both sitting side by side — otherwise `serve` will keep preferring `index.html`.
 
 ### serve
 
@@ -144,7 +171,14 @@ If the directory does not exist:
 Run "apiuikit generate <input>" first, or pass the directory to serve.
 ```
 
-A directory that exists but has no `index.html` only produces a warning, and is still served.
+If the directory has no `index.html`, `serve` looks for a single `.html`/`.htm` file and uses that as the entry point at `/`. That covers a custom-named single-file site:
+
+```bash
+apiuikit generate ./openapi.yaml --single-file --out-file-name widgets-api-docs.html
+apiuikit serve
+```
+
+If there's no `index.html` and zero or multiple `.html` files to choose from, `serve` warns and starts anyway. Other files in the directory are still reachable; visiting `/` returns 404 because there is no entry point.
 
 ### validate
 
