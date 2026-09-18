@@ -17,6 +17,8 @@ Pass a plain JavaScript object that matches the AsyncAPI 3.0 document shape.
 | `plugins` | `ApiuikitPlugin[]`      | No       | Third-party plugins to render into the document's extension slots. See [Plugins](./plugins.md). |
 | `errorFallback` | `ReactNode \| (error, reset) => ReactNode` | No | Custom UI shown if rendering throws. Defaults to a built-in fallback |
 | `onError` | `(error, errorInfo) => void` | No  | Called once when a render error is caught, e.g. to report it to your own telemetry |
+| `initialLocation` | `SpecLocation<TabKey> \| null` | No | Which tab and item to show first, e.g. a parsed URL. See [Deep linking](./deep-linking.md). |
+| `onLocationChange` | `(location: SpecLocation<TabKey> \| null) => void` | No | Called when the selected tab or item changes, e.g. to update the URL. See [Deep linking](./deep-linking.md). |
 
 ### Error handling
 
@@ -74,7 +76,7 @@ export default function App() {
 }
 ```
 
-`config`, `plugins`, `kind="resolved"`, `errorFallback`, and `onError` all work exactly as they do on `AsyncAPI` above.
+`config`, `plugins`, `kind="resolved"`, `errorFallback`, `onError`, and the [deep-linking](./deep-linking.md) props (`initialLocation`, `onLocationChange`) all work exactly as they do on `AsyncAPI` above.
 
 ### What gets rendered
 
@@ -107,6 +109,10 @@ export default function App() {
 The `kind: "resolved"` variant uses the same `AsyncAPI` component, it is just a different prop shape that conveys the pre-resolved state.
 
 Either way, the component verifies rather than trusts: documents are checked for `$ref`s with a cheap read-only scan, and a fully resolved document passes through untouched (no copy). If a document handed in as `kind="resolved"` still contains `$ref`s, they are resolved anyway and a console warning tells you the promise was false, so a broken upstream resolution step can't break the UI, but it also doesn't stay invisible.
+
+## Deep linking
+
+To open on a specific endpoint (or keep the address bar in sync as people click around), pass `initialLocation` and `onLocationChange`. The [Deep linking](./deep-linking.md) guide has a copy-paste hash example, the `tab`/`key` values for both specs, and notes for Next.js.
 
 ## Multi-format schemas
 

@@ -25,6 +25,8 @@ The simplest way to use the parser entry. Pass a raw string and the component ha
 | `onDiagnostics`  | `(d: unknown[]) => void`        | No       | Called after parsing with any validation diagnostics |
 | `errorFallback`  | `ReactNode \| (error, reset) => ReactNode` | No | Forwarded to `AsyncAPI`: custom UI shown if rendering throws |
 | `onError`        | `(error, errorInfo) => void`    | No       | Forwarded to `AsyncAPI`: called once when a render error is caught |
+| `initialLocation` | `SpecLocation<TabKey> \| null` | No | Which tab and item to show first, once the parsed document mounts. See [Deep linking](./deep-linking.md). |
+| `onLocationChange` | `(location: SpecLocation<TabKey> \| null) => void` | No | Called when the selected tab or item changes, e.g. to update the URL. See [Deep linking](./deep-linking.md). |
 
 Parse failures and render failures are separate channels: `onDiagnostics` reports what the parser rejected, `onError` reports a throw during render. See [Error handling](./no-parser.md#error-handling).
 
@@ -108,7 +110,7 @@ export default function App() {
 
 The OpenAPI counterpart, backed by `@scalar/openapi-parser`.
 
-It takes the same props as `AsyncAPIRenderer`: `config`, `onDiagnostics`, `errorFallback`, and `onError`. Diagnostics use the same shape for both specs (`{ message, path, severity }`, with `severity: 0` for errors), so one diagnostics panel can serve either.
+It takes the same props as `AsyncAPIRenderer`: `config`, `onDiagnostics`, `errorFallback`, `onError`, and the [deep-linking](./deep-linking.md) props (`initialLocation`, `onLocationChange`). Diagnostics use the same shape for both specs (`{ message, path, severity }`, with `severity: 0` for errors), so one diagnostics panel can serve either.
 
 ### TypeScript
 
