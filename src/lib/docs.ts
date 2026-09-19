@@ -50,7 +50,7 @@ const SUMMARIES: Record<string, string> = {
   sections:
     "Render one section on its own, or arrange several under a shared provider, for both AsyncAPI and OpenAPI.",
   plugins:
-    "Add your own UI to a rendered document from a separately-installed package — a \"Try it\" tab, an inline action, and how to write and publish one.",
+    "Add your own UI to a rendered document from a separately-installed package — a \"Try it\" tab, an inline action, a top-bar control, and how to write and publish one.",
   extensions:
     "The x-* fields apiuikit recognises, where each one appears, and how to switch them all off.",
   avro: "Rendering Avro payloads: the schemaFormat values recognised, and what a document needs to carry.",

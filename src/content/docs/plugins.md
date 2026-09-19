@@ -1,6 +1,6 @@
 # Plugins
 
-Plugins add React UI to specific places in an apiuikit document. Use them for features such as a request-sending tab or a small action beside an operation.
+Plugins add React UI to specific places in an apiuikit document. Use them for features such as a request-sending tab, a small action beside an operation, or a control in the document top bar.
 
 Some published packages, are listed on the [plugin catalog](/plugins). This page is the API for installing any plugin and for writing your own.
 
@@ -10,6 +10,7 @@ Some published packages, are listed on the [plugin catalog](/plugins). This page
 | --- | --- |
 | Add a full tab to every operation | An `*.operation.tab` slot |
 | Add a small inline control to every operation | An `*.operation.reference.supplementary` slot |
+| Add a control to the document top bar | An `*.document.topbar` slot |
 | Hide, reorder, or replace entire documentation sections | [Composable sections](./sections.md), not a plugin |
 | Add UI to Vue, Angular, Svelte, or plain HTML | [Web Components](./with-webcomponents.md); plugins are React-only |
 
@@ -21,6 +22,8 @@ The available slots are:
 | `asyncapi.operation.tab` | A tab beside the AsyncAPI operation's built-in **Reference** tab |
 | `openapi.operation.reference.supplementary` | Inline after code samples and before authorization |
 | `asyncapi.operation.reference.supplementary` | Inline after the code sample |
+| `openapi.document.topbar` | In the document top bar, alongside search and the markdown export menu |
+| `asyncapi.document.topbar` | In the document top bar, alongside search and the markdown export menu |
 
 Plugins can fill more than one slot. If a plugin does not fill a slot, nothing is rendered there.
 
@@ -118,9 +121,26 @@ Use this slot for small, secondary content that complements the operation's buil
 
 ![The `openapi.operation.reference.supplementary` slot outlined in the playground: a small inline element amid the operation's own documentation](/docs/plugins/operation-supplementary-slot.png)
 
-## Read the current operation
+### Add a document top-bar control
 
-apiuikit calls your component with the complete document and the identity of the current operation.
+A document top-bar slot takes a component directly, without a label:
+
+```tsx
+export default definePlugin({
+  name: "ask-ai",
+  slots: {
+    "openapi.document.topbar": AskAiButton,
+  },
+});
+```
+
+Your component renders once per document in the top bar's controls area, next to search and the markdown-export menu. It is not tied to a single operation. Multiple plugins filling this slot stack in registration order.
+
+![The `openapi.document.topbar` slot outlined in the playground: a button sitting in the top bar, alongside search and the markdown export menu](/docs/plugins/openapi-document-topbar.png)
+
+## Read the document
+
+apiuikit calls your component with the complete document. Operation slots also receive the identity of the current operation. Document-level slots such as `*.document.topbar` receive only the document — they render once, not once per operation.
 
 ```ts
 interface OpenAPIOperationPluginContext {
@@ -133,9 +153,17 @@ interface AsyncAPIOperationPluginContext {
   document: AsyncAPIDocumentData;
   operationId: string;
 }
+
+interface OpenAPIDocumentPluginContext {
+  document: OpenAPIDocumentData;
+}
+
+interface AsyncAPIDocumentPluginContext {
+  document: AsyncAPIDocumentData;
+}
 ```
 
-Use those values to find the operation:
+Use the operation identity to find the current operation:
 
 ```ts
 const operation = document.paths?.[path]?.[method]; // OpenAPI
@@ -174,7 +202,7 @@ export default definePlugin({
 });
 ```
 
-The context does not contain a pre-built bundle of parameters, request bodies, or security settings. Read the values your plugin needs from the operation. If the document still contains `$ref` values, resolve a JSON Pointer with `useDocumentContext().deref`.
+The context does not contain a pre-built bundle of parameters, request bodies, or security settings. Read the values your plugin needs from the document, and for operation slots from the current operation. If the document still contains `$ref` values, resolve a JSON Pointer with `useDocumentContext().deref`.
 
 ### Sending a request
 
@@ -235,7 +263,8 @@ import type { OpenAPIOperationPluginContext } from "apiuikit/plugin";
 | --- | --- |
 | `definePlugin(plugin)` | Returns the plugin unchanged and types it as `ApiuikitPlugin` |
 | `ApiuikitPlugin` | The complete plugin object type |
-| `OpenAPIOperationPluginContext`, `AsyncAPIOperationPluginContext` | Props passed to a slot component |
+| `OpenAPIOperationPluginContext`, `AsyncAPIOperationPluginContext` | Props passed to an operation slot component |
+| `OpenAPIDocumentPluginContext`, `AsyncAPIDocumentPluginContext` | Props passed to a document-level slot component, such as `*.document.topbar` |
 | `HttpMethod`, `OpenAPIDocumentData`, and related OpenAPI types | Types for reading an OpenAPI operation and its data |
 | `AsyncAPIDocumentData` | Type for reading an AsyncAPI operation |
 | `useDocumentContext()` | Access to `deref`, configuration, and other ambient document state |
