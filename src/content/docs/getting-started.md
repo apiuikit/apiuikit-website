@@ -103,6 +103,27 @@ Every component takes a `config` object. A few of the options you are most likel
 
 Every option is listed in [Configuration](./configuration.md).
 
+## Link to a specific endpoint
+
+Pass `initialLocation` to open on a given tab and item, and `onLocationChange` to write the current selection back to the URL. A typical hash looks like `#endpoints/get%20/pets` or `#operations/receiveLightMeasurement`.
+
+```tsx
+<OpenAPI
+  openapi={doc}
+  initialLocation={{ tab: "endpoints", key: "get /pets" }}
+  onLocationChange={(location) => {
+    const hash = location?.key
+      ? `#${location.tab}/${encodeURIComponent(location.key)}`
+      : location
+        ? `#${location.tab}`
+        : "";
+    window.history.replaceState(null, "", hash || window.location.pathname);
+  }}
+/>
+```
+
+The [Deep linking](./deep-linking.md) guide covers parsing the hash on load, the `tab`/`key` values for both specs, and how this behaves under Next.js.
+
 ## Using it outside React
 
 For Vue, Angular, Svelte, or plain HTML, use the web component package. React and the parsers are bundled inside it, so consumers install nothing else.
@@ -147,6 +168,7 @@ Give the loading fallback the same dimensions as the widget so the page does not
 
 - [Composables](./sections.md): render and arrange sections yourself.
 - [Without Parser](./no-parser.md) and [With Parser](./with-parser.md): both entry points in full, for AsyncAPI and OpenAPI alike.
+- [Deep linking](./deep-linking.md): shareable URLs for a specific endpoint, schema, or message.
 - [Plugins](./plugins.md): add your own UI to a rendered document, like a "Try it" tab.
 - [Extensions](./extensions.md): the `x-*` fields apiuikit renders, and how to switch them off.
 - [AI Export](./ai-export.md): making your docs readable by agents and crawlers.

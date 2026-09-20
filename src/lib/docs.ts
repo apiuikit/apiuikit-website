@@ -21,6 +21,7 @@ const ORDER = [
   "configuration",
   "no-parser",
   "with-parser",
+  "deep-linking",
   "sections",
   "plugins",
   "extensions",
@@ -47,6 +48,8 @@ const SUMMARIES: Record<string, string> = {
     "For documents you already hold as an object. AsyncAPI and OpenAPI components, their props, and what each one renders.",
   "with-parser":
     "For raw YAML or JSON strings. The renderer components and imperative helpers, with parse diagnostics separate from render errors.",
+  "deep-linking":
+    "Open the docs on a specific endpoint, schema, or message, and keep the address bar in sync as people click around.",
   sections:
     "Render one section on its own, or arrange several under a shared provider, for both AsyncAPI and OpenAPI.",
   plugins:

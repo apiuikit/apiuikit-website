@@ -5,7 +5,7 @@ import { getDocList } from "@/lib/docs";
 export const metadata: Metadata = {
   title: "Docs | apiuikit",
   description:
-    "Usage guides for apiuikit: composable sections, parser and no-parser entry points, OpenAPI, Avro and Protobuf payloads, Markdown export, and web components.",
+    "Usage guides for apiuikit: composable sections, parser and no-parser entry points, OpenAPI, Avro and Protobuf payloads, Deep linking, Markdown export, and web components.",
   alternates: { canonical: "/docs" },
 };
 
