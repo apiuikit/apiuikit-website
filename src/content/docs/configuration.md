@@ -27,7 +27,7 @@ const config: ConfigInterface = {
 
 ## show
 
-Switches individual sections and controls off. Everything listed here is on by default except `messageExamples`.
+Switches individual sections and controls off. Everything listed here is on by default except `messageExamples` and `tryIt`.
 
 | Option | Default | What it controls |
 | --- | --- | --- |
@@ -45,12 +45,30 @@ Switches individual sections and controls off. Everything listed here is on by d
 | `extensions` | `true` | Known `x-*` spec extensions. |
 | `codeSamples` | `true` | OpenAPI only: per-operation cURL, JavaScript, and Python request examples. |
 | `copyMarkdown` | `true` | The floating "Copy for LLM" / "View as Markdown" button. |
+| `tryIt` | `false` | A **Try it** button in the operation side panel's header. See [Try it](#try-it). |
 
 ```tsx
 config={{ show: { sidebar: false, search: false, codeSamples: false } }}
 ```
 
 Switching the sidebar off also removes search, since search lives inside it.
+
+### Try it
+
+`show.tryIt` adds a **Try it** button to the operation side panel's header:
+
+- **OpenAPI:** a request builder that fills in parameters, auth, and a body, sends the request from the reader's browser, and shows the response.
+- **AsyncAPI:** a WebSocket client that connects to the operation's `ws` or `wss` server, composes and validates messages, and logs frames in both directions. Operations with no WebSocket server show no button.
+
+```tsx
+config={{ show: { tryIt: true } }}
+```
+
+There is nothing to install. apiuikit depends on both panels and loads the one it needs on demand. While `tryIt` is off, that code is never fetched, so your readers download nothing extra.
+
+**Turn it on deliberately.** It turns a documentation page into one that collects credentials from readers: API keys, passwords, tokens, and OAuth2 client secrets. The OpenAPI panel keeps them in `sessionStorage` for the tab's lifetime, where any script on the page can read them. The AsyncAPI panel keeps them in memory only. Either way, requests and connections go to whichever host the document's `servers` entry names, so if you render specs you don't control, the spec decides where readers' credentials are sent.
+
+For other layouts (a full operation tab, or a row inside the Reference panel) or for options such as a CORS proxy, `allowedHosts`, or credential providers, install the [OpenAPI Try it](/plugins/openapi-try-it) or [WebSocket Try it](/plugins/ws-try-it) plugin and register it with `plugins`.
 
 ## expand
 

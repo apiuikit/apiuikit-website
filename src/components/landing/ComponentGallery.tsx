@@ -15,44 +15,44 @@ import InfoPreview from "@/components/demos/InfoPreview";
 const SECTIONS = [
   {
     id: "operations",
-    title: "AsyncAPI Operations",
-    statement: "Every operation, rendered straight from the spec.",
-    body: "Payloads, examples, and reply pairs land in place, with nothing to wire up and nothing to keep in sync by hand.",
+    title: "Event APIs",
+    statement: "Every event integrators can send or receive.",
+    body: "Each one comes with its payload, examples, and replies attached, generated from the spec so the docs never drift from what you ship.",
     Preview: OperationsPreview,
   },
   {
     id: "endpoints",
-    title: "OpenAPI Endpoints",
-    statement: "Every path and method, given the same treatment.",
-    body: "Parameters, responses, and generated cURL, JavaScript, and Python samples for each endpoint you publish.",
+    title: "REST APIs",
+    statement: "Every endpoint, with code ready to paste.",
+    body: "Inputs, responses, and cURL, JavaScript, and Python samples, so integrators reach a first successful call without asking your team.",
     Preview: OpenAPIEndpointsPreview,
   },
   {
     id: "servers",
-    title: "Auth",
-    statement: "Auth that matches what the API actually enforces.",
-    body: "Servers, protocols, and API key, HTTP, OAuth2, and OpenID Connect security, read out of the document rather than mapped by hand.",
+    title: "Authentication",
+    statement: "How to connect, before anyone hits a 401.",
+    body: "Environments and API key, HTTP, OAuth2, and OpenID Connect requirements, taken from the spec rather than a wiki page someone forgets to update.",
     Preview: ServersAuthPreview,
   },
   {
     id: "messages",
-    title: "Messages",
-    statement: "Payloads matched to the operations that carry them.",
-    body: "Examples render with the message they belong to, and Avro and Protobuf work out of the box with nothing extra to install.",
+    title: "Examples",
+    statement: "Real examples, right where they're needed.",
+    body: "Readers see what valid data looks like next to the event that carries it. Avro and Protobuf work with nothing extra to install.",
     Preview: MessagesPreview,
   },
   {
     id: "schemas",
-    title: "Schemas",
-    statement: "Deep schemas you can actually follow.",
-    body: "Nested objects, oneOf branches, and resolved $refs in an expandable tree, colour-coded by nesting depth.",
+    title: "Data models",
+    statement: "Complex data, readable at a glance.",
+    body: "Nested objects, variants, and shared definitions in an expandable tree, so readers find the field they need without opening the raw file.",
     Preview: SchemaTreePreview,
   },
   {
     id: "info",
-    title: "Info",
-    statement: "The info block, laid out without you touching it.",
-    body: "Title, version, description, and license, parsed from the document and re-rendered whenever it changes.",
+    title: "Overview",
+    statement: "Your API's front page, always current.",
+    body: "Name, version, description, and license, laid out for you and updated every time the spec changes.",
     Preview: InfoPreview,
   },
 ];
@@ -140,12 +140,12 @@ export default function ComponentGallery() {
           {/* top-24 clears the sticky site header. Horizontal and scrollable on
               small screens, where a sticky sidebar would eat the viewport. */}
           <nav
-            aria-label="Components"
+            aria-label="What your readers get"
             className="min-w-0 pt-10 lg:sticky lg:top-24 lg:self-start lg:pb-10"
           >
             {/* pl matches the buttons' so the label lines up with their text. */}
             <p className="text-xs font-medium tracking-wide text-ink-faint uppercase lg:pl-4">
-              Components
+              What your readers get
             </p>
             {/* No rail of its own from lg up: the grid's left border is the
                 rail, and each item's accent sits directly on it. */}

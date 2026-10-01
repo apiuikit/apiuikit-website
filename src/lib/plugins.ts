@@ -20,6 +20,9 @@ export interface PluginCatalogEntry {
   coverAlt?: string;
   /** Published by the apiuikit team, not a third-party package. */
   official?: boolean;
+  /** Bundled with apiuikit itself: `config.show.tryIt` turns it on without
+   *  installing the package. */
+  builtIn?: boolean;
 }
 
 /**
@@ -42,15 +45,23 @@ export const PLUGIN_CATALOG: PluginCatalogEntry[] = [
     coverAlt:
       "The Try it tab: request URL, parameters, auth, body, and Send",
     official: true,
+    builtIn: true,
   },
   {
-    slug: "asyncapi",
-    name: "AsyncAPI Try it",
-    status: "coming-soon",
+    slug: "ws-try-it",
+    name: "WebSocket Try it",
+    status: "available",
     spec: "asyncapi",
+    packageName: "@apiuikit/ws-try-it-plugin",
     summary:
-      "A plugin for AsyncAPI operations. Same slot model as OpenAPI Try it; not published yet.",
+      "Connect to a WebSocket server, compose and validate messages, and watch the frame log — from AsyncAPI docs.",
+    github: "https://github.com/apiuikit/ws-try-it-plugin",
+    npm: "https://www.npmjs.com/package/@apiuikit/ws-try-it-plugin",
+    coverImage: "/plugins/ws-try-it/messages.png",
+    coverAlt:
+      "The WebSocket Try it frame log: received marketData messages with validation results",
     official: true,
+    builtIn: true,
   },
 ];
 

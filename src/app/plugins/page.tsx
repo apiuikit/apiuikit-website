@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import DefaultBadge from "@/components/plugins/DefaultBadge";
 import OfficialBadge from "@/components/plugins/OfficialBadge";
 import { getPublishedPlugins } from "@/lib/plugins";
 
 export const metadata: Metadata = {
   title: "Plugins | apiuikit",
   description:
-    "Separately-installed plugins for apiuikit: OpenAPI Try it today, with an AsyncAPI plugin on the way.",
+    "Plugins for apiuikit, including the Try it panels for OpenAPI (REST) and AsyncAPI (WebSocket) that ship with it by default.",
   alternates: { canonical: "/plugins" },
 };
 
@@ -41,7 +42,7 @@ export default function PluginsIndexPage() {
               className="flex h-full flex-col overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface transition-colors hover:border-brand-300"
             >
               <div className="relative aspect-16/10 overflow-hidden border-b border-chrome-border bg-chrome-bg">
-                {plugin.coverImage && (
+                {plugin.coverImage ? (
                   <Image
                     src={plugin.coverImage}
                     alt={plugin.coverAlt ?? plugin.name}
@@ -49,12 +50,17 @@ export default function PluginsIndexPage() {
                     className="object-cover object-top"
                     sizes="(min-width: 640px) 50vw, 100vw"
                   />
+                ) : (
+                  <div className="flex h-full items-center justify-center font-display text-lg font-medium text-ink-faint">
+                    {plugin.name}
+                  </div>
                 )}
               </div>
               <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-center gap-2">
                   <p className="font-medium text-ink">{plugin.name}</p>
                   {plugin.official && <OfficialBadge />}
+                  {plugin.builtIn && <DefaultBadge />}
                   <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-medium tracking-wide text-brand-700 uppercase dark:bg-brand-700/20 dark:text-brand-300">
                     Available
                   </span>

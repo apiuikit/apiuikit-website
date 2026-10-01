@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import DocsToc from "@/components/docs/DocsToc";
+import DefaultBadge from "@/components/plugins/DefaultBadge";
 import GitHubIcon from "@/components/site/GitHubIcon";
 import JsonLd from "@/components/site/JsonLd";
 import NpmIcon from "@/components/site/NpmIcon";
@@ -43,7 +44,7 @@ export default async function PluginPage({
   const plugin = await getPluginDoc(slug);
   if (!plugin) notFound();
 
-  const { name, html, headings, packageName, npm, github } = plugin;
+  const { name, html, headings, packageName, npm, github, builtIn } = plugin;
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -72,9 +73,12 @@ export default async function PluginPage({
         <p className="text-xs font-medium tracking-wide text-brand-600 uppercase">
           Plugin
         </p>
-        <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl">
-          {name}
-        </h1>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <h1 className="font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl">
+            {name}
+          </h1>
+          {builtIn && <DefaultBadge />}
+        </div>
         {(packageName || npm || github) && (
           <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-faint">
             {packageName && (

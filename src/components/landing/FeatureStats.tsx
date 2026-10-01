@@ -1,18 +1,18 @@
 const stats = [
   {
     value: "2",
-    label: "Spec formats",
-    detail: "AsyncAPI 3.x and OpenAPI 3.0 and 3.1, both fully supported.",
+    label: "Kinds of API",
+    detail: "REST APIs from OpenAPI and event-driven APIs from AsyncAPI, documented the same way.",
   },
   {
     value: "3",
-    label: "Payload formats",
-    detail: "JSON Schema, Avro, and Protobuf, with nothing extra to install.",
+    label: "Data formats",
+    detail: "JSON, Avro, and Protobuf payloads, with nothing extra to install.",
   },
   {
     value: "5",
     label: "Frameworks",
-    detail: "React natively, plus Vue, Angular, Svelte, and plain HTML via web components.",
+    detail: "Fits whatever your site is built with: React, Vue, Angular, Svelte, or plain HTML.",
   },
 ];
 
@@ -29,12 +29,13 @@ export default function FeatureStats() {
               across both lines, split only by weight and colour. */}
           <div className="mt-4 max-w-4xl font-display text-2xl leading-[1.3] tracking-tight text-pretty sm:text-3xl">
             <h2 className="font-bold text-ink">
-              Modular pieces, not a monolith.
+              Docs that ship with your API, not after it.
             </h2>
             <p className="text-ink-faint">
-              Rendering servers, operations, schemas, and auth for two spec
-              formats is weeks of undifferentiated work. Take the pieces you
-              need and skip building a renderer of your own.
+              Hand-written docs drift the moment the API changes, and building
+              your own renderer takes weeks. apiuikit reads the spec you
+              already maintain, so your docs stay accurate without anyone
+              having to own them.
             </p>
           </div>
         </div>
