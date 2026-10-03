@@ -67,6 +67,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
   },
   twitter: {
+    site: "@apiuikit",
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,

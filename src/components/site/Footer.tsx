@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Wordmark from "./Wordmark";
 import GitHubIcon from "./GitHubIcon";
+import XIcon from "./XIcon";
 
 const GITHUB_URL = "https://github.com/AceTheCreator/apiuikit";
+const X_URL = "https://x.com/apiuikit";
 const NPM_URL = "https://www.npmjs.com/package/apiuikit";
 const LICENSE_URL =
   "https://github.com/AceTheCreator/apiuikit/blob/master/LICENSE";
@@ -13,6 +15,7 @@ const columns = [
     heading: "Project",
     links: [
       { label: "GitHub", href: GITHUB_URL },
+      { label: "X (Twitter)", href: X_URL },
       { label: "npm", href: NPM_URL },
       { label: "Apache-2.0 license", href: LICENSE_URL },
     ],
@@ -43,15 +46,26 @@ export default function Footer() {
             <p className="mt-3 max-w-xs text-sm text-ink-faint">
               React components for rendering AsyncAPI and OpenAPI documents.
             </p>
-            <Link
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="apiuikit on GitHub"
-              className="mt-5 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-chrome-border text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface"
-            >
-              <GitHubIcon />
-            </Link>
+            <div className="mt-5 flex gap-2">
+              <Link
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="apiuikit on GitHub"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-chrome-border text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface"
+              >
+                <GitHubIcon />
+              </Link>
+              <Link
+                href={X_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="apiuikit on X"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-chrome-border text-ink-muted transition-colors hover:text-ink hover:bg-chrome-surface"
+              >
+                <XIcon />
+              </Link>
+            </div>
           </div>
 
           {columns.map(({ heading, links }) => (

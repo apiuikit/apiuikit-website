@@ -21,6 +21,7 @@ const JSON_LD = {
   codeRepository: "https://github.com/AceTheCreator/apiuikit",
   license: "https://github.com/AceTheCreator/apiuikit/blob/master/LICENSE",
   programmingLanguage: "TypeScript",
+  sameAs: ["https://x.com/apiuikit"],
 };
 
 export default function Home() {

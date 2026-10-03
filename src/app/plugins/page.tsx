@@ -76,7 +76,7 @@ export default function PluginsIndexPage() {
 
       <p className="mt-12 text-sm text-ink-faint">
         Want to list your plugin here?{" "}
-        <a href="mailto:ea.elegbede@gmail.com,mohdmehdi2003@gmail.com">
+        <a href="mailto:contact@apiuikit.com,ea.elegbede@gmail.com,mohdmehdi2003@gmail.com">
           <span className="underline decoration-chrome-border underline-offset-2 hover:text-ink hover:decoration-ink">
             Contact us
           </span>

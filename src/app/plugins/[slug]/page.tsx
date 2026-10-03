@@ -30,6 +30,7 @@ export async function generateMetadata({
       type: "article",
     },
     twitter: {
+      site: "@apiuikit",
       title: `${plugin.name} | apiuikit plugins`,
       description: plugin.summary,
     },

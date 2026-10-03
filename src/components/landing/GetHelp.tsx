@@ -1,5 +1,5 @@
 const MAINTAINERS_EMAIL_URL =
-  "mailto:ea.elegbede@gmail.com,mohdmehdi2003@gmail.com";
+  "mailto:contact@apiuikit.com,ea.elegbede@gmail.com,mohdmehdi2003@gmail.com";
 
 export default function GetHelp() {
   return (
