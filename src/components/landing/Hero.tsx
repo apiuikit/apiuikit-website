@@ -18,8 +18,8 @@ export default function Hero() {
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-lg text-pretty text-ink-muted">
           apiuikit is a React component library for AsyncAPI and OpenAPI
-          documents. Drop in the whole documentation page, one section on its
-          own, or compose exactly the pieces your layout needs. No manual
+          documents. Drop in the whole documentation page, one endpoint or
+          section, or compose exactly the pieces your layout needs. No manual
           mapping, no renderer to maintain.
         </p>
 

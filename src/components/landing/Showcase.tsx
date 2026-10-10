@@ -7,7 +7,7 @@ const callouts = [
   {
     title: "Composable sections",
     description:
-      "Render one section standalone, or compose several under a shared provider.",
+      "Render one item or one section on its own, or compose several under a shared provider.",
   },
   {
     title: "Multi-format schemas",

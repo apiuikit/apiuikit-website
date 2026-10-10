@@ -9,7 +9,7 @@ const points: { title: string; description: ReactNode }[] = [
   {
     title: "Drop into an existing page",
     description:
-      "No rewrite required: render one section standalone inside a page you already have, then add more as you need them.",
+      "No rewrite required: render one endpoint or section inside a page you already have, then add more as you need them.",
   },
   {
     title: "Not just React",
@@ -47,7 +47,7 @@ export default function Adoption() {
         <div className="mt-4 max-w-4xl font-display text-2xl leading-[1.3] tracking-tight text-pretty sm:text-3xl">
           <h2 className="font-bold text-ink">Incremental, not all-or-nothing.</h2>
           <p className="text-ink-faint">
-            Render one section inside a page you already have and ship it.
+            Render one endpoint or section inside a page you already have and ship it.
             Add the rest whenever you want them, or never.
           </p>
         </div>

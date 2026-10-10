@@ -76,6 +76,19 @@ export default function CustomLayout() {
 }
 ```
 
+## Render one item
+
+To show a single endpoint, webhook, operation, message, or schema inline, use the singular component. It renders that item as a card and fills the width by default.
+
+```tsx
+import { OpenAPIEndpoint, Schema } from "apiuikit";
+
+<OpenAPIEndpoint document={petstore} operationId="createPet" />
+<Schema document={petstore} name="Pet" />
+```
+
+`OpenAPIWebhook`, `AsyncAPIOperation`, and `AsyncAPIMessage` work the same way. Pass `document` when one stands alone, or render several inside `OpenAPIProvider` or `AsyncAPIProvider` and pass `document` once to the provider.
+
 See [Composables](./sections.md) for the full list and their props.
 
 ## Configure it
@@ -166,7 +179,7 @@ Give the loading fallback the same dimensions as the widget so the page does not
 
 ## Where to go next
 
-- [Composables](./sections.md): render and arrange sections yourself.
+- [Composables](./sections.md): render one item, or arrange sections yourself.
 - [Without Parser](./no-parser.md) and [With Parser](./with-parser.md): both entry points in full, for AsyncAPI and OpenAPI alike.
 - [Deep linking](./deep-linking.md): shareable URLs for a specific endpoint, schema, or message.
 - [Plugins](./plugins.md): add your own UI to a rendered document, like a "Try it" tab.

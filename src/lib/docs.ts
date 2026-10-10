@@ -40,7 +40,7 @@ const ORDER = [
  */
 const SUMMARIES: Record<string, string> = {
   "getting-started":
-    "Install it, render your first document, and drop a single section into a page you already have.",
+    "Install it, render your first document, and drop a single section or item into a page you already have.",
   cli: "Generate a static documentation site from a spec file in one command, with no frontend toolchain: every command, flag, and CI recipe.",
   configuration:
     "Every option on the config object: which sections to show, what starts expanded, theming, side-panel containment, host-page offsets, and Markdown output.",
@@ -51,7 +51,7 @@ const SUMMARIES: Record<string, string> = {
   "deep-linking":
     "Open the docs on a specific endpoint, schema, or message, and keep the address bar in sync as people click around.",
   sections:
-    "Render one section on its own, or arrange several under a shared provider, for both AsyncAPI and OpenAPI.",
+    "Render one item or one section on its own, or arrange several under a shared provider, for both AsyncAPI and OpenAPI.",
   plugins:
     "Add your own UI to a rendered document from a separately-installed package — a \"Try it\" tab, an inline action, a top-bar control, and how to write and publish one.",
   extensions:

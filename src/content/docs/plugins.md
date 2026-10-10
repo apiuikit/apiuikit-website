@@ -51,7 +51,7 @@ You can pass `plugins` to:
 - `OpenAPI` and `AsyncAPI`
 - `OpenAPIRenderer` and `AsyncAPIRenderer`
 - `OpenAPIProvider` and `AsyncAPIProvider`
-- A standalone section that receives a `document` prop
+- A standalone section, or a single-item component such as `OpenAPIEndpoint`, `AsyncAPIOperation`, or `Schema`, that receives a `document` prop
 
 When a section is inside a provider, it uses the provider's plugins. Its own `plugins` prop is ignored, just like its own `config` prop.
 

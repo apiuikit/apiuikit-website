@@ -1,8 +1,6 @@
 import { highlight } from "@/lib/highlight";
 import DeveloperExperienceTabs from "./DeveloperExperienceTabs";
 
-// Code verbatim from apiuikit/README.md — the same "three ways to use it"
-// story as packages/lib/src/stories/Introduction.mdx.
 const tiers = [
   {
     id: "widget",
@@ -46,6 +44,23 @@ export default function CustomLayout() {
   );
 }`,
   },
+  {
+    id: "item",
+    label: "One item, inline",
+    description:
+      "Show a single endpoint, operation, message, or schema inside your own page.",
+    code: `import { OpenAPIProvider, OpenAPIEndpoint, Schema } from "apiuikit";
+
+export default function GuidePage() {
+  return (
+    <OpenAPIProvider document={doc}>
+      <h2>Adding a pet</h2>
+      <OpenAPIEndpoint operationId="createPet" />
+      <Schema name="Pet" />
+    </OpenAPIProvider>
+  );
+}`,
+  },
 ];
 
 export default async function DeveloperExperience() {
@@ -65,9 +80,9 @@ export default async function DeveloperExperience() {
         How you use it
       </p>
       <div className="mt-4 max-w-4xl font-display text-2xl leading-[1.3] tracking-tight text-pretty sm:text-3xl">
-        <h2 className="font-bold text-ink">Three ways to use it.</h2>
+        <h2 className="font-bold text-ink">Four ways to use it.</h2>
         <p className="text-ink-faint">
-          Start with the whole widget, drop down to a single section, or
+          Start with the whole widget, drop in one section or one item, or
           compose several. Same API, whatever granularity your layout needs.
         </p>
       </div>
