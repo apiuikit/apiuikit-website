@@ -1,6 +1,6 @@
 # Configuration
 
-Every component (the full widget, a standalone section, or a provider) takes the same `config` object. What you pass is merged over the defaults, so you only specify what you want to change.
+Every component (the full widget, a standalone section, a single item, or a provider) takes the same `config` object. What you pass is merged over the defaults, so you only specify what you want to change.
 
 ```tsx
 import { AsyncAPI } from "apiuikit";

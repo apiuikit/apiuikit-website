@@ -20,7 +20,8 @@ export default function Hero() {
           Give the teams integrating with your API docs they can actually
           use: every endpoint and event, working examples, and auth, generated
           from your OpenAPI or AsyncAPI spec so they never go stale. Drop in
-          the whole page, or just the pieces your site needs.
+          the whole page, a single endpoint or section, or just the pieces
+          your site needs.
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3 sm:flex-row">
