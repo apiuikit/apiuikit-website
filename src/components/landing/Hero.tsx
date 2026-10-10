@@ -17,10 +17,11 @@ export default function Hero() {
           Interactive API docs, rendered from your spec.
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-lg text-pretty text-ink-muted">
-          apiuikit is a React component library for AsyncAPI and OpenAPI
-          documents. Drop in the whole documentation page, one endpoint or
-          section, or compose exactly the pieces your layout needs. No manual
-          mapping, no renderer to maintain.
+          Give the teams integrating with your API docs they can actually
+          use: every endpoint and event, working examples, and auth, generated
+          from your OpenAPI or AsyncAPI spec so they never go stale. Drop in
+          the whole page, a single endpoint or section, or just the pieces
+          your site needs.
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3 sm:flex-row">

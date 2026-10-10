@@ -206,13 +206,13 @@ The context does not contain a pre-built bundle of parameters, request bodies, o
 
 ### Sending a request
 
-For OpenAPI, use the published [Try it plugin](/plugins/openapi-try-it). It is a separately-installed package, not bundled with apiuikit.
+For a "Try it" panel, you may not need a plugin at all: apiuikit ships one for OpenAPI and one for AsyncAPI WebSocket operations, turned on with `show.tryIt`. For other layouts or options, install the [OpenAPI Try it](/plugins/openapi-try-it) or [WebSocket Try it](/plugins/ws-try-it) plugin.
 
 To build your own request-sending tab, read the operation's `parameters`, `requestBody`, and `security` fields, then construct a `fetch()` request or use your preferred HTTP client.
 
 apiuikit does not export a request builder. Its code-sample helper produces snippet-oriented HAR data with placeholders and is not designed to execute requests.
 
-The same approach can be used with `asyncapi.operation.tab`, but apiuikit does not currently provide an equivalent recipe for WebSocket, Kafka, or MQTT requests.
+The same approach can be used with `asyncapi.operation.tab`. For WebSocket, the [WebSocket Try it](/plugins/ws-try-it) plugin is a working example; apiuikit does not currently provide an equivalent for Kafka or MQTT.
 
 ## Match the document theme
 
