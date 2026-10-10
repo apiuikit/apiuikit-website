@@ -37,7 +37,7 @@ export default function PluginsNav({
             </span>
           </Link>
         </li>
-        {plugins.map(({ slug, name, status }) => {
+        {plugins.map(({ slug, name, status, builtIn }) => {
           const href = `/plugins/${slug}`;
           const isActive = pathname === href;
           const isComingSoon = status === "coming-soon";
@@ -71,6 +71,11 @@ export default function PluginsNav({
                 >
                   {name}
                 </span>
+                {builtIn && (
+                  <span className="ml-2 text-xs tracking-wide text-ink-faint uppercase">
+                    Default
+                  </span>
+                )}
               </Link>
             </li>
           );

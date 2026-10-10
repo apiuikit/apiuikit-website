@@ -2,7 +2,25 @@
 
 A "Try it out" plugin for apiuikit. Users fill in parameters, auth, and a body, send the request, and inspect the response — from the docs.
 
-This package is not bundled with apiuikit. Install it and pass it as a plugin.
+## Built into apiuikit
+
+apiuikit ships a header layout of this plugin and loads it on demand. Turn it on with `show.tryIt`:
+
+```tsx
+import { OpenAPI } from "apiuikit";
+import "apiuikit/style.css";
+import doc from "./openapi.json";
+
+const config = { show: { tryIt: true } };
+
+export default function App() {
+  return <OpenAPI openapi={doc} config={config} />;
+}
+```
+
+That puts a **Try it** button in the operation side panel's header, opening the same modal as the [button layout](#button). There is nothing to install, and it is off by default. Read the [security note](/docs/configuration#try-it) before turning it on: readers enter credentials, and requests go to whichever servers your document names.
+
+The built-in layout takes no options. Install the package when you want a full tab, a row inside the Reference panel, or a [`proxyUrl`](#cors).
 
 ## Install
 
@@ -10,13 +28,13 @@ This package is not bundled with apiuikit. Install it and pass it as a plugin.
 npm install @apiuikit/openapi-try-it-plugin
 ```
 
-Peer dependencies: `apiuikit` ^1.7, React 18+.
+Peer dependencies: `apiuikit` ^1.10, React 18+.
 
 ## Usage
 
 Pick one of the two layouts, or register both.
 
-### Tab (default)
+### Tab
 
 Fills the [`openapi.operation.tab`](/docs/plugins#add-a-full-operation-tab) slot — a **Try it** tab next to the built-in Reference tab.
 

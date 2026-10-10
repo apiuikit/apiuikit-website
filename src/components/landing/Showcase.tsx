@@ -10,9 +10,9 @@ const callouts = [
       "Render one section standalone, or compose several under a shared provider.",
   },
   {
-    title: "Multi-format schemas",
+    title: "Avro and Protobuf included",
     description:
-      "Avro and Protobuf payloads supported out of the box, no extra install.",
+      "Teams on Avro or Protobuf get the same docs as JSON, no extra install.",
   },
   {
     title: "AI-readable by default",
