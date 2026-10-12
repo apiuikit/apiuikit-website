@@ -1,9 +1,11 @@
 import Link from "next/link";
 import PluginShowcase from "@/components/demos/PluginShowcase";
+import SharePluginLink from "./SharePluginLink";
 
 export default function PluginSpotlight() {
   return (
-    <section className="border-t border-chrome-border">
+    // id: the shareable #plugins anchor. scroll-mt clears the sticky header.
+    <section id="plugins" className="scroll-mt-20 border-t border-chrome-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
@@ -22,26 +24,29 @@ export default function PluginSpotlight() {
               one — go on, press it.
             </p>
 
-            {/* Inline color, not text-white — see Header.tsx's CTA for why. */}
-            <Link
-              href="/docs/plugins"
-              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-8 py-3 text-sm font-medium transition-colors hover:bg-brand-700"
-              style={{ color: "#ffffff" }}
-            >
-              Write a plugin
-              <svg
-                aria-hidden
-                viewBox="0 0 16 16"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {/* Inline color, not text-white — see Header.tsx's CTA for why. */}
+              <Link
+                href="/docs/plugins"
+                className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-8 py-3 text-sm font-medium transition-colors hover:bg-brand-700"
+                style={{ color: "#ffffff" }}
               >
-                <path d="M2.5 8h11M9.5 4l4 4-4 4" />
-              </svg>
-            </Link>
+                Write a plugin
+                <svg
+                  aria-hidden
+                  viewBox="0 0 16 16"
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M2.5 8h11M9.5 4l4 4-4 4" />
+                </svg>
+              </Link>
+              <SharePluginLink />
+            </div>
           </div>
 
           <div className="overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface shadow-sm">

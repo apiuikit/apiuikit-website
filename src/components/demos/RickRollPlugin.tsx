@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { definePlugin } from "apiuikit/plugin";
+import { useSharePluginLink } from "./useSharePluginLink";
 
 // The canonical upload, via the no-cookie host so an untouched homepage sets
 // nothing. Only requested once the button is pressed.
@@ -11,6 +12,9 @@ const VIDEO_SRC =
 function ClickMeButton() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
+  const { share, copied } = useSharePluginLink(
+    "Found a red button on the apiuikit homepage. You should press it.",
+  );
 
   const show = useCallback(() => {
     setOpen(true);
@@ -69,14 +73,27 @@ function ClickMeButton() {
               <span className="text-sm font-medium text-ink">
                 You asked for it.
               </span>
-              <button
-                type="button"
-                onClick={close}
-                aria-label="Close"
-                className="shrink-0 rounded-lg px-2 py-1 text-sm text-ink-muted transition-colors hover:bg-chrome-surface hover:text-ink"
-              >
-                ✕
-              </button>
+              <div className="flex shrink-0 items-center gap-1">
+                {/* The moment someone wants to pass it on is right now. */}
+                <button
+                  type="button"
+                  onClick={share}
+                  className="cursor-pointer rounded-lg px-2.5 py-1 text-xs font-bold whitespace-nowrap"
+                  style={{ background: "#dc2626", color: "#ffffff" }}
+                >
+                  <span aria-live="polite">
+                    {copied ? "Link copied!" : "Rickroll a friend"}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={close}
+                  aria-label="Close"
+                  className="rounded-lg px-2 py-1 text-sm text-ink-muted transition-colors hover:bg-chrome-surface hover:text-ink"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
             {/* Mounted only while open, so closing the dialog stops the video. */}
             <div className="aspect-video bg-black">
