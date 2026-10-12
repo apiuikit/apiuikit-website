@@ -1,7 +1,7 @@
 "use client";
 
 import { AsyncAPIOperations } from "apiuikit";
-import { streetlight } from "@/data/examples";
+import { krakenWebsocket } from "@/data/examples";
 import { useDemoTheme } from "./DemoThemeSync";
 import { HEADER_HEIGHT } from "@/lib/layout";
 
@@ -15,9 +15,11 @@ export default function OperationsPreviewImpl() {
     // widget's own outermost element to fill it.
     <div className="flex min-h-[34rem] flex-col [&>*]:flex-1">
       <AsyncAPIOperations
-        document={streetlight}
+        document={krakenWebsocket}
         config={{
           theme,
+          // The point of the live spec: readers can connect and send frames.
+          show: { tryIt: true },
           // Clears the site's sticky navbar.
           sidePanel: { containment: "component", topOffset: HEADER_HEIGHT },
         }}

@@ -1,0 +1,549 @@
+{
+  "asyncapi": "3.1.0",
+  "info": {
+    "title": "Kraken Spot WebSocket API",
+    "version": "2.0.0",
+    "description": "Live cryptocurrency market data over a single WebSocket connection. Send a `subscribe` request naming a channel and one or more currency pairs, and the server confirms it and then streams updates until you `unsubscribe` or disconnect.\n\nThe market data channels are public, so no account or API key is needed. Every request can carry a `req_id`, which the server echoes on its response so you can tell which acknowledgement belongs to which request.",
+    "externalDocs": {
+      "description": "Kraken WebSocket v2 reference",
+      "url": "https://docs.kraken.com/api/docs/websocket-v2/ticker"
+    },
+    "tags": [
+      { "name": "market-data", "description": "Public price and trade feeds." },
+      { "name": "connection", "description": "Keeping the connection healthy." }
+    ]
+  },
+  "defaultContentType": "application/json",
+  "servers": {
+    "production": {
+      "host": "ws.kraken.com",
+      "protocol": "wss",
+      "title": "Production",
+      "description": "Public market data endpoint. No authentication required."
+    }
+  },
+  "channels": {
+    "marketData": {
+      "address": "/v2",
+      "title": "Market data",
+      "description": "The one connection every request and update travels over. Which updates you receive depends on what you have subscribed to.",
+      "messages": {
+        "subscribeRequest": { "$ref": "#/components/messages/subscribeRequest" },
+        "subscribeResponse": { "$ref": "#/components/messages/subscribeResponse" },
+        "unsubscribeRequest": { "$ref": "#/components/messages/unsubscribeRequest" },
+        "unsubscribeResponse": { "$ref": "#/components/messages/unsubscribeResponse" },
+        "ping": { "$ref": "#/components/messages/ping" },
+        "pong": { "$ref": "#/components/messages/pong" },
+        "ticker": { "$ref": "#/components/messages/ticker" },
+        "trade": { "$ref": "#/components/messages/trade" },
+        "status": { "$ref": "#/components/messages/status" },
+        "heartbeat": { "$ref": "#/components/messages/heartbeat" }
+      }
+    }
+  },
+  "operations": {
+    "subscribe": {
+      "action": "receive",
+      "channel": { "$ref": "#/channels/marketData" },
+      "title": "Subscribe to a feed",
+      "summary": "Start streaming ticker or trade updates for one or more currency pairs.",
+      "description": "The server answers every request with an acknowledgement carrying the same `req_id`. On success the first update is a snapshot of the current state, unless `snapshot` is `false`.",
+      "tags": [{ "name": "market-data" }],
+      "messages": [{ "$ref": "#/channels/marketData/messages/subscribeRequest" }],
+      "reply": {
+        "channel": { "$ref": "#/channels/marketData" },
+        "messages": [{ "$ref": "#/channels/marketData/messages/subscribeResponse" }]
+      }
+    },
+    "unsubscribe": {
+      "action": "receive",
+      "channel": { "$ref": "#/channels/marketData" },
+      "title": "Unsubscribe from a feed",
+      "summary": "Stop streaming updates for a channel and its currency pairs.",
+      "tags": [{ "name": "market-data" }],
+      "messages": [{ "$ref": "#/channels/marketData/messages/unsubscribeRequest" }],
+      "reply": {
+        "channel": { "$ref": "#/channels/marketData" },
+        "messages": [{ "$ref": "#/channels/marketData/messages/unsubscribeResponse" }]
+      }
+    },
+    "ping": {
+      "action": "receive",
+      "channel": { "$ref": "#/channels/marketData" },
+      "title": "Ping",
+      "summary": "Check the connection is alive. The server replies with a pong.",
+      "tags": [{ "name": "connection" }],
+      "messages": [{ "$ref": "#/channels/marketData/messages/ping" }],
+      "reply": {
+        "channel": { "$ref": "#/channels/marketData" },
+        "messages": [{ "$ref": "#/channels/marketData/messages/pong" }]
+      }
+    },
+    "sendTicker": {
+      "action": "send",
+      "channel": { "$ref": "#/channels/marketData" },
+      "title": "Ticker updates",
+      "summary": "Best bid and ask, last price, and 24-hour statistics for each subscribed pair.",
+      "tags": [{ "name": "market-data" }],
+      "messages": [{ "$ref": "#/channels/marketData/messages/ticker" }]
+    },
+    "sendTrade": {
+      "action": "send",
+      "channel": { "$ref": "#/channels/marketData" },
+      "title": "Trade updates",
+      "summary": "Every trade executed on each subscribed pair.",
+      "tags": [{ "name": "market-data" }],
+      "messages": [{ "$ref": "#/channels/marketData/messages/trade" }]
+    },
+    "sendStatus": {
+      "action": "send",
+      "channel": { "$ref": "#/channels/marketData" },
+      "title": "Connection status",
+      "summary": "The exchange's status on connect, then a heartbeat about once a second while subscribed.",
+      "tags": [{ "name": "connection" }],
+      "messages": [
+        { "$ref": "#/channels/marketData/messages/status" },
+        { "$ref": "#/channels/marketData/messages/heartbeat" }
+      ]
+    }
+  },
+  "components": {
+    "correlationIds": {
+      "requestId": {
+        "description": "The client-chosen `req_id`, echoed on the server's response.",
+        "location": "$message.payload#/req_id"
+      }
+    },
+    "messages": {
+      "subscribeRequest": {
+        "name": "subscribeRequest",
+        "title": "Subscribe request",
+        "correlationId": { "$ref": "#/components/correlationIds/requestId" },
+        "payload": { "$ref": "#/components/schemas/subscribeRequest" },
+        "examples": [
+          {
+            "name": "ticker",
+            "summary": "Ticker for Bitcoin and Ether",
+            "payload": {
+              "method": "subscribe",
+              "params": { "channel": "ticker", "symbol": ["BTC/USD", "ETH/USD"] },
+              "req_id": 1
+            }
+          },
+          {
+            "name": "trade",
+            "summary": "Trades for Bitcoin, without the snapshot",
+            "payload": {
+              "method": "subscribe",
+              "params": { "channel": "trade", "symbol": ["BTC/USD"], "snapshot": false },
+              "req_id": 2
+            }
+          }
+        ]
+      },
+      "subscribeResponse": {
+        "name": "subscribeResponse",
+        "title": "Subscribe response",
+        "correlationId": { "$ref": "#/components/correlationIds/requestId" },
+        "payload": { "$ref": "#/components/schemas/subscriptionResponse" },
+        "examples": [
+          {
+            "name": "success",
+            "payload": {
+              "method": "subscribe",
+              "req_id": 1,
+              "result": { "channel": "ticker", "event_trigger": "trades", "snapshot": true, "symbol": "BTC/USD" },
+              "success": true,
+              "time_in": "2026-10-12T09:45:39.066708Z",
+              "time_out": "2026-10-12T09:45:39.066751Z"
+            }
+          },
+          {
+            "name": "unknownPair",
+            "summary": "A currency pair Kraken doesn't list",
+            "payload": {
+              "error": "Currency pair not supported NOPE/USD",
+              "method": "subscribe",
+              "req_id": 3,
+              "success": false,
+              "symbol": "NOPE/USD",
+              "time_in": "2026-10-12T09:45:39.066818Z",
+              "time_out": "2026-10-12T09:45:39.066831Z"
+            }
+          }
+        ]
+      },
+      "unsubscribeRequest": {
+        "name": "unsubscribeRequest",
+        "title": "Unsubscribe request",
+        "correlationId": { "$ref": "#/components/correlationIds/requestId" },
+        "payload": { "$ref": "#/components/schemas/unsubscribeRequest" },
+        "examples": [
+          {
+            "name": "ticker",
+            "payload": {
+              "method": "unsubscribe",
+              "params": { "channel": "ticker", "symbol": ["BTC/USD", "ETH/USD"] },
+              "req_id": 3
+            }
+          }
+        ]
+      },
+      "unsubscribeResponse": {
+        "name": "unsubscribeResponse",
+        "title": "Unsubscribe response",
+        "correlationId": { "$ref": "#/components/correlationIds/requestId" },
+        "payload": { "$ref": "#/components/schemas/unsubscriptionResponse" },
+        "examples": [
+          {
+            "name": "success",
+            "payload": {
+              "method": "unsubscribe",
+              "req_id": 3,
+              "result": { "channel": "ticker", "event_trigger": "trades", "symbol": "BTC/USD" },
+              "success": true,
+              "time_in": "2026-10-12T09:45:43.063043Z",
+              "time_out": "2026-10-12T09:45:43.063098Z"
+            }
+          }
+        ]
+      },
+      "ping": {
+        "name": "ping",
+        "title": "Ping",
+        "correlationId": { "$ref": "#/components/correlationIds/requestId" },
+        "payload": { "$ref": "#/components/schemas/ping" },
+        "examples": [{ "name": "ping", "payload": { "method": "ping", "req_id": 4 } }]
+      },
+      "pong": {
+        "name": "pong",
+        "title": "Pong",
+        "correlationId": { "$ref": "#/components/correlationIds/requestId" },
+        "payload": { "$ref": "#/components/schemas/pong" },
+        "examples": [
+          {
+            "name": "pong",
+            "payload": {
+              "method": "pong",
+              "req_id": 4,
+              "time_in": "2026-10-12T09:45:43.063122Z",
+              "time_out": "2026-10-12T09:45:43.063128Z"
+            }
+          }
+        ]
+      },
+      "ticker": {
+        "name": "ticker",
+        "title": "Ticker",
+        "payload": { "$ref": "#/components/schemas/ticker" },
+        "examples": [
+          {
+            "name": "update",
+            "payload": {
+              "channel": "ticker",
+              "type": "update",
+              "data": [
+                {
+                  "symbol": "BTC/USD",
+                  "bid": 83276.5,
+                  "bid_qty": 0.15188157,
+                  "ask": 83276.6,
+                  "ask_qty": 4.16832293,
+                  "last": 83276.6,
+                  "volume": 1627.02473246,
+                  "vwap": 83667.5,
+                  "low": 82884.1,
+                  "high": 84250.0,
+                  "change": 314.8,
+                  "change_pct": 0.38,
+                  "trades": 97967,
+                  "timestamp": "2026-10-12T09:45:39.139828Z"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "trade": {
+        "name": "trade",
+        "title": "Trade",
+        "payload": { "$ref": "#/components/schemas/trade" },
+        "examples": [
+          {
+            "name": "update",
+            "payload": {
+              "channel": "trade",
+              "type": "update",
+              "data": [
+                {
+                  "symbol": "ETH/USD",
+                  "side": "buy",
+                  "price": 2547.95,
+                  "qty": 0.01058392,
+                  "ord_type": "limit",
+                  "trade_id": 67602404,
+                  "timestamp": "2026-10-12T09:45:46.352936Z"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "name": "status",
+        "title": "Status",
+        "payload": { "$ref": "#/components/schemas/status" },
+        "examples": [
+          {
+            "name": "online",
+            "payload": {
+              "channel": "status",
+              "type": "update",
+              "data": [
+                {
+                  "version": "2.0.10",
+                  "system": "online",
+                  "api_version": "v2",
+                  "connection_id": 14003088474926020000,
+                  "upcoming_maintenance": [],
+                  "emergency": []
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "heartbeat": {
+        "name": "heartbeat",
+        "title": "Heartbeat",
+        "payload": { "$ref": "#/components/schemas/heartbeat" },
+        "examples": [{ "name": "heartbeat", "payload": { "channel": "heartbeat" } }]
+      }
+    },
+    "schemas": {
+      "feedChannel": {
+        "type": "string",
+        "description": "The feed to subscribe to.",
+        "enum": ["ticker", "trade"],
+        "default": "ticker"
+      },
+      "symbols": {
+        "type": "array",
+        "description": "Currency pairs, written `BASE/QUOTE`.",
+        "minItems": 1,
+        "items": { "type": "string", "examples": ["BTC/USD", "ETH/USD", "SOL/EUR"] }
+      },
+      "reqId": {
+        "type": "integer",
+        "description": "Optional client-chosen id, echoed on the response.",
+        "minimum": 0
+      },
+      "processingTimes": {
+        "type": "object",
+        "properties": {
+          "time_in": { "type": "string", "format": "date-time", "description": "When the server received the request." },
+          "time_out": { "type": "string", "format": "date-time", "description": "When the server sent the response." }
+        }
+      },
+      "subscribeRequest": {
+        "type": "object",
+        "required": ["method", "params"],
+        "properties": {
+          "method": { "const": "subscribe" },
+          "params": {
+            "type": "object",
+            "required": ["channel", "symbol"],
+            "properties": {
+              "channel": { "$ref": "#/components/schemas/feedChannel" },
+              "symbol": { "$ref": "#/components/schemas/symbols" },
+              "snapshot": {
+                "type": "boolean",
+                "default": true,
+                "description": "Send the current state as the first update."
+              },
+              "event_trigger": {
+                "type": "string",
+                "enum": ["trades", "bbo"],
+                "default": "trades",
+                "description": "Ticker only: publish on every trade, or on every change to the best bid or offer."
+              }
+            }
+          },
+          "req_id": { "$ref": "#/components/schemas/reqId" }
+        }
+      },
+      "unsubscribeRequest": {
+        "type": "object",
+        "required": ["method", "params"],
+        "properties": {
+          "method": { "const": "unsubscribe" },
+          "params": {
+            "type": "object",
+            "required": ["channel", "symbol"],
+            "properties": {
+              "channel": { "$ref": "#/components/schemas/feedChannel" },
+              "symbol": { "$ref": "#/components/schemas/symbols" }
+            }
+          },
+          "req_id": { "$ref": "#/components/schemas/reqId" }
+        }
+      },
+      "subscriptionResult": {
+        "type": "object",
+        "description": "The subscription that was created or removed. Present when `success` is true.",
+        "properties": {
+          "channel": { "$ref": "#/components/schemas/feedChannel" },
+          "symbol": { "type": "string", "examples": ["BTC/USD"] },
+          "snapshot": { "type": "boolean" },
+          "event_trigger": { "type": "string", "enum": ["trades", "bbo"] }
+        }
+      },
+      "subscriptionResponse": {
+        "description": "One acknowledgement per currency pair in the request.",
+        "allOf": [
+          {
+            "type": "object",
+            "required": ["method", "success"],
+            "properties": {
+              "method": { "const": "subscribe" },
+              "req_id": { "$ref": "#/components/schemas/reqId" },
+              "success": { "type": "boolean" },
+              "result": { "$ref": "#/components/schemas/subscriptionResult" },
+              "error": { "type": "string", "description": "Why the request failed. Present when `success` is false." },
+              "symbol": { "type": "string", "description": "The pair that failed, when the failure is specific to one." }
+            }
+          },
+          { "$ref": "#/components/schemas/processingTimes" }
+        ]
+      },
+      "unsubscriptionResponse": {
+        "description": "One acknowledgement per currency pair in the request.",
+        "allOf": [
+          {
+            "type": "object",
+            "required": ["method", "success"],
+            "properties": {
+              "method": { "const": "unsubscribe" },
+              "req_id": { "$ref": "#/components/schemas/reqId" },
+              "success": { "type": "boolean" },
+              "result": { "$ref": "#/components/schemas/subscriptionResult" },
+              "error": { "type": "string", "description": "Why the request failed. Present when `success` is false." }
+            }
+          },
+          { "$ref": "#/components/schemas/processingTimes" }
+        ]
+      },
+      "ping": {
+        "type": "object",
+        "required": ["method"],
+        "properties": {
+          "method": { "const": "ping" },
+          "req_id": { "$ref": "#/components/schemas/reqId" }
+        }
+      },
+      "pong": {
+        "allOf": [
+          {
+            "type": "object",
+            "required": ["method"],
+            "properties": {
+              "method": { "const": "pong" },
+              "req_id": { "$ref": "#/components/schemas/reqId" }
+            }
+          },
+          { "$ref": "#/components/schemas/processingTimes" }
+        ]
+      },
+      "ticker": {
+        "type": "object",
+        "required": ["channel", "type", "data"],
+        "properties": {
+          "channel": { "const": "ticker" },
+          "type": {
+            "type": "string",
+            "enum": ["snapshot", "update"],
+            "description": "`snapshot` is the first message after subscribing; `update` follows on each change."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "symbol": { "type": "string", "examples": ["BTC/USD"] },
+                "bid": { "type": "number", "description": "Best bid price." },
+                "bid_qty": { "type": "number", "description": "Quantity at the best bid." },
+                "ask": { "type": "number", "description": "Best ask price." },
+                "ask_qty": { "type": "number", "description": "Quantity at the best ask." },
+                "last": { "type": "number", "description": "Price of the last trade." },
+                "volume": { "type": "number", "description": "24-hour traded volume, in the base currency." },
+                "vwap": { "type": "number", "description": "24-hour volume-weighted average price." },
+                "low": { "type": "number", "description": "24-hour low." },
+                "high": { "type": "number", "description": "24-hour high." },
+                "change": { "type": "number", "description": "24-hour price change, in the quote currency." },
+                "change_pct": { "type": "number", "description": "24-hour price change, as a percentage." },
+                "trades": { "type": "integer", "description": "Number of trades in the last 24 hours." },
+                "timestamp": { "type": "string", "format": "date-time" }
+              }
+            }
+          }
+        }
+      },
+      "trade": {
+        "type": "object",
+        "required": ["channel", "type", "data"],
+        "properties": {
+          "channel": { "const": "trade" },
+          "type": { "type": "string", "enum": ["snapshot", "update"] },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "symbol": { "type": "string", "examples": ["ETH/USD"] },
+                "side": { "type": "string", "enum": ["buy", "sell"], "description": "Side of the taker order." },
+                "price": { "type": "number" },
+                "qty": { "type": "number" },
+                "ord_type": { "type": "string", "enum": ["limit", "market"], "description": "Type of the taker order." },
+                "trade_id": { "type": "integer" },
+                "timestamp": { "type": "string", "format": "date-time" }
+              }
+            }
+          }
+        }
+      },
+      "status": {
+        "type": "object",
+        "required": ["channel", "type", "data"],
+        "properties": {
+          "channel": { "const": "status" },
+          "type": { "type": "string", "enum": ["update"] },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "system": {
+                  "type": "string",
+                  "enum": ["online", "cancel_only", "maintenance", "post_only"],
+                  "description": "Trading state of the exchange."
+                },
+                "api_version": { "type": "string", "examples": ["v2"] },
+                "version": { "type": "string", "examples": ["2.0.10"] },
+                "connection_id": { "type": "integer", "description": "Identifies this connection." },
+                "upcoming_maintenance": { "type": "array" },
+                "emergency": { "type": "array" }
+              }
+            }
+          }
+        }
+      },
+      "heartbeat": {
+        "type": "object",
+        "required": ["channel"],
+        "properties": {
+          "channel": { "const": "heartbeat" }
+        }
+      }
+    }
+  }
+}
