@@ -1,39 +1,6 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 
 const GITHUB_URL = "https://github.com/AceTheCreator/apiuikit";
-const WEB_COMPONENT_NPM_URL =
-  "https://www.npmjs.com/package/@apiuikit/web-component";
-
-const points: { title: string; description: ReactNode }[] = [
-  {
-    title: "Drop into an existing page",
-    description:
-      "No rewrite required: render one endpoint or section inside a page you already have, then add more as you need them.",
-  },
-  {
-    title: "Not just React",
-    description: (
-      <>
-        <Link
-          href={WEB_COMPONENT_NPM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-[0.95em] text-brand-600 underline underline-offset-2 transition-colors hover:text-brand-700 dark:text-brand-500 dark:hover:text-brand-300"
-        >
-          @apiuikit/web-component
-        </Link>{" "}
-        bundles React internally and exposes plain custom elements for Vue,
-        Angular, Svelte, or vanilla HTML.
-      </>
-    ),
-  },
-  {
-    title: "Full TypeScript support",
-    description:
-      "Every component, config option, and helper is fully typed, including the AsyncAPI and OpenAPI document shapes themselves.",
-  },
-];
 
 export default function Adoption() {
   return (
@@ -47,23 +14,9 @@ export default function Adoption() {
         <div className="mt-4 max-w-4xl font-display text-2xl leading-[1.3] tracking-tight text-pretty sm:text-3xl">
           <h2 className="font-bold text-ink">Incremental, not all-or-nothing.</h2>
           <p className="text-ink-faint">
-            Render one endpoint or section inside a page you already have and ship it.
-            Add the rest whenever you want them, or never.
+            Start with one endpoint in a page you already have. Add more when
+            you need them.
           </p>
-        </div>
-
-        {/* divide-x for the internal verticals, border-t for the rule they
-            terminate against — the stats row's construction. */}
-        <div className="mt-14 grid grid-cols-1 border-t border-chrome-border sm:grid-cols-3 sm:divide-x sm:divide-chrome-border">
-          {points.map(({ title, description }) => (
-            <div
-              key={title}
-              className="border-t border-chrome-border py-8 first:border-t-0 sm:border-t-0 sm:px-8 sm:first:pl-0 sm:last:pr-0"
-            >
-              <h3 className="font-medium text-ink">{title}</h3>
-              <p className="mt-2 text-sm text-ink-faint">{description}</p>
-            </div>
-          ))}
         </div>
 
         {/* Inline color, not text-white — see Header.tsx's CTA for why. */}
@@ -71,7 +24,7 @@ export default function Adoption() {
           href={GITHUB_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-12 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-8 py-3 text-sm font-medium transition-colors hover:bg-brand-700"
+          className="mt-10 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-8 py-3 text-sm font-medium transition-colors hover:bg-brand-700"
           style={{ color: "#ffffff" }}
         >
           Go to the repo

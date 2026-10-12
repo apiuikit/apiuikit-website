@@ -33,7 +33,7 @@ export default function FeatureStats() {
             </h2>
             <p className="text-ink-faint">
               Hand-written docs drift the moment the API changes, and building
-              your own renderer takes weeks. apiuikit reads the spec you
+              your own docs takes weeks. apiuikit reads the spec you
               already maintain, so your docs stay accurate without anyone
               having to own them.
             </p>

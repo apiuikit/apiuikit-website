@@ -17,6 +17,7 @@ export default function OpenAPIEndpointsPreviewImpl() {
           theme,
           // Clears the site's sticky navbar.
           sidePanel: { containment: "component", topOffset: HEADER_HEIGHT },
+          show: { tryIt: true },
         }}
         layout="stacked"
       />

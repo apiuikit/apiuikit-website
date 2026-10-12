@@ -19,7 +19,7 @@ export default function SchemaTreePreviewImpl() {
   const schema = torture.components?.schemas?.CardPayment;
 
   return (
-    <AsyncAPIProvider document={torture} config={{ theme }}>
+    <AsyncAPIProvider document={torture} config={{ theme, expand: { schemas: true } }}>
       <SchemaTree schema={schema} rootName="CardPayment" />
     </AsyncAPIProvider>
   );

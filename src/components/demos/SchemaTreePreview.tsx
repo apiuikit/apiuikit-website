@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-// See DeepDiveWidget.tsx for why this must be ssr:false.
+// See OperationsPreview.tsx for why this must be ssr:false.
 const SchemaTreePreviewImpl = dynamic(() => import("./SchemaTreePreviewImpl"), {
   ssr: false,
 });

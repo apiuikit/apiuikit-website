@@ -5,7 +5,6 @@ import Hero from "@/components/landing/Hero";
 import DocsSpotlight from "@/components/landing/DocsSpotlight";
 import ComponentGallery from "@/components/landing/ComponentGallery";
 import FeatureStats from "@/components/landing/FeatureStats";
-import Showcase from "@/components/landing/Showcase";
 import DeveloperExperience from "@/components/landing/DeveloperExperience";
 import CliSpotlight from "@/components/landing/CliSpotlight";
 import PluginSpotlight from "@/components/landing/PluginSpotlight";
@@ -36,7 +35,6 @@ export default function Home() {
         <FeatureStats />
         <ComponentGallery />
         <PluginSpotlight />
-        <Showcase />
         <DeveloperExperience />
         <CliSpotlight />
         <Adoption />

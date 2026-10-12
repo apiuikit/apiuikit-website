@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-// See DeepDiveWidget.tsx for why this must be ssr:false (apiuikit bundles
+// See OperationsPreview.tsx for why this must be ssr:false (apiuikit bundles
 // dompurify, which touches `self` at module scope and so throws during SSR).
 const StreetlightSpotlightImpl = dynamic(
   () => import("./StreetlightSpotlightImpl"),

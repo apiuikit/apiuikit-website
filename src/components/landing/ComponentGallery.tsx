@@ -7,7 +7,6 @@ import OpenAPIEndpointsPreview from "@/components/demos/OpenAPIEndpointsPreview"
 import ServersAuthPreview from "@/components/demos/ServersAuthPreview";
 import MessagesPreview from "@/components/demos/MessagesPreview";
 import SchemaTreePreview from "@/components/demos/SchemaTreePreview";
-import InfoPreview from "@/components/demos/InfoPreview";
 
 // Document order matters: the active-item logic below takes the first entry in
 // this list that's on screen, which is only "the topmost one" if the array
@@ -45,15 +44,8 @@ const SECTIONS = [
     id: "schemas",
     title: "Data models",
     statement: "Complex data, readable at a glance.",
-    body: "Nested objects, variants, and shared definitions in an expandable tree, so readers find the field they need without opening the raw file.",
+    body: "Nested objects, variants, and shared definitions in an expandable tree, so readers find the field they need.",
     Preview: SchemaTreePreview,
-  },
-  {
-    id: "info",
-    title: "Overview",
-    statement: "Your API's front page, always current.",
-    body: "Name, version, description, and license, laid out for you and updated every time the spec changes.",
-    Preview: InfoPreview,
   },
 ];
 
