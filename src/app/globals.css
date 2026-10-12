@@ -420,3 +420,51 @@ html[data-theme="dark"] .dx-block .shiki span {
   -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 30%, transparent 100%);
   mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 30%, transparent 100%);
 }
+
+/* The rick-roll plugin's CLICK ME button on the homepage: a glow that pulses
+   and a wiggle every couple of seconds, so it can't be missed. */
+@keyframes plugin-flash-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(220 38 38 / 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(220 38 38 / 0);
+  }
+}
+
+@keyframes plugin-flash-wiggle {
+  0%,
+  80%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  84% {
+    transform: rotate(-6deg) scale(1.08);
+  }
+  88% {
+    transform: rotate(6deg) scale(1.08);
+  }
+  92% {
+    transform: rotate(-4deg) scale(1.04);
+  }
+  96% {
+    transform: rotate(3deg) scale(1.02);
+  }
+}
+
+.plugin-flash {
+  animation:
+    plugin-flash-glow 1.2s ease-out infinite,
+    plugin-flash-wiggle 2.4s ease-in-out infinite;
+}
+
+.plugin-flash:hover {
+  filter: brightness(1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plugin-flash {
+    animation: none;
+  }
+}

@@ -8,6 +8,7 @@ import FeatureStats from "@/components/landing/FeatureStats";
 import Showcase from "@/components/landing/Showcase";
 import DeveloperExperience from "@/components/landing/DeveloperExperience";
 import CliSpotlight from "@/components/landing/CliSpotlight";
+import PluginSpotlight from "@/components/landing/PluginSpotlight";
 import Adoption from "@/components/landing/Adoption";
 import GetHelp from "@/components/landing/GetHelp";
 import { SITE_URL, SITE_DESCRIPTION } from "@/lib/seo";
@@ -34,6 +35,7 @@ export default function Home() {
         <DocsSpotlight />
         <FeatureStats />
         <ComponentGallery />
+        <PluginSpotlight />
         <Showcase />
         <DeveloperExperience />
         <CliSpotlight />
