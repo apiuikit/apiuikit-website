@@ -37,15 +37,20 @@ import "@apiuikit/web-component/asyncapi-renderer";  // <apiuikit-asyncapi-rende
 import "@apiuikit/web-component/asyncapi";            // <apiuikit-asyncapi> only
 import "@apiuikit/web-component/asyncapi-servers";    // <apiuikit-asyncapi-servers> only
 import "@apiuikit/web-component/asyncapi-operations"; // <apiuikit-asyncapi-operations> only
+import "@apiuikit/web-component/asyncapi-operation";  // <apiuikit-asyncapi-operation> only
 import "@apiuikit/web-component/asyncapi-messages";   // <apiuikit-asyncapi-messages> only
+import "@apiuikit/web-component/asyncapi-message";    // <apiuikit-asyncapi-message> only
 import "@apiuikit/web-component/asyncapi-info";       // <apiuikit-asyncapi-info> only
 import "@apiuikit/web-component/openapi-renderer";    // <apiuikit-openapi-renderer> only
 import "@apiuikit/web-component/openapi";             // <apiuikit-openapi> only
 import "@apiuikit/web-component/openapi-servers";     // <apiuikit-openapi-servers> only
 import "@apiuikit/web-component/openapi-endpoints";   // <apiuikit-openapi-endpoints> only
+import "@apiuikit/web-component/openapi-endpoint";    // <apiuikit-openapi-endpoint> only
 import "@apiuikit/web-component/openapi-webhooks";    // <apiuikit-openapi-webhooks> only
+import "@apiuikit/web-component/openapi-webhook";     // <apiuikit-openapi-webhook> only
 import "@apiuikit/web-component/openapi-info";        // <apiuikit-openapi-info> only
 import "@apiuikit/web-component/schemas";             // <apiuikit-schemas> only — shared by both spec types
+import "@apiuikit/web-component/schema";              // <apiuikit-schema> only
 import "@apiuikit/web-component/style.css";
 ```
 
