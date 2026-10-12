@@ -284,6 +284,65 @@ html[data-theme="dark"] .dx-block .shiki span {
 }
 
 /*
+ * Rotating neon halo around the spotlight card. Two copies of the same conic
+ * gradient sit behind the card: ::before is inset just past the card's edge so
+ * only a thin crisp ring shows around it, ::after is blurred into the glow.
+ * Spinning the gradient's start angle needs a registered (typed) custom
+ * property — an unregistered one can't be interpolated, so it would jump.
+ */
+@property --halo-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes halo-spin {
+  to {
+    --halo-angle: 360deg;
+  }
+}
+
+.spotlight-halo {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight-halo::before,
+.spotlight-halo::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--halo-angle),
+    transparent 0deg,
+    #22d3ee 50deg,
+    #a5f3fc 70deg,
+    transparent 130deg,
+    transparent 180deg,
+    #22d3ee 230deg,
+    #a5f3fc 250deg,
+    transparent 310deg
+  );
+  animation: halo-spin 5s linear infinite;
+}
+
+.spotlight-halo::after {
+  inset: -4px;
+  filter: blur(20px);
+  opacity: 0.75;
+}
+
+/* Keeps the glow, drops the spin. */
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-halo::before,
+  .spotlight-halo::after {
+    animation: none;
+  }
+}
+
+/*
  * Open/close transition for the spotlight <dialog>.
  *
  * The exit half only works because of `transition-behavior: allow-discrete` on
