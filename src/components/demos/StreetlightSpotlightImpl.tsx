@@ -56,9 +56,12 @@ export default function StreetlightSpotlightImpl() {
   return (
     <>
       {/* spotlight-settle: shrinks from 105% to natural size across the first
-          360px of page scroll (globals.css). */}
-      <div className="spotlight-settle relative h-[520px] overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface shadow-sm">
-        {/* aria-hidden + pointer-events-none: this copy is scenery. It's
+          360px of page scroll (globals.css). spotlight-halo: the rotating cyan
+          glow. It lives on this wrapper, not the card, because the card's
+          overflow-hidden would clip a glow that has to spill past its edge. */}
+      <div className="spotlight-settle spotlight-halo rounded-xl">
+        <div className="relative h-[520px] overflow-hidden rounded-xl border border-chrome-border bg-chrome-surface shadow-sm">
+          {/* aria-hidden + pointer-events-none: this copy is scenery. It's
             cropped and non-interactive, and the real one lives in the dialog,
             so exposing it twice to assistive tech would just be noise.
 
@@ -69,55 +72,56 @@ export default function StreetlightSpotlightImpl() {
             precedes the dialog in the DOM. Searching in the popup would
             scroll and highlight the copy behind it instead. Concealing it with
             CSS wouldn't help: the ids would still be there to find. */}
-        {!playing && (
-          <div
-            aria-hidden
-            className="pointer-events-none h-full overflow-hidden"
-          >
-            {/* apiuikit's provider root pads 8px, and every Section adds mt-6
+          {!playing && (
+            <div
+              aria-hidden
+              className="pointer-events-none h-full overflow-hidden"
+            >
+              {/* apiuikit's provider root pads 8px, and every Section adds mt-6
                 including the first, so content starts ~32px down. A full-page
                 host never notices; in a cropped preview it reads as an empty
                 band above the content. Pull back the section margin and keep
                 the root's 8px as breathing room. */}
-            <div className="-mt-6">
-              <AsyncAPI asyncapi={streetlight} config={previewConfig} />
+              <div className="-mt-6">
+                <AsyncAPI asyncapi={streetlight} config={previewConfig} />
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Fades the hard crop at the bottom edge into the card. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-chrome-surface via-chrome-surface/80 to-transparent"
-        />
+          {/* Fades the hard crop at the bottom edge into the card. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-chrome-surface via-chrome-surface/80 to-transparent"
+          />
 
-        <button
-          type="button"
-          onClick={play}
-          aria-label="Play the full Streetlights API documentation"
-          className="group absolute inset-0 grid cursor-pointer place-items-center bg-chrome-bg/40 backdrop-blur-sm transition-colors hover:bg-chrome-bg/50"
-        >
-          <span className="flex flex-col items-center gap-3">
-            <span
-              className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-600 shadow-lg transition-transform duration-200 ease-out group-hover:scale-110 group-active:scale-95"
-              style={{ color: "#ffffff" }}
-            >
-              {/* Nudged right by 2px: a triangle's visual centre sits left of
-                  its bounding box, so a centred one looks off-centre. */}
-              <svg
-                aria-hidden
-                viewBox="0 0 24 24"
-                className="ml-0.5 h-6 w-6"
-                fill="currentColor"
+          <button
+            type="button"
+            onClick={play}
+            aria-label="Play the full Streetlights API documentation"
+            className="group absolute inset-0 grid cursor-pointer place-items-center bg-chrome-bg/40 backdrop-blur-sm transition-colors hover:bg-chrome-bg/50"
+          >
+            <span className="flex flex-col items-center gap-3">
+              <span
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-600 shadow-lg transition-transform duration-200 ease-out group-hover:scale-110 group-active:scale-95"
+                style={{ color: "#ffffff" }}
               >
-                <path d="M8 5v14l11-7z" />
-              </svg>
+                {/* Nudged right by 2px: a triangle's visual centre sits left of
+                  its bounding box, so a centred one looks off-centre. */}
+                <svg
+                  aria-hidden
+                  viewBox="0 0 24 24"
+                  className="ml-0.5 h-6 w-6"
+                  fill="currentColor"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span className="rounded-full bg-chrome-surface px-3 py-1 text-xs font-medium text-ink shadow-sm">
+                See the library in action
+              </span>
             </span>
-            <span className="rounded-full bg-chrome-surface px-3 py-1 text-xs font-medium text-ink shadow-sm">
-              Open the full documentation
-            </span>
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
 
       <dialog
@@ -164,9 +168,7 @@ export default function StreetlightSpotlightImpl() {
                   <rect x="3" y="7" width="10" height="6.5" rx="1.5" />
                   <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />
                 </svg>
-                <span className="truncate">
-                  streetlights.apiuikit.com/docs
-                </span>
+                <span className="truncate">streetlights.apiuikit.com/docs</span>
               </span>
 
               <button
