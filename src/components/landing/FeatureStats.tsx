@@ -10,7 +10,7 @@ const stats = [
     detail: "JSON, Avro, and Protobuf payloads, with nothing extra to install.",
   },
   {
-    value: "5",
+    value: "5 +",
     label: "Frameworks",
     detail: "Fits whatever your site is built with: React, Vue, Angular, Svelte, or plain HTML.",
   },
