@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 
 // See OperationsPreview.tsx for why this must be ssr:false (apiuikit bundles
 // dompurify, which touches `self` at module scope and so throws during SSR).
-const StreetlightSpotlightImpl = dynamic(
-  () => import("./StreetlightSpotlightImpl"),
+const KrakenSpotlightImpl = dynamic(
+  () => import("./KrakenSpotlightImpl"),
   {
     ssr: false,
     loading: () => (
@@ -14,6 +14,6 @@ const StreetlightSpotlightImpl = dynamic(
   },
 );
 
-export default function StreetlightSpotlight() {
-  return <StreetlightSpotlightImpl />;
+export default function KrakenSpotlight() {
+  return <KrakenSpotlightImpl />;
 }

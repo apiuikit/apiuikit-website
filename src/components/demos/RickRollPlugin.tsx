@@ -25,7 +25,7 @@ function ClickMeButton() {
     dialogRef.current?.close();
   }, []);
 
-  // Same reason as StreetlightSpotlightImpl: showModal() doesn't stop the page
+  // Same reason as KrakenSpotlightImpl: showModal() doesn't stop the page
   // scrolling underneath.
   useEffect(() => {
     if (!open) return;
@@ -57,7 +57,7 @@ function ClickMeButton() {
         onClose={() => setOpen(false)}
         aria-label="Never gonna give you up"
         // Full-viewport and centred by the flex wrapper, as in
-        // StreetlightSpotlightImpl: a margin-centred dialog lands top-left
+        // KrakenSpotlightImpl: a margin-centred dialog lands top-left
         // under the site's CSS reset.
         className="spotlight-dialog m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70"
       >

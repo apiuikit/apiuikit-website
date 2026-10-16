@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AsyncAPI } from "apiuikit";
-import { streetlight } from "@/data/examples";
+import { krakenWebsocket } from "@/data/examples";
 import { useDemoTheme } from "./DemoThemeSync";
 
-export default function StreetlightSpotlightImpl() {
+export default function KrakenSpotlightImpl() {
   const theme = useDemoTheme();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -17,7 +17,13 @@ export default function StreetlightSpotlightImpl() {
   // "component" keeps operation side panels clipped to the widget, so in the
   // confined preview they can't escape the frame and in the dialog they can't
   // cover the close button.
-  const config = { theme, sidePanel: { containment: "component" as const } };
+  // tryIt is opt-in in apiuikit; the Kraken spec's public wss server is what
+  // makes it worth turning on here.
+  const config = {
+    theme,
+    sidePanel: { containment: "component" as const },
+    show: { tryIt: true },
+  };
 
   // The preview strips every floating control: the sidebar's scroll-spy spine,
   // the search toggle, and the Copy-as-Markdown menu. All three are fixed to
@@ -83,7 +89,7 @@ export default function StreetlightSpotlightImpl() {
                 band above the content. Pull back the section margin and keep
                 the root's 8px as breathing room. */}
               <div className="-mt-6">
-                <AsyncAPI asyncapi={streetlight} config={previewConfig} />
+                <AsyncAPI asyncapi={krakenWebsocket} config={previewConfig} />
               </div>
             </div>
           )}
@@ -97,7 +103,7 @@ export default function StreetlightSpotlightImpl() {
           <button
             type="button"
             onClick={play}
-            aria-label="Play the full Streetlights API documentation"
+            aria-label="Play the full Kraken WebSocket API documentation"
             className="group absolute inset-0 grid cursor-pointer place-items-center bg-chrome-bg/40 backdrop-blur-sm transition-colors hover:bg-chrome-bg/50"
           >
             <span className="flex flex-col items-center gap-3">
@@ -168,7 +174,7 @@ export default function StreetlightSpotlightImpl() {
                   <rect x="3" y="7" width="10" height="6.5" rx="1.5" />
                   <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />
                 </svg>
-                <span className="truncate">streetlights.apiuikit.com/docs</span>
+                <span className="truncate">kraken.apiuikit.com/docs</span>
               </span>
 
               <button
@@ -189,7 +195,7 @@ export default function StreetlightSpotlightImpl() {
             <div className="min-h-0 flex-1 [&>*]:h-full [&>*]:overflow-auto">
               {/* Not mounted until the first play, so the page isn't carrying
                   two full parsed documents before anyone clicks anything. */}
-              {hasPlayed && <AsyncAPI asyncapi={streetlight} config={config} />}
+              {hasPlayed && <AsyncAPI asyncapi={krakenWebsocket} config={config} />}
             </div>
           </div>
         </div>

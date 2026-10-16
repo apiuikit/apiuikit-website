@@ -1,4 +1,4 @@
-import StreetlightSpotlight from "@/components/demos/StreetlightSpotlight";
+import KrakenSpotlight from "@/components/demos/KrakenSpotlight";
 
 export default function DocsSpotlight() {
   return (
@@ -8,7 +8,7 @@ export default function DocsSpotlight() {
     // turning this into a scroll container.
     <section className="overflow-x-clip pb-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <StreetlightSpotlight />
+        <KrakenSpotlight />
       </div>
     </section>
   );
