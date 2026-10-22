@@ -38,12 +38,12 @@ Switches individual sections and controls off. Everything listed here is on by d
 | `operations` | `true` | The operations section. |
 | `messages` | `true` | The messages section. |
 | `messageExamples` | `false` | Payload examples inside messages. |
-| `schemas` | `true` | The schemas section. |
+| `schemas` | `true` | The schemas section. |OpenAPI: cURL, JS, Python, …; AsyncAPI: protocol-matched clients (ws, kafkajs, websockets, …).
 | `errors` | `true` | Parser and validation errors. |
 | `endpoints` | `true` | OpenAPI only: the Endpoints tab. |
 | `webhooks` | `true` | OpenAPI 3.1 only: the Webhooks tab. It only appears at all when the document declares `webhooks`. |
 | `extensions` | `true` | Known `x-*` spec extensions. |
-| `codeSamples` | `true` | OpenAPI only: per-operation cURL, JavaScript, and Python request examples. |
+| `codeSamples` | `true` | Per-operation example panel (Agent Prompt plus language snippets). OpenAPI: cURL, JS, Python, …; AsyncAPI: protocol-matched clients (ws, kafkajs, websockets, …). |
 | `copyMarkdown` | `true` | The floating "Copy for LLM" / "View as Markdown" button. |
 | `tryIt` | `false` | A **Try it** button in the operation side panel's header. See [Try it](#try-it). |
 
