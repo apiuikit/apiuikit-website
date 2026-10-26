@@ -2,6 +2,7 @@ import Link from "next/link";
 import Wordmark from "./Wordmark";
 import ThemeToggle from "./ThemeToggle";
 import GitHubIcon from "./GitHubIcon";
+import MobileMenu from "./MobileMenu";
 
 const GITHUB_URL = "https://github.com/AceTheCreator/apiuikit";
 const NPM_URL = "https://www.npmjs.com/package/apiuikit";
@@ -10,7 +11,15 @@ const PLAYGROUND_URL = "https://playground.apiuikit.com";
 const sectionLinks = [
   { label: "Docs", href: "/docs" },
   { label: "Plugins", href: "/plugins" },
+  { label: "Blog", href: "/blog" },
   { label: "Components", href: "/#operations" },
+];
+
+// Everything the bar drops at narrow widths, gathered into the mobile menu.
+const mobileLinks = [
+  ...sectionLinks,
+  { label: "Playground", href: PLAYGROUND_URL },
+  { label: "npm", href: NPM_URL },
 ];
 
 export default function Header() {
@@ -20,7 +29,7 @@ export default function Header() {
         <div className="flex items-center gap-6">
           <Wordmark />
           {/* In-page jumps, dropped on small screens where the CTA and icons
-              already fill the bar. */}
+              already fill the bar; MobileMenu carries them there. */}
           <nav className="flex items-center gap-1 text-sm max-md:hidden">
             {sectionLinks.map(({ label, href }) => (
               <Link
@@ -54,8 +63,14 @@ export default function Header() {
             npm
           </Link>
           <ThemeToggle />
+          <MobileMenu links={mobileLinks} githubUrl={GITHUB_URL} />
 
-          <span aria-hidden className="mx-2 h-5 w-px bg-chrome-border" />
+          {/* Below md the CTA moves into MobileMenu, so the bar keeps only
+              the wordmark and icon buttons. */}
+          <span
+            aria-hidden
+            className="mx-2 h-5 w-px bg-chrome-border max-md:hidden"
+          />
 
           {/* Inline color, not text-white: apiuikit/style.css sets a plain,
               unlayered `a { color: inherit }` rule, which beats any
@@ -66,14 +81,11 @@ export default function Header() {
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-brand-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-brand-700 max-md:hidden"
             style={{ color: "#ffffff" }}
           >
             <GitHubIcon className="h-4 w-4" />
-            {/* The label shortens rather than disappearing on small screens,
-                so the button never becomes a bare unlabelled icon. */}
-            <span className="max-sm:hidden">Star on GitHub</span>
-            <span className="sm:hidden">Star</span>
+            Star on GitHub
           </Link>
         </nav>
       </div>
