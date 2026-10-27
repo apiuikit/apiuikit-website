@@ -2,7 +2,7 @@
 
 Use this entry when you already hold a resolved document as a JavaScript object: fetched from your own API, bundled at build time, or processed server-side. No parser package is required, and none will ever be included in your bundle.
 
-`AsyncAPI` renders AsyncAPI documents and `OpenAPI` renders OpenAPI 3.0 and 3.1 documents. The two behave identically apart from the prop that carries the document.
+`AsyncAPI` renders AsyncAPI documents and `OpenAPI` renders OpenAPI 3.0 and 3.1 documents. The two behave identically apart from the prop that carries the document. For Arazzo workflows, see [Arazzo](./arazzo.md).
 
 ## `AsyncAPI` component
 

@@ -59,7 +59,7 @@ Pointing at a URL only helps if something serves Markdown there. Three exported 
 
 | Helper | Returns |
 |---|---|
-| `listDocumentTargets(doc)` | Every linkable item: OpenAPI endpoints, AsyncAPI operations |
+| `listDocumentTargets(doc)` | Every linkable item: OpenAPI endpoints, AsyncAPI operations, Arazzo workflows |
 | `documentToMarkdown(doc, target?)` | Markdown for one target, or the whole document when omitted |
 | `documentToLlmsTxt(doc, options?)` | An `llms.txt` index linking each target |
 
@@ -86,7 +86,7 @@ await writeFile("public/llms.txt", documentToLlmsTxt(doc, {
 }));
 ```
 
-Swap `openapi.json` for an AsyncAPI document and that script is unchanged.
+Swap `openapi.json` for an AsyncAPI document and that script is unchanged. Arazzo needs one extra step; see [Arazzo workflows](#arazzo-workflows).
 
 These are plain functions with no DOM dependencies. Importing them from `apiuikit/markdown` keeps browser renderer code out of build scripts, server routes, and edge workers. They remain available from the root entry for browser-side use.
 
@@ -130,6 +130,23 @@ Markdown and `llms.txt` are usually served as `text/markdown` by default, which 
 ### Spec-specific serializers
 
 If you already know which spec you have, `asyncApiToMarkdown` and `openApiToMarkdown` (plus `asyncApiOperationToMarkdown` and `openApiEndpointToMarkdown`) are exported too. Each takes an optional trailing `deref` for resolving `$ref` pointers, defaulting to resolving against the document itself.
+
+### Arazzo workflows
+
+An Arazzo document needs its OpenAPI sources loaded first. Call `resolveArazzoDocument`, then pass the returned `model` to the same helpers:
+
+```ts
+import { resolveArazzoDocument } from "apiuikit";
+import { documentToMarkdown } from "apiuikit/markdown";
+
+const { model } = await resolveArazzoDocument(arazzoDocument, {
+  sources: { petstore: petstoreDocument },
+});
+
+documentToMarkdown(model);
+```
+
+Each workflow is one target.
 
 ### Adding a spec
 

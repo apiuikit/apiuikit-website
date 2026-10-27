@@ -21,6 +21,7 @@ const ORDER = [
   "configuration",
   "no-parser",
   "with-parser",
+  "arazzo",
   "deep-linking",
   "sections",
   "plugins",
@@ -48,10 +49,12 @@ const SUMMARIES: Record<string, string> = {
     "For documents you already hold as an object. AsyncAPI and OpenAPI components, their props, and what each one renders.",
   "with-parser":
     "For raw YAML or JSON strings. The renderer components and imperative helpers, with parse diagnostics separate from render errors.",
+  arazzo:
+    "Render Arazzo workflows as a readable page, with each step showing the OpenAPI operation it calls.",
   "deep-linking":
-    "Open the docs on a specific endpoint, schema, or message, and keep the address bar in sync as people click around.",
+    "Open the docs on a specific endpoint, schema, message, or Arazzo workflow, and keep the address bar in sync as people click around.",
   sections:
-    "Render one item or one section on its own, or arrange several under a shared provider, for both AsyncAPI and OpenAPI.",
+    "Render one item or one section on its own, or arrange several under a shared provider, for AsyncAPI, OpenAPI, and Arazzo.",
   plugins:
     "Add your own UI to a rendered document from a separately-installed package — a \"Try it\" tab, an inline action, a top-bar control, and how to write and publish one.",
   extensions:
@@ -60,9 +63,9 @@ const SUMMARIES: Record<string, string> = {
   protobuf:
     "Rendering Protobuf payloads: the schemaFormat values recognised, and what a document needs to carry.",
   "ai-export":
-    "Make your docs readable by agents and crawlers: the copy button, hosted Markdown URLs, and build-time file generation.",
+    "Make your docs readable by agents and crawlers: the copy button, hosted Markdown URLs, and build-time file generation — including Arazzo workflows.",
   "with-webcomponents":
-    "Use apiuikit from Vue, Angular, Svelte, or plain HTML through full-document and section custom elements.",
+    "Use apiuikit from Vue, Angular, Svelte, or plain HTML through full-document and section custom elements, including Arazzo workflows.",
 };
 
 export interface DocMeta {

@@ -2,14 +2,15 @@
 
 The parser entry accepts a raw YAML or JSON string, validates it, and renders the UI. The parser package is loaded on demand via a dynamic import, so it never lands in your bundle unless this path is used.
 
-`AsyncAPIRenderer` handles AsyncAPI documents and `OpenAPIRenderer` handles OpenAPI ones, each backed by its own parser.
+`AsyncAPIRenderer` handles AsyncAPI documents and `OpenAPIRenderer` handles OpenAPI ones, each backed by its own parser. For Arazzo workflows, see [Arazzo](./arazzo.md).
 
 ## Prerequisites
 
 Install the peer dependency for the spec you are rendering:
 
 ```bash
-npm install @asyncapi/parser
+npm install @asyncapi/parser       # AsyncAPIRenderer
+npm install @scalar/openapi-parser # OpenAPIRenderer
 ```
 
 ## `AsyncAPIRenderer` component

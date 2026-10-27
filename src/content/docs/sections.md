@@ -1,8 +1,12 @@
 # Composables
 
-The `AsyncAPI` component renders a complete documentation page: sidebar, search, servers, operations, messages, schemas. If you want to build your own layout instead, render individual sections on their own, compose several of them together, or drop a single endpoint, operation, message, or schema into a page.
+APIUIKit can render a complete documentation page for you, but you don't have to use it that way.
 
-Every exported section. Each component name opens its live page in [Storybook](https://storybook.apiuikit.com/?path=/docs/introduction--docs). The singular components render one item inline; the rest render the whole collection.
+Composables let you build your own documentation experience using individual pieces of APIUIKit. Render a single endpoint inside a guide, place a schema next to your own content, or combine multiple sections to create a completely custom layout.
+
+Each component below links to its live example in [Storybook](https://storybook.apiuikit.com/?path=/docs/introduction--docs).
+
+Singular components render a single item, such as an operation, message, or schema. Collection components render all matching items from your API document.
 
 | Component | Spec | Renders |
 |---|---|---|
@@ -20,10 +24,13 @@ Every exported section. Each component name opens its live page in [Storybook](h
 | [`OpenAPIWebhooks`](https://storybook.apiuikit.com/?path=/docs/openapi-webhooks--docs) | OpenAPI | OpenAPI 3.1 webhooks (renders nothing if the document declares none) |
 | [`OpenAPIWebhook`](https://storybook.apiuikit.com/?path=/docs/openapi-webhook--docs) | OpenAPI | One webhook, by its key under `webhooks` |
 | [`OpenAPIInfo`](https://storybook.apiuikit.com/?path=/docs/openapi-info--docs) | OpenAPI | Info block (title, description, tags, external docs) |
+| [`ArazzoInfo`](https://storybook.apiuikit.com/?path=/docs/arazzo-info--docs) | Arazzo | Title, description, and a chip per source document |
+| [`ArazzoWorkflows`](https://storybook.apiuikit.com/?path=/docs/arazzo-workflows--docs) | Arazzo | Every workflow in the document |
+| [`ArazzoWorkflowSection`](https://storybook.apiuikit.com/?path=/docs/arazzo-workflow--docs) | Arazzo | One workflow, by `workflowId` |
 
 `AsyncAPISchemas` and `OpenAPISchemas` remain exported as deprecated aliases of `Schemas`.
 
-Providers: `AsyncAPIProvider` and `OpenAPIProvider`. The matching custom elements for Vue, Angular, Svelte, or plain HTML are on [Web Components](./with-webcomponents.md).
+Providers: `AsyncAPIProvider`, `OpenAPIProvider` and `ArazzoProvider`. The matching custom elements for Vue, Angular, Svelte, or plain HTML are on [Web Components](./with-webcomponents.md).
 
 ## Rendering one section standalone
 
@@ -146,6 +153,20 @@ They also take `config`, `plugins`, and `layout` like the other sections. `layou
 `OpenAPIEndpoint` and `OpenAPIWebhook` take an optional `onNavigate(operationId)`. A response `link` that points at another operation calls it, so you can scroll or route to wherever your page shows that operation. Without a handler, those links render as plain text.
 
 If nothing in the document matches, the component renders nothing and logs a `[apiuikit]` warning to the console.
+
+## Arazzo sections
+
+`ArazzoInfo`, `ArazzoWorkflows`, and `ArazzoWorkflowSection` work the same way under `ArazzoProvider`. Pass the provider the same `sources` you would pass to [`Arazzo`](./arazzo.md).
+
+```tsx
+import { ArazzoProvider, ArazzoInfo, ArazzoWorkflowSection } from "apiuikit";
+
+<ArazzoProvider document={arazzoDocument} sources={{ petstore: petstoreDocument }}>
+  <ArazzoInfo />
+  <p>Most integrations start by applying a coupon.</p>
+  <ArazzoWorkflowSection workflowId="apply-coupon" />
+</ArazzoProvider>
+```
 
 ## Error handling
 

@@ -45,7 +45,7 @@ export default function Footer() {
           <div>
             <Wordmark />
             <p className="mt-3 max-w-xs text-sm text-ink-faint">
-              React components for rendering AsyncAPI and OpenAPI documents.
+              React components for rendering AsyncAPI, OpenAPI, and Arazzo documents.
             </p>
             <div className="mt-5 flex gap-2">
               <Link

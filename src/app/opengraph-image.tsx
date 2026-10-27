@@ -64,7 +64,7 @@ export default function OpengraphImage() {
               maxWidth: 900,
             }}
           >
-            A React component library for AsyncAPI and OpenAPI documents.
+            A React component library for AsyncAPI, OpenAPI, and Arazzo documents.
           </div>
         </div>
 

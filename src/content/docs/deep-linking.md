@@ -4,7 +4,7 @@ Give someone a URL that opens your docs on a specific endpoint, schema, or messa
 
 apiuikit does not invent a URL scheme. You pass in a `{ tab, key }` pair, and it tells you when the selection changes. How that pair shows up in the address bar is yours: a hash, a query string, or a path segment all work.
 
-These two props are available on `<OpenAPI>`, `<AsyncAPI>`, `<OpenAPIRenderer>`, and `<AsyncAPIRenderer>`:
+These two props are available on `<OpenAPI>`, `<AsyncAPI>`, `<Arazzo>`, and their renderer counterparts:
 
 | Prop | What it does |
 |---|---|
@@ -54,7 +54,7 @@ export default function App() {
 }
 ```
 
-`<AsyncAPI>` is the same, with different tab names (see below). The renderer components (`OpenAPIRenderer`, `AsyncAPIRenderer`) take the same two props and apply them once the parsed document mounts.
+`<OpenAPI>, <AsyncAPI>` and `<Arazzo>` are the same, with different tab names (see below). The renderer components (`OpenAPIRenderer`, `AsyncAPIRenderer`, `ArazzoRenderer`) take the same two props and apply them once the parsed document mounts.
 
 `onLocationChange` uses `replaceState` rather than assigning `location.hash`, so clicking around the sidebar does not fill the browser history with every endpoint.
 
@@ -72,8 +72,11 @@ export default function App() {
 | AsyncAPI | `"messages"` | the message id |
 | AsyncAPI | `"schemas"` | the schema name |
 | AsyncAPI | `"servers"` | the server name |
+| Arazzo | `"workflows"` | the workflow id, or `workflowId/stepId` for a step |
 
 An unknown `tab` (a stale bookmark, a typo, a hand-edited URL) falls back to the default tab instead of throwing. You can pass a value parsed straight from the address bar.
+
+Arazzo step keys contain a slash, so when you read the key back from a URL, split on the **first** slash only.
 
 ## Server-rendered pages (Next.js, Remix, …)
 
