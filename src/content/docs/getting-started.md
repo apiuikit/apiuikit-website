@@ -1,6 +1,6 @@
 # Getting Started
 
-Point apiuikit at an AsyncAPI or OpenAPI document and get a full interactive documentation UI covering servers, channels and endpoints, operations, messages, and schemas, with no manual mapping required.
+Point apiuikit at an AsyncAPI, OpenAPI or Arazzo document and get a full interactive documentation UI covering servers, channels and endpoints, operations, messages, and schemas, with no manual mapping required.
 
 ## Install
 
@@ -181,6 +181,7 @@ Give the loading fallback the same dimensions as the widget so the page does not
 
 - [Composables](./sections.md): render one item, or arrange sections yourself.
 - [Without Parser](./no-parser.md) and [With Parser](./with-parser.md): both entry points in full, for AsyncAPI and OpenAPI alike.
+- [Arazzo](./arazzo.md): render workflows that chain OpenAPI calls.
 - [Deep linking](./deep-linking.md): shareable URLs for a specific endpoint, schema, or message.
 - [Plugins](./plugins.md): add your own UI to a rendered document, like a "Try it" tab.
 - [Extensions](./extensions.md): the `x-*` fields apiuikit renders, and how to switch them off.

@@ -38,7 +38,7 @@ Switches individual sections and controls off. Everything listed here is on by d
 | `operations` | `true` | The operations section. |
 | `messages` | `true` | The messages section. |
 | `messageExamples` | `false` | Payload examples inside messages. |
-| `schemas` | `true` | The schemas section. |OpenAPI: cURL, JS, Python, …; AsyncAPI: protocol-matched clients (ws, kafkajs, websockets, …).
+| `schemas` | `true` | The schemas section. |
 | `errors` | `true` | Parser and validation errors. |
 | `endpoints` | `true` | OpenAPI only: the Endpoints tab. |
 | `webhooks` | `true` | OpenAPI 3.1 only: the Webhooks tab. It only appears at all when the document declares `webhooks`. |
@@ -52,6 +52,8 @@ config={{ show: { sidebar: false, search: false, codeSamples: false } }}
 ```
 
 Switching the sidebar off also removes search, since search lives inside it.
+
+On [Arazzo](./arazzo.md) pages, flags like `codeSamples` and `tryIt` apply to the operation shown in each step.
 
 ### Try it
 

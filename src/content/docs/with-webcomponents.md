@@ -8,6 +8,8 @@ Use apiuikit from Vue, Angular, Svelte, plain HTML, or any other environment tha
 | `<apiuikit-asyncapi>` | You already have a parsed AsyncAPI document object |
 | `<apiuikit-openapi-renderer>` | You have a raw OpenAPI YAML or JSON string |
 | `<apiuikit-openapi>` | You already have a parsed OpenAPI document object |
+| `<apiuikit-arazzo-renderer>` | You have a raw Arazzo YAML or JSON string. See [Arazzo elements](#arazzo-elements) |
+| `<apiuikit-arazzo>` | You already have a parsed Arazzo document object. See [Arazzo elements](#arazzo-elements) |
 
 If you're building a React app, prefer the [React entry without parser](./no-parser.md) or [React entry with parser](./with-parser.md) according to your usecase instead. The `plugins` prop is React-only today — these custom elements don't accept it. See [Plugins](./plugins.md).
 
@@ -30,7 +32,7 @@ No extra packages are required: React, ReactDOM, and parsing support are bundled
 
 ## Modular imports
 
-The default entry point above registers every element. If you only use a few, import just those instead — each subpath registers only its own element:
+The default entry point above registers every element except the [Arazzo ones](#arazzo-elements). If you only use a few, import just those instead — each subpath registers only its own element:
 
 ```js
 import "@apiuikit/web-component/asyncapi-renderer";  // <apiuikit-asyncapi-renderer> only
@@ -51,6 +53,11 @@ import "@apiuikit/web-component/openapi-webhook";     // <apiuikit-openapi-webho
 import "@apiuikit/web-component/openapi-info";        // <apiuikit-openapi-info> only
 import "@apiuikit/web-component/schemas";             // <apiuikit-schemas> only — shared by both spec types
 import "@apiuikit/web-component/schema";              // <apiuikit-schema> only
+import "@apiuikit/web-component/arazzo";              // <apiuikit-arazzo> only
+import "@apiuikit/web-component/arazzo-renderer";     // <apiuikit-arazzo-renderer> only
+import "@apiuikit/web-component/arazzo-info";         // <apiuikit-arazzo-info> only
+import "@apiuikit/web-component/arazzo-workflows";    // <apiuikit-arazzo-workflows> only
+import "@apiuikit/web-component/arazzo-workflow";     // <apiuikit-arazzo-workflow> only
 import "@apiuikit/web-component/style.css";
 ```
 
@@ -170,6 +177,51 @@ el.spec = parsedAsyncApiDocument; // or a parsed OpenAPI document — both work
 ```
 
 Each element is standalone — it resolves its own copy of `spec` independently, so there's no shared-context "provider" mode across separate custom elements the way there is in the [React API](./with-parser.md). If you need several sections sharing one resolved document without each re-resolving it, or you're building a React app, use apiuikit's React `AsyncAPIProvider`/`OpenAPIProvider` and section components directly instead of the web components. For schemas, the React `Schemas` section mirrors `<apiuikit-schemas>`: one component for either spec type.
+
+## Arazzo elements
+
+To keep the main bundle small, the Arazzo elements aren't included in `@apiuikit/web-component`. Import each one you need on its own:
+
+| Element | Import | Use it for |
+|---|---|---|
+| `<apiuikit-arazzo-renderer>` | `@apiuikit/web-component/arazzo-renderer` | A full page from YAML or JSON text |
+| `<apiuikit-arazzo>` | `@apiuikit/web-component/arazzo` | A full page from a parsed object |
+| `<apiuikit-arazzo-info>` | `@apiuikit/web-component/arazzo-info` | The title, description, and a chip per source |
+| `<apiuikit-arazzo-workflows>` | `@apiuikit/web-component/arazzo-workflows` | Every workflow in the document |
+| `<apiuikit-arazzo-workflow>` | `@apiuikit/web-component/arazzo-workflow` | One workflow, chosen with `workflow-id` |
+
+Set `spec` to the Arazzo document and `sources` to the OpenAPI documents it calls, keyed by name:
+
+```js
+import "@apiuikit/web-component/arazzo-renderer";
+import "@apiuikit/web-component/style.css";
+
+const el = document.querySelector("apiuikit-arazzo-renderer");
+el.spec = arazzoYaml;
+el.sources = { petstore: petstoreYaml };
+```
+
+They also accept `base-url`, `config`, and `onDiagnostics`, the same as the [React props](./arazzo.md#props).
+
+### Without JavaScript
+
+You can also put the documents inside the element as `<script>` tags. Mark the workflow with `data-arazzo` and each source with `data-source="name"`:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@apiuikit/web-component/dist/web-component.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@apiuikit/web-component/dist/elements/arazzo-renderer.js"></script>
+
+<apiuikit-arazzo-renderer>
+  <script type="application/yaml" data-arazzo>
+    arazzo: 1.0.1
+    # ...
+  </script>
+  <script type="application/yaml" data-source="pets">
+    openapi: 3.1.0
+    # ...
+  </script>
+</apiuikit-arazzo-renderer>
+```
 
 ## Setting props from HTML vs JavaScript
 

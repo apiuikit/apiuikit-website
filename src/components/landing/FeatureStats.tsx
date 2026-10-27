@@ -1,8 +1,8 @@
 const stats = [
   {
-    value: "2",
+    value: "3",
     label: "Kinds of API",
-    detail: "REST APIs from OpenAPI and event-driven APIs from AsyncAPI, documented the same way.",
+    detail: "REST APIs from OpenAPI, Event-Driven APIs from AsyncAPI, and Workflows from Arazzo.",
   },
   {
     value: "3",
