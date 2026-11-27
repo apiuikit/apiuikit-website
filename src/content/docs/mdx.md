@@ -4,7 +4,7 @@ apiuikit's components are plain React components, so they work in [MDX](https://
 
 Everything renders on the server too, so static site generators ([Docusaurus](https://docusaurus.io/), [Next.js](https://nextjs.org/), [Astro](https://astro.build/)) put the endpoint and schema content into the HTML at build time, where search engines and site search can index it.
 
-A Docusaurus implementation using MDX exists on this page, and the complete site lives in the [examples repository](https://github.com/apiuikit/examples/tree/main/docusaurus-demo).
+See it running in a [live Docusaurus demo](https://docusaurus-demo.examples.apiuikit.com). Its source is in the [examples repository](https://github.com/apiuikit/examples/tree/main/docusaurus-demo).
 
 ## Plain MDX
 
