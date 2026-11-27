@@ -12,7 +12,7 @@ const stats = [
   {
     value: "5 +",
     label: "Frameworks",
-    detail: "Fits whatever your site is built with: React, Vue, Angular, Svelte, or plain HTML.",
+    detail: "React, Vue, Angular, Svelte, plain HTML, or MDX sites like Docusaurus.",
   },
 ];
 

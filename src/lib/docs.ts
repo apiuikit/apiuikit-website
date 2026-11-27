@@ -23,6 +23,7 @@ const ORDER = [
   "with-parser",
   "deep-linking",
   "sections",
+  "mdx",
   "plugins",
   "extensions",
   "avro",
@@ -63,6 +64,7 @@ const SUMMARIES: Record<string, string> = {
     "Make your docs readable by agents and crawlers: the copy button, hosted Markdown URLs, and build-time file generation.",
   "with-webcomponents":
     "Use apiuikit from Vue, Angular, Svelte, or plain HTML through full-document and section custom elements.",
+  mdx: "Put endpoints, schemas, and messages inside MDX pages in Docusaurus, Next.js, or any MDX site, server-rendered and following the site's dark mode.",
 };
 
 export interface DocMeta {

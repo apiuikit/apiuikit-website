@@ -156,26 +156,33 @@ document.querySelector("#api-doc").spec = rawYamlOrJsonString;
 
 ## Server-side rendering
 
-apiuikit is a client-side library: it bundles DOMPurify, which assigns to `self` at module scope, and `self` does not exist in Node. Importing `apiuikit` anywhere in a server render path will throw.
+apiuikit renders on the server, so frameworks that server-render or statically generate pages (Next.js, Remix, Docusaurus, Astro) put the rendered docs in the initial HTML, where search engines and site search can index them.
 
-In Next.js, load it through a dynamic import with SSR disabled. Note that a `"use client"` directive alone is not enough, because the App Router still server-renders client components for the initial HTML.
+In the Next.js App Router, pages are server components and apiuikit's components use React state, so render them from a file marked `"use client"`. They still render on the server for the initial HTML; the directive only marks where the client bundle begins.
 
 ```tsx
+// app/api/ApiDocs.tsx
 "use client";
 
-import dynamic from "next/dynamic";
+import { OpenAPI } from "apiuikit";
+import doc from "./openapi.json";
 
-const ApiDocs = dynamic(() => import("./ApiDocs"), {
-  ssr: false,
-  loading: () => <div className="h-[640px] animate-pulse rounded-xl border" />,
-});
+export default function ApiDocs() {
+  return <OpenAPI openapi={doc} />;
+}
+```
+
+```tsx
+// app/api/page.tsx
+import "apiuikit/style.css";
+import ApiDocs from "./ApiDocs";
 
 export default function Page() {
   return <ApiDocs />;
 }
 ```
 
-Give the loading fallback the same dimensions as the widget so the page does not shift when the client chunk arrives.
+To skip server rendering, load the component with `next/dynamic` and `ssr: false`.
 
 ## Where to go next
 
@@ -185,3 +192,4 @@ Give the loading fallback the same dimensions as the widget so the page does not
 - [Plugins](./plugins.md): add your own UI to a rendered document, like a "Try it" tab.
 - [Extensions](./extensions.md): the `x-*` fields apiuikit renders, and how to switch them off.
 - [AI Export](./ai-export.md): making your docs readable by agents and crawlers.
+- [MDX and Docusaurus](./mdx.md): endpoints, schemas, and messages inside MDX pages.

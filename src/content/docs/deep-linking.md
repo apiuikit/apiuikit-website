@@ -79,9 +79,7 @@ An unknown `tab` (a stale bookmark, a typo, a hand-edited URL) falls back to the
 
 The URL fragment (`#...`) is never sent to the server. If the widget hydrates from server HTML, reading `window.location.hash` during render will mismatch that HTML.
 
-The recommended Next.js path in [Getting Started](./getting-started.md#server-side-rendering) already loads the widget with `ssr: false`. In that case the first render is in the browser, and the example above is fine.
-
-If the same component tree *does* hydrate, keep `initialLocation` `null` until after mount:
+apiuikit server-renders by default (see [Getting Started](./getting-started.md#server-side-rendering)), so when the widget hydrates from server HTML, keep `initialLocation` `null` until after mount:
 
 ```tsx
 const [initialLocation, setInitialLocation] = useState<SpecLocation<Tab> | null>(null);
@@ -92,6 +90,8 @@ useEffect(() => {
 ```
 
 That second render is when the hash is applied. Combine it with a `key` on the widget if you need the seed to take (see the next section).
+
+If you load the widget with `ssr: false` instead, its first render is in the browser, so reading the hash in the `useState` initializer, as [A working example](#a-working-example) does, is fine.
 
 ## Links that change after the page has loaded
 

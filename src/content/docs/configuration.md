@@ -148,7 +148,7 @@ config={{
 ```
 
 - **`colors`** takes `primary`, `secondary`, and `neutral` scales, each with the steps `50`, `100`, `200`, `300`, `500`, `600`, `700`. They apply regardless of which mode is active.
-- **`mode`** picks which palette renders: `"light"`, `"dark"`, or `"system"` (follows the OS `prefers-color-scheme` setting and updates live if it changes). Left unset, apiuikit falls back to whichever single one of `light`/`dark` you provided — `light` wins if you provided both, or neither.
+- **`mode`** picks which palette renders: `"light"`, `"dark"`, or `"system"` (follows the OS `prefers-color-scheme` setting and updates live if it changes; a server-rendered page renders light and applies the OS setting once it hydrates). Left unset, apiuikit falls back to whichever single one of `light`/`dark` you provided — `light` wins if you provided both, or neither.
 - **`light` and `dark`** each take `background`, `surface`, `border`, `textPrimary`, `textSecondary`, and `textMuted`. Pass both to support switching between them at runtime via `mode` — pass only one if you never intend to switch.
 - **`depthColors`** colours the schema tree's depth-indicator lines and their labels, cycling by nesting level. Any length works; deeper nesting repeats the palette from the start. The default is teal, green, lime, blue, cyan, violet.
 
